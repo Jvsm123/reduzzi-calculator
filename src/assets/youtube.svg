@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="11.19716mm"
+   height="11.197169mm"
+   viewBox="0 0 11.19716 11.197169"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath126">
+      <path
+         d="M 0,1977.645 H 1920 V 0 H 0 Z"
+         transform="translate(-1300.8079,-1940.4346)"
+         id="path126" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath128">
+      <path
+         d="M 0,1977.645 H 1920 V 0 H 0 Z"
+         transform="translate(-1298.7522,-1922.0482)"
+         id="path128" />
+    </clipPath>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-100.29766,-144.53445)">
+    <path
+       id="path125"
+       d="m 0,0 c -8.765,0 -15.87,-7.105 -15.87,-15.87 0,-8.765 7.105,-15.87 15.87,-15.87 8.765,0 15.87,7.105 15.87,15.87 C 15.87,-7.105 8.765,0 0,0 m 0,-2.172 c 7.553,0 13.698,-6.145 13.698,-13.698 0,-7.553 -6.145,-13.698 -13.698,-13.698 -7.553,0 -13.698,6.145 -13.698,13.698 0,7.553 6.145,13.698 13.698,13.698"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       transform="matrix(0.35277776,0,0,-0.35277776,105.89623,144.53445)"
+       clip-path="url(#clipPath126)" />
+    <path
+       id="path127"
+       d="M 0,0 C 1.731,0.898 3.446,1.787 5.184,2.688 3.444,3.596 1.729,4.491 0,5.393 Z m -4.572,-2.991 c -0.63,0.207 -1.054,0.62 -1.282,1.245 -0.554,1.525 -0.719,7.907 0.349,9.164 C -5.14,7.847 -4.67,8.099 -4.11,8.159 -1.232,8.469 7.664,8.424 8.689,8.055 9.29,7.839 9.716,7.446 9.948,6.844 10.555,5.268 10.576,-0.47 9.868,-1.989 9.676,-2.401 9.363,-2.692 8.965,-2.9 7.892,-3.464 -3.16,-3.457 -4.572,-2.991"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       transform="matrix(0.35277776,0,0,-0.35277776,105.171,151.02076)"
+       clip-path="url(#clipPath128)" />
+  </g>
+</svg>
