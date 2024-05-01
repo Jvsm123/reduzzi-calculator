@@ -1,10 +1,33 @@
+import "react-phone-number-input/style.css";
+
+import Select from "react-select";
+import PhoneInput from "react-phone-number-input";
+
 import React from "react";
 import AppBar from "./AppBar";
-import Footer from './Footer';
+import Footer from "./Footer";
+
+import { useForm } from "react-hook-form";
+import { schema } from "../../utils/yupSchema.js";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { constants } from "../../constants/selectsValues.js";
+
+import { useGetCity } from "../../hooks/useGetCity";
 
 const Home = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (data) => console.log(data);
+
   return (
-    <main className="max-w-[1440px]">
+    <main className="max-w-[1440px] m-auto">
       <AppBar />
       <section className="px-14">
         <div className="mt-[90px]">
@@ -23,167 +46,331 @@ const Home = () => {
 
         <section className="flex gap-14">
           <div className="w-full">
-            <DadosDoProprietario />
+            <DadosDoProprietario register={register} errors={errors} />
 
             <div className="mt-[60px] mb-4">
               <h2 className="text-2xl font-bold">DADOS DA OBRA</h2>
             </div>
-            <DadosObra />
+            <DadosObra register={register} errors={errors} />
 
             <div className="mt-[60px] mb-4">
               <h2 className="text-2xl font-bold">METRAGEM DA OBRA</h2>
             </div>
-            <MetragemObra />
+            <MetragemObra register={register} errors={errors} />
           </div>
 
           <div>
-            <button className="bg-[#00CC93] text-white text-xl font-semibold px-14 py-3 rounded-lg">
+            <button
+              onClick={handleSubmit(onSubmit)}
+              className="bg-[#00CC93] text-white text-xl font-semibold px-14 py-3 rounded-lg"
+            >
               CALCULAR
             </button>
           </div>
         </section>
       </section>
 
-      <Footer/>
+      <Footer />
     </main>
   );
 };
 
 export default Home;
 
-const Input = () => {
+const getFormErrorMessage = (errors, name) => {
+  return errors[name] ? (
+    <small className="p-error">{errors[name].message}</small>
+  ) : (
+    <small className="p-error">&nbsp;</small>
+  );
+};
+
+const Input = ({
+  type,
+  placeholder,
+  label,
+  register,
+  required,
+  errors,
+  onChange,
+}) => {
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Preencha aqui..."
-        className="focus:outline-none border-[2px] focus:border-[var(--green-input)] rounded-[8px] text-lg text-gray-400 focus:font-medium w-full p-2"
-      />
+      {label === "celular" && (
+        <>
+          <PhoneInput
+            {...register(label, { required })}
+            placeholder={placeholder}
+            defaultCountry="BR"
+            countries={["BR"]}
+            maxLength="15"
+            international={true}
+            withCountryCallingCode={false}
+            className="h-[60px] bg-white focus:outline-none border-[2px] focus:border-[var(--green-input)] rounded-[8px] text-lg text-gray-400 focus:font-medium w-full p-2"
+          />
+          {getFormErrorMessage(errors, label)}
+        </>
+      )}
+      {type === "text" && (
+        <>
+          <input
+            {...register(label, { required })}
+            type={type}
+            placeholder={placeholder}
+            className="h-[60px] focus:outline-none border-[2px] focus:border-[var(--green-input)] rounded-[8px] text-lg text-gray-400 focus:font-medium w-full p-2"
+          />
+          {getFormErrorMessage(errors, label)}
+        </>
+      )}
+      {type === "select" && (
+        <>
+          <Select
+            {...register(label, { required })}
+            options={constants[label]}
+            styles={{
+              control: (styles) => ({
+                ...styles,
+                borderColor: "",
+                borderWidth: "",
+                outline: "",
+                boxShadow: "",
+              }),
+            }}
+            separator={false}
+            placeholder={placeholder}
+            onChange={label === 'ufObra' && onChange || null}
+            className="bg-white focus:outline-none border-[2px] focus:border-[var(--green-input)] rounded-[8px] text-lg text-gray-400 focus:font-medium w-full p-2"
+          />
+          {getFormErrorMessage(errors, label)}
+        </>
+      )}
     </div>
   );
 };
 
-const DadosDoProprietario = () => {
+const DadosDoProprietario = ({ register, errors }) => {
   return (
     <div className="bg-[var(--bg-modal-whitegray)] rounded-[10px] p-6 w-full">
       <div className="flex flex-col gap-2">
-        <label htmlFor="" className="text-[var(--gray)] text-xl font-semibold">
+        <label
+          htmlFor="proprietario"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
           Responsável pela obra
         </label>
-        <Input />
+        <Input
+          type={"text"}
+          placeholder={"Responsável pela obra"}
+          label={"proprietario"}
+          register={register}
+          required={true}
+          errors={errors}
+        />
       </div>
 
       <section className="flex justify-between gap-10 mt-7">
         <div className="w-full flex flex-col gap-2">
           <label
-            htmlFor=""
-            className="text-[var(--gray)] text-xl font-semibold"
+            htmlFor="celular"
+            className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
           >
             DDD + Celular
           </label>
-          <Input />
+          <Input
+            type={"phone"}
+            placeholder={"DDD + Celular"}
+            label={"celular"}
+            register={register}
+            required={true}
+            errors={errors}
+          />
         </div>
 
         <div className="w-full flex flex-col gap-2">
           <label
-            htmlFor=""
-            className="text-[var(--gray)] text-xl font-semibold"
+            htmlFor="tipoProprietario"
+            className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
           >
             Tipo de proprietário
           </label>
-          <Input />
+          <Input
+            type={"select"}
+            placeholder={"Tipo de proprietário"}
+            label={"tipoProprietario"}
+            register={register}
+            required={true}
+            errors={errors}
+          />
         </div>
       </section>
     </div>
   );
 };
 
-const DadosObra = () => {
+const DadosObra = ({ register, errors }) => {
+  // const { setUf } = useGetCity();
+
   return (
     <div className="bg-[var(--bg-modal-whitegray)] rounded-[10px] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
-        <div className="w-full flex flex-col gap-2 max-w-[48%]">
-          <label
-            htmlFor=""
-            className="text-[var(--gray)] text-xl font-semibold"
-          >
-            Destinação da obra
-          </label>
-          <Input />
-        </div>
+      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+        <label
+          htmlFor="destinacaoObra"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
+          Destinação da obra
+        </label>
+        <Input
+          type={"select"}
+          placeholder={"Destinação da obra"}
+          label={"destinacaoObra"}
+          register={register}
+          required={true}
+          errors={errors}
+        />
+      </div>
 
-        <div className="w-full flex flex-col gap-2 max-w-[48%]">
-          <label
-            htmlFor=""
-            className="text-[var(--gray)] text-xl font-semibold"
-          >
-            Obra com financiamento?
-          </label>
-          <Input />
-        </div>
+      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+        <label
+          htmlFor="obraFinanciamento"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
+          Obra com financiamento?
+        </label>
+        <Input
+          type={"select"}
+          placeholder={"Obra com financiamento?"}
+          label={"obraFinanciamento"}
+          register={register}
+          required={true}
+          errors={errors}
+        />
+      </div>
 
-        <div className="w-full flex flex-col gap-2 max-w-[48%]">
-          <label
-            htmlFor=""
-            className="text-[var(--gray)] text-xl font-semibold"
-          >
-            UF da obra
-          </label>
-          <Input />
-        </div>
+      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+        <label
+          htmlFor="ufObra"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
+          UF da obra
+        </label>
+        <Input
+          type={"select"}
+          placeholder={"UF da obra"}
+          label={"ufObra"}
+          register={register}
+          required={true}
+          errors={errors}
+          onChange={(e) => setUf(e)}
+        />
+      </div>
 
-        <div className="w-full flex flex-col gap-2 max-w-[48%]">
-          <label
-            htmlFor=""
-            className="text-[var(--gray)] text-xl font-semibold"
-          >
-            Cidade da obra
-          </label>
-          <Input />
-        </div>
+      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+        <label
+          htmlFor="cidadeObra"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
+          Cidade da obra
+        </label>
+        <Input
+          type={"select"}
+          placeholder={"Cidade da obra"}
+          label={"cidadeObra"}
+          register={register}
+          required={true}
+          errors={errors}
+        />
+      </div>
 
-        <div className="w-full flex flex-col gap-2">
-          <label
-            htmlFor=""
-            className="text-[var(--gray)] text-xl font-semibold"
-          >
-            Fase atual da obra
-          </label>
-          <Input />
-        </div>
+      <div className="w-full flex flex-col gap-2">
+        <label
+          htmlFor="faseObra"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
+          Fase atual da obra
+        </label>
+        <Input
+          type={"select"}
+          placeholder={"Fase atual da obra"}
+          label={"faseObra"}
+          register={register}
+          required={true}
+          errors={errors}
+        />
+      </div>
     </div>
   );
 };
 
-const MetragemObra = () => {
+const MetragemObra = ({ register, errors }) => {
   return (
     <div className="bg-[var(--bg-modal-whitegray)] rounded-[10px] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
       <div className="w-full flex flex-col gap-2 max-w-[48%]">
-        <label htmlFor="" className="text-[var(--gray)] text-xl font-semibold">
+        <label
+          htmlFor="m2Construcao"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
           M² DE CONSTRUÇÃO{" "}
           <span className="text-sm italic">(EXCETO PISCINA OU QUADRA)</span>
         </label>
-        <Input />
+        <Input
+          type={"text"}
+          placeholder={"M² DE CONSTRUÇÃO"}
+          label={"m2Construcao"}
+          register={register}
+          required={true}
+          errors={errors}
+        />
       </div>
 
       <div className="w-full flex flex-col gap-2 max-w-[48%]">
-        <label htmlFor="" className="text-[var(--gray)] text-xl font-semibold">
+        <label
+          htmlFor="m2PiscinaQuadra"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
           M² DE PISCINA + QUADRA POLIESPORTIVA
         </label>
-        <Input />
+        <Input
+          type={"text"}
+          placeholder={"M² DE PISCINA + QUADRA POLIESPORTIVA"}
+          label={"m2PiscinaQuadra"}
+          register={register}
+          required={true}
+          errors={errors}
+        />
       </div>
 
       <div className="w-full flex flex-col gap-2 max-w-[48%]">
-        <label htmlFor="" className="text-[var(--gray)] text-xl font-semibold">
+        <label
+          htmlFor="inicioConstrucao"
+          className="after:content-['_*'] text-[var(--gray)] text-xl font-semibold"
+        >
           INÍCIO DA CONSTRUÇÃO
         </label>
-        <Input />
+        <Input
+          type={"text"}
+          placeholder={"INÍCIO DA CONSTRUÇÃO"}
+          label={"inicioConstrucao"}
+          register={register}
+          required={true}
+          errors={errors}
+        />
       </div>
 
       <div className="w-full flex flex-col gap-2 max-w-[48%]">
-        <label htmlFor="" className="text-[var(--gray)] text-xl font-semibold">
+        <label
+          htmlFor="previsaoTermino"
+          className="after:content-['_*'] text-[var(--gray)] text-xl font-semibold"
+        >
           PREVISÃO DE TÉRMINO
         </label>
-        <Input />
+        <Input
+          type={"text"}
+          placeholder={"PREVISÃO DE TÉRMINO"}
+          label={"previsaoTermino"}
+          register={register}
+          required={true}
+          errors={errors}
+        />
       </div>
     </div>
   );

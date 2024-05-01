@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+/* html { */
+/*   font-size: 1px; */
+/* } */
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-synthesis: none;

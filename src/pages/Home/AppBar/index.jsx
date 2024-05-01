@@ -10,25 +10,25 @@ const AppBar = () => {
   return (
     <>
       <nav className="bg-[var(--main-blue)] w-full h-[110px] flex items-center justify-between px-14">
-        <img src={logo} alt="Reduzzi Logo" className="max-h-[70px] " />
+        <img src={logo} alt="Reduzzi Logo" className="max-h-[70px] cursor-pointer" />
 
         <div className="flex gap-6">
           <img
             src={facebook}
             alt="facebook"
-            className="max-w-[30px] fill-white"
+            className="max-w-[30px] fill-white cursor-pointer"
           />
-          <img src={insta} alt="insta" className="max-w-[30px] fill-white" />
-          <img src={whats} alt="whats" className="max-w-[30px] fill-white" />
+          <img src={insta} alt="insta" className="max-w-[30px] fill-white cursor-pointer" />
+          <img src={whats} alt="whats" className="max-w-[30px] fill-white cursor-pointer" />
           <img
             src={youtube}
             alt="youtube"
-            className="max-w-[30px] fill-white"
+            className="max-w-[30px] fill-white cursor-pointer"
           />
           <img
             src={linkedin}
             alt="linkedin"
-            className="max-w-[30px] fill-white"
+            className="max-w-[30px] fill-white cursor-pointer"
           />
 
           <button className="bg-white text-[var(--main-blue)] rounded-[10px] text-xl py-4 px-14">
