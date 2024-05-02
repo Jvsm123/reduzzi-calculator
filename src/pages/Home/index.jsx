@@ -14,6 +14,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { constants } from "../../constants/selectsValues.js";
 
 import { useGetCity } from "../../hooks/useGetCity";
+import arrowBlue from "../../assets/arrow-blue.png";
+import arrowGreen from "../../assets/arrow-green.png";
 
 const Home = () => {
   const {
@@ -30,17 +32,19 @@ const Home = () => {
     <main className="max-w-[1440px] m-auto">
       <AppBar />
       <section className="px-14">
-        <div className="mt-[90px]">
+        <div className="mt-[90px] flex items-center gap-2">
+          <img src={arrowGreen} alt="arrow green" className="w-[20px]" />
           <h2 className="text-[var(--main-blue)] text-3xl font-semibold">
             Calculadora para redução de impsoto de obra
           </h2>
         </div>
 
-        <p className="text-[var(--gray)] italic text-lg mt-2">
+        <p className="text-[var(--gray)] italic text-lg mt-2 ml-7">
           Instrução Normativa RFB Nº 2.021 de 16/04/2021
         </p>
 
-        <div className="mt-[60px] mb-4">
+        <div className="mt-[60px] mb-4 flex items-center gap-2 ml-4">
+          <img src={arrowBlue} alt="arrow blue" className="w-[20px]" />
           <h2 className="text-2xl font-bold">DADOS DO PROPRIETÁRIO</h2>
         </div>
 
@@ -48,12 +52,14 @@ const Home = () => {
           <div className="w-full">
             <DadosDoProprietario register={register} errors={errors} />
 
-            <div className="mt-[60px] mb-4">
+            <div className="mt-[60px] mb-4 flex items-center gap-2 ml-4">
+              <img src={arrowBlue} alt="arrow blue" className="w-[20px]" />
               <h2 className="text-2xl font-bold">DADOS DA OBRA</h2>
             </div>
             <DadosObra register={register} errors={errors} />
 
-            <div className="mt-[60px] mb-4">
+            <div className="mt-[60px] mb-4 flex items-center gap-2 ml-4">
+              <img src={arrowBlue} alt="arrow blue" className="w-[20px]" />
               <h2 className="text-2xl font-bold">METRAGEM DA OBRA</h2>
             </div>
             <MetragemObra register={register} errors={errors} />
