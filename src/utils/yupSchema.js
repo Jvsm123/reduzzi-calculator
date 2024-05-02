@@ -1,16 +1,16 @@
 import * as yup from "yup";
 
 export const schema = yup.object().shape({
-  proprietario: yup.string().email("Email invalido!").required("O campo email é necessário!"),
-  celular: yup.string().required("O campo celular é necessário!"),
-  tipoProprietario: yup.string().required("O campo tipoProprietario é necessário!"),
-  destinacaoObra: yup.string().required("O campo destinacaoObra é necessário!"),
-  obraFinanciamento: yup.string().required("O campo obraFinanciamento é necessário!"),
-  ufObra: yup.string().required("O campo ufObra é necessário!"),
-  cidadeObra: yup.string().required("O campo cidadeObra é necessário!"),
-  faseObra: yup.string().required("O campo faseObra é necessário!"),
-  m2Construcao: yup.string().required("O campo m2Construcao é necessário!"),
-  m2PiscinaQuadra: yup.string().required("O campo m2PiscinaQuadra é necessário!"),
-  inicioConstrucao: yup.string().required("O campo inicioConstrucao é necessário!"),
-  previsaoTermino: yup.string().required("O campo previsaoTermino é necessário!"),
+  proprietario: yup.string().required("O campo proprietario é necessário!"),
+  celular: yup.string().min(15, "Informe um numero válido!").required("O campo celular é necessário!"),
+  tipoProprietario: yup.string().required("O campo tipo de proprietario é necessário!"),
+  destinacaoObra: yup.string().required("O campo destinacao da obra é necessário!"),
+  obraFinanciamento: yup.string().required("O campo financiamento da obra é necessário!"),
+  ufObra: yup.string().required("O campo uf da obra é necessário!"),
+  cidadeObra: yup.string().required("O campo cidade da obra é necessário!"),
+  faseObra: yup.string().required("O campo fase da obra é necessário!"),
+  m2Construcao: yup.string().required("O campo m² da construcao é necessário!"),
+  m2PiscinaQuadra: yup.string().required("O campo m² da piscina na quadra é necessário!"),
+  inicioConstrucao: yup.string().required("O campo inicio da construcao é necessário!"),
+  previsaoTermino: yup.string().required("O campo previsão de termino é necessário!"),
 })
