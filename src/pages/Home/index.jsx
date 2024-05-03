@@ -13,11 +13,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { constants } from "../../constants/selectsValues.js";
 
-import { useGetCity } from "../../hooks/useGetCity";
 import arrowBlue from "../../assets/arrow-blue.png";
 import arrowGreen from "../../assets/arrow-green.png";
+import { useCalculatorHandler } from '../../hooks/useCalculatorHandler';
 
 const Home = () => {
+  const { handleCalculatorData } = useCalculatorHandler();
   const {
     register,
     handleSubmit,
@@ -26,16 +27,16 @@ const Home = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => handleCalculatorData(data);
 
   return (
-    <main className="max-w-[1440px] m-auto">
+    <main className="max-w-[1440rem] m-auto">
       <AppBar />
       <section className="px-14">
-        <div className="mt-[90px] flex items-center gap-2">
-          <img src={arrowGreen} alt="arrow green" className="w-[20px]" />
+        <div className="mt-[90rem]">
+          <img src={arrowGreen} alt="arrow green" className="w-[20rem]" />
           <h2 className="text-[var(--main-blue)] text-3xl font-semibold">
-            Calculadora para redução de impsoto de obra
+            Calculadora para redução de imposto de obra
           </h2>
         </div>
 
@@ -43,8 +44,8 @@ const Home = () => {
           Instrução Normativa RFB Nº 2.021 de 16/04/2021
         </p>
 
-        <div className="mt-[60px] mb-4 flex items-center gap-2 ml-4">
-          <img src={arrowBlue} alt="arrow blue" className="w-[20px]" />
+        <div className="mt-[60rem] mb-4">
+          <img src={arrowBlue} alt="arrow blue" className="w-[20rem]" />
           <h2 className="text-2xl font-bold">DADOS DO PROPRIETÁRIO</h2>
         </div>
 
@@ -52,14 +53,14 @@ const Home = () => {
           <div className="w-full">
             <DadosDoProprietario register={register} errors={errors} />
 
-            <div className="mt-[60px] mb-4 flex items-center gap-2 ml-4">
-              <img src={arrowBlue} alt="arrow blue" className="w-[20px]" />
+            <div className="mt-[60rem] mb-4">
+              <img src={arrowBlue} alt="arrow blue" className="w-[20rem]" />
               <h2 className="text-2xl font-bold">DADOS DA OBRA</h2>
             </div>
             <DadosObra register={register} errors={errors} />
 
-            <div className="mt-[60px] mb-4 flex items-center gap-2 ml-4">
-              <img src={arrowBlue} alt="arrow blue" className="w-[20px]" />
+            <div className="mt-[60rem] mb-4">
+              <img src={arrowBlue} alt="arrow blue" className="w-[20rem]" />
               <h2 className="text-2xl font-bold">METRAGEM DA OBRA</h2>
             </div>
             <MetragemObra register={register} errors={errors} />
@@ -112,7 +113,7 @@ const Input = ({
             maxLength="17"
             international={true}
             withCountryCallingCode={false}
-            className="h-[60px] bg-white focus:outline-none border-[2px] focus:border-[var(--green-input)] rounded-[8px] text-lg text-gray-400 focus:font-medium w-full p-2"
+            className="h-[60rem] bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2"
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -123,7 +124,18 @@ const Input = ({
             {...register(label, { required })}
             type={type}
             placeholder={placeholder}
-            className="h-[60px] focus:outline-none border-[2px] focus:border-[var(--green-input)] rounded-[8px] text-lg text-gray-400 focus:font-medium w-full p-2"
+            className="h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2"
+          />
+          {getFormErrorMessage(errors, label)}
+        </>
+      )}
+      {type === "date" && (
+        <>
+          <input
+            {...register(label, { required })}
+            type={type}
+            placeholder={placeholder}
+            className="h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2"
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -145,7 +157,7 @@ const Input = ({
             separator={false}
             placeholder={placeholder}
             onChange={label === 'ufObra' && onChange || null}
-            className="bg-white focus:outline-none border-[2px] focus:border-[var(--green-input)] rounded-[8px] text-lg text-gray-400 focus:font-medium w-full p-2"
+            className="bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2"
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -156,7 +168,7 @@ const Input = ({
 
 const DadosDoProprietario = ({ register, errors }) => {
   return (
-    <div className="bg-[var(--bg-modal-whitegray)] rounded-[10px] p-6 w-full">
+    <div className="bg-[var(--bg-modal-whitegray)] rounded-[10rem] p-6 w-full">
       <div className="flex flex-col gap-2">
         <label
           htmlFor="proprietario"
@@ -266,7 +278,7 @@ const DadosObra = ({ register, errors }) => {
           register={register}
           required={true}
           errors={errors}
-          onChange={(e) => setUf(e)}
+          // onChange={(e) => setUf(e)}
         />
       </div>
 
@@ -353,7 +365,7 @@ const MetragemObra = ({ register, errors }) => {
           INÍCIO DA CONSTRUÇÃO
         </label>
         <Input
-          type={"text"}
+          type={"date"}
           placeholder={"INÍCIO DA CONSTRUÇÃO"}
           label={"inicioConstrucao"}
           register={register}
@@ -370,7 +382,7 @@ const MetragemObra = ({ register, errors }) => {
           PREVISÃO DE TÉRMINO
         </label>
         <Input
-          type={"text"}
+          type={"date"}
           placeholder={"PREVISÃO DE TÉRMINO"}
           label={"previsaoTermino"}
           register={register}
