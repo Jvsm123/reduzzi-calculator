@@ -71,7 +71,7 @@ export const useCalculatorHandler = () => {
 	  Usar o valor da quantidade de meses e ver se temos retroativos ou não
 	  `
 	);
+  };
 
     return { handleCalculatorData };
-  };
 };

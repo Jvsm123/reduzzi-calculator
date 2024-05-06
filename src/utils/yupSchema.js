@@ -5,16 +5,16 @@ export const schema = yup.object().shape({
   proprietario: yup.string().email("Email invalido!").required("O campo email é necessário!"),
   celular: yup.string().required("O campo celular é necessário!"),
   tipoProprietario: yup.object().shape({
-	value: yup.string().required("O campo UF é necessário!"),
-	label: yup.string().required("O campo UF é necessário!"),
+	value: yup.string().required("O campo Tipo de proprietario é necessário!"),
+	label: yup.string().required("O campo Tipo de proprietario é necessário!"),
   }),
   destinacaoObra: yup.object().shape({
-	value: yup.string().required("O campo UF é necessário!"),
-	label: yup.string().required("O campo UF é necessário!"),
+	value: yup.string().required("O campo Destinação da Obra é necessário!"),
+	label: yup.string().required("O campo Destinação da Obra é necessário!"),
   }),
   obraFinanciamento: yup.object().shape({
-	value: yup.string().required("O campo UF é necessário!"),
-	label: yup.string().required("O campo UF é necessário!"),
+	value: yup.string().required("O Obra com financiamento é necessário!"),
+	label: yup.string().required("O Obra com financiamento é necessário!"),
   }),
   ufObra: yup.object().shape({
 	value: yup.string().required("O campo UF é necessário!"),
@@ -25,8 +25,8 @@ export const schema = yup.object().shape({
 	// label: yup.string().required("O campo UF é necessário!"),
   }),
   faseObra: yup.object().shape({
-	value: yup.string().required("O campo UF é necessário!"),
-	label: yup.string().required("O campo UF é necessário!"),
+	value: yup.string().required("O campo Fase Atual da Obra é necessário!"),
+	label: yup.string().required("O campo Fase Atual da Obra é necessário!"),
   }),
   m2Construcao: yup.string().required("O campo M² De Construcao é necessário!"),
   m2PiscinaQuadra: yup.string().required("O campo M² De Piscina + Quadra é necessário!"),
