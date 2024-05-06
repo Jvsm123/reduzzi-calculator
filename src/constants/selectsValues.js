@@ -53,4 +53,16 @@ export const constants = {
     { value: "Foi Notificada Pela Receita", label: "Foi Notificada Pela Receita" },
     { value: "Pronta a Mais de 5 Anos", label: "Pronta a Mais de 5 Anos" },
   ],
+  menorQueCem: 20,
+  deCemADozentos: 40,
+  deDuzentosATrezeentos: 55,
+  deTrezentosAQuatrocentos: 70,
+  acimaDeQuatrocentos: 90,
+
+  rmtParaAteTrezentosECinquenta: 50,
+  rmtParaAcimaDeTrezentosECinquenta: 70,
+
+  cotaPatronal: 20,
+
+  quantidaMaximasParcelas: 60,
 };

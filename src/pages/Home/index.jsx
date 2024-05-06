@@ -7,7 +7,7 @@ import React from "react";
 import AppBar from "./AppBar";
 import Footer from "./Footer";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { schema } from "../../utils/yupSchema.js";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -15,17 +15,19 @@ import { constants } from "../../constants/selectsValues.js";
 
 import arrowBlue from "../../assets/arrow-blue.png";
 import arrowGreen from "../../assets/arrow-green.png";
-import { useCalculatorHandler } from '../../hooks/useCalculatorHandler';
+import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
 
 const Home = () => {
-  const { handleCalculatorData } = useCalculatorHandler();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const { handleCalculatorData } = useCalculatorHandler();
 
   const onSubmit = (data) => handleCalculatorData(data);
 
@@ -33,8 +35,12 @@ const Home = () => {
     <main className="max-w-[1440rem] m-auto">
       <AppBar />
       <section className="px-14">
-        <div className="mt-[90rem]">
-          <img src={arrowGreen} alt="arrow green" className="w-[20rem]" />
+        <div className="mt-[90rem] flex items-center gap-2">
+          <img
+            src={arrowGreen}
+            alt="arrow green"
+            className="w-[20rem] h-[20rem]"
+          />
           <h2 className="text-[var(--main-blue)] text-3xl font-semibold">
             Calculadora para redução de imposto de obra
           </h2>
@@ -44,26 +50,46 @@ const Home = () => {
           Instrução Normativa RFB Nº 2.021 de 16/04/2021
         </p>
 
-        <div className="mt-[60rem] mb-4">
-          <img src={arrowBlue} alt="arrow blue" className="w-[20rem]" />
+        <div className="mt-[60rem] mb-4 flex items-center gap-2">
+          <img
+            src={arrowBlue}
+            alt="arrow blue"
+            className="w-[20rem] h-[20rem]"
+          />
           <h2 className="text-2xl font-bold">DADOS DO PROPRIETÁRIO</h2>
         </div>
 
         <section className="flex gap-14">
           <div className="w-full">
-            <DadosDoProprietario register={register} errors={errors} />
+            <DadosDoProprietario
+              register={register}
+              errors={errors}
+              control={control}
+            />
 
-            <div className="mt-[60rem] mb-4">
-              <img src={arrowBlue} alt="arrow blue" className="w-[20rem]" />
+            <div className="mt-[60rem] mb-4 flex items-center gap-2">
+              <img
+                src={arrowBlue}
+                alt="arrow blue"
+                className="w-[20rem] h-[20rem]"
+              />
               <h2 className="text-2xl font-bold">DADOS DA OBRA</h2>
             </div>
-            <DadosObra register={register} errors={errors} />
+            <DadosObra register={register} errors={errors} control={control} />
 
-            <div className="mt-[60rem] mb-4">
-              <img src={arrowBlue} alt="arrow blue" className="w-[20rem]" />
+            <div className="mt-[60rem] mb-4 flex items-center gap-2">
+              <img
+                src={arrowBlue}
+                alt="arrow blue"
+                className="w-[20rem] h-[20rem]"
+              />
               <h2 className="text-2xl font-bold">METRAGEM DA OBRA</h2>
             </div>
-            <MetragemObra register={register} errors={errors} />
+            <MetragemObra
+              register={register}
+              errors={errors}
+              control={control}
+            />
           </div>
 
           <div>
@@ -86,7 +112,9 @@ export default Home;
 
 const getFormErrorMessage = (errors, name) => {
   return errors[name] ? (
-    <small className="p-error">{errors[name].message}</small>
+    <small className="font-bold text-sm text-red-700">
+      {errors[name].message}
+    </small>
   ) : (
     <small className="p-error">&nbsp;</small>
   );
@@ -99,7 +127,8 @@ const Input = ({
   register,
   required,
   errors,
-  onChange,
+  control,
+  // onChange,
 }) => {
   return (
     <div>
@@ -113,7 +142,7 @@ const Input = ({
             maxLength="17"
             international={true}
             withCountryCallingCode={false}
-            className="h-[60rem] bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2"
+            className="h-[60rem] bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow"
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -124,7 +153,19 @@ const Input = ({
             {...register(label, { required })}
             type={type}
             placeholder={placeholder}
-            className="h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2"
+            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+          />
+          {getFormErrorMessage(errors, label)}
+        </>
+      )}
+      {type === "number" && (
+        <>
+          <input
+            {...register(label, { required })}
+            type={type}
+            placeholder={placeholder}
+            pattern="[0-9]*"
+            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -135,38 +176,43 @@ const Input = ({
             {...register(label, { required })}
             type={type}
             placeholder={placeholder}
-            className="h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2"
+            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
           />
           {getFormErrorMessage(errors, label)}
         </>
       )}
       {type === "select" && (
-        <>
-          <Select
-            {...register(label, { required })}
-            options={constants[label]}
-            styles={{
-              control: (styles) => ({
-                ...styles,
-                borderColor: "",
-                borderWidth: "",
-                outline: "",
-                boxShadow: "",
-              }),
-            }}
-            separator={false}
-            placeholder={placeholder}
-            onChange={label === 'ufObra' && onChange || null}
-            className="bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2"
-          />
-          {getFormErrorMessage(errors, label)}
-        </>
+        <Controller
+          name={label}
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <>
+              <Select
+                options={constants[label]}
+                {...field}
+                styles={{
+                  control: (styles) => ({
+                    ...styles,
+                    borderColor: "",
+                    borderWidth: "",
+                    outline: "",
+                    boxShadow: "",
+                  }),
+                }}
+                placeholder={placeholder}
+                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+              />
+              {getFormErrorMessage(errors, label)}
+            </>
+          )}
+        />
       )}
     </div>
   );
 };
 
-const DadosDoProprietario = ({ register, errors }) => {
+const DadosDoProprietario = ({ register, errors, control }) => {
   return (
     <div className="bg-[var(--bg-modal-whitegray)] rounded-[10rem] p-6 w-full">
       <div className="flex flex-col gap-2">
@@ -218,6 +264,7 @@ const DadosDoProprietario = ({ register, errors }) => {
             register={register}
             required={true}
             errors={errors}
+            control={control}
           />
         </div>
       </section>
@@ -225,11 +272,9 @@ const DadosDoProprietario = ({ register, errors }) => {
   );
 };
 
-const DadosObra = ({ register, errors }) => {
-  // const { setUf } = useGetCity();
-
+const DadosObra = ({ register, errors, control }) => {
   return (
-    <div className="bg-[var(--bg-modal-whitegray)] rounded-[10px] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
+    <div className="bg-[var(--bg-modal-whitegray)] rounded-[10rem] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
       <div className="w-full flex flex-col gap-2 max-w-[48%]">
         <label
           htmlFor="destinacaoObra"
@@ -244,6 +289,7 @@ const DadosObra = ({ register, errors }) => {
           register={register}
           required={true}
           errors={errors}
+          control={control}
         />
       </div>
 
@@ -261,6 +307,7 @@ const DadosObra = ({ register, errors }) => {
           register={register}
           required={true}
           errors={errors}
+          control={control}
         />
       </div>
 
@@ -278,6 +325,7 @@ const DadosObra = ({ register, errors }) => {
           register={register}
           required={true}
           errors={errors}
+          control={control}
           // onChange={(e) => setUf(e)}
         />
       </div>
@@ -296,6 +344,7 @@ const DadosObra = ({ register, errors }) => {
           register={register}
           required={true}
           errors={errors}
+          control={control}
         />
       </div>
 
@@ -313,6 +362,7 @@ const DadosObra = ({ register, errors }) => {
           register={register}
           required={true}
           errors={errors}
+          control={control}
         />
       </div>
     </div>
@@ -321,7 +371,7 @@ const DadosObra = ({ register, errors }) => {
 
 const MetragemObra = ({ register, errors }) => {
   return (
-    <div className="bg-[var(--bg-modal-whitegray)] rounded-[10px] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
+    <div className="bg-[var(--bg-modal-whitegray)] rounded-[10rem] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
       <div className="w-full flex flex-col gap-2 max-w-[48%]">
         <label
           htmlFor="m2Construcao"
@@ -331,7 +381,7 @@ const MetragemObra = ({ register, errors }) => {
           <span className="text-sm italic">(EXCETO PISCINA OU QUADRA)</span>
         </label>
         <Input
-          type={"text"}
+          type={"number"}
           placeholder={"M² DE CONSTRUÇÃO"}
           label={"m2Construcao"}
           register={register}
@@ -348,7 +398,7 @@ const MetragemObra = ({ register, errors }) => {
           M² DE PISCINA + QUADRA POLIESPORTIVA
         </label>
         <Input
-          type={"text"}
+          type={"number"}
           placeholder={"M² DE PISCINA + QUADRA POLIESPORTIVA"}
           label={"m2PiscinaQuadra"}
           register={register}
