@@ -1,8 +1,7 @@
 import * as yup from "yup";
 
-
 export const schema = yup.object().shape({
-  proprietario: yup.string().email("Email invalido!").required("O campo email é necessário!"),
+  proprietario: yup.string().required("O campo Proprietario é necessário!"),
   celular: yup.string().required("O campo celular é necessário!"),
   tipoProprietario: yup.object().shape({
 	value: yup.string().required("O campo Tipo de proprietario é necessário!"),

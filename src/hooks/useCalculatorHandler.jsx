@@ -1,63 +1,122 @@
 import { constants } from "../constants/selectsValues";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 export const useCalculatorHandler = () => {
-  const handleCalculatorData = (data) => {
+  const handleCalculatorData = async (data) => {
     let {
       // celular,
       // destinacaoObra,
       // faseObra,
-      // inicioConstrucao,
       m2PiscinaQuadra,
       m2Construcao,
+      tipoConstrucao,
+      concretoUsinado,
       // obraFinanciamento,
       // previsaoTermino,
+      inicioConstrucao,
       // proprietario,
       tipoProprietario,
-      // ufObra,
+      ufObra,
       // cidadeObra,
     } = data;
 
+    let valorVau;
     let fatorSocial;
     let tipoDeConstrucaoPorcentagem;
     let totalImpostoComReducao;
     let porcentagemDaReducao;
     let valorDoParcelamentoTotal;
     let porcentagemDoParcelamentoTotal;
+    let valorMesRetroativo;
+    let rmtObra;
 
-    m2Construcao = m2Construcao.replace(/\D/g, "");
-    m2PiscinaQuadra = m2PiscinaQuadra.replace(/\D/g, "");
+    try {
+      async function getValorVau() {
+        const result = await getDocs(collection(db, "VAU"));
 
-    switch (Number(m2Construcao)) {
+        result.forEach((doc) => {
+          if (doc.id === ufObra.value) {
+            valorVau = doc.data().valor;
+          }
+        });
+      }
+
+      await getValorVau();
+    } catch (e) {
+      console.error(e);
+
+      return;
+    }
+
+    m2Construcao = Number(m2Construcao);
+    m2PiscinaQuadra = Number(m2PiscinaQuadra);
+
+    //Valor total da área
+    switch (true) {
       case m2Construcao < 100: tipoDeConstrucaoPorcentagem = constants.menorQueCem; break;
-      case m2Construcao >= 100 && m2Construcao < 200: tipoDeConstrucaoPorcentagem = constants.deCemADozentos; break;
-      case m2Construcao >= 200 && m2Construcao < 300: tipoDeConstrucaoPorcentagem = constants.deDuzentosATrezeentos; break;
-      case m2Construcao >= 300 && m2Construcao < 400: tipoDeConstrucaoPorcentagem = constants.deTrezentosAQuatrocentos; break;
-      case m2Construcao >= 400: tipoDeConstrucaoPorcentagem = constants.acimaDeQuatrocentos; break;
+      case m2Construcao >= 100 && m2Construcao <= 200: tipoDeConstrucaoPorcentagem = constants.deCemADozentos; break;
+      case m2Construcao >= 200 && m2Construcao <= 300: tipoDeConstrucaoPorcentagem = constants.deDuzentosATrezeentos; break;
+      case m2Construcao >= 300 && m2Construcao <= 400: tipoDeConstrucaoPorcentagem = constants.deTrezentosAQuatrocentos; break;
+      default: tipoDeConstrucaoPorcentagem = constants.acimaDeQuatrocentos; break;
     }
 
-    const metroTotal = Number(m2Construcao) + Number(m2PiscinaQuadra);
+    const metroTotal = m2Construcao + m2PiscinaQuadra;
 
-    switch (metroTotal) {
-      case metroTotal < 350: porcentagemDaReducao = 50; break;
-      case metroTotal >= 350: porcentagemDaReducao = 70; break;
+    //calcula fator social
+    switch (true) {
+      case metroTotal < 100: fatorSocial = constants.menorQueCem; break;
+      case metroTotal >= 100 && metroTotal <= 200: fatorSocial = constants.deCemADozentos; break;
+      case metroTotal >= 200 && metroTotal <= 300: fatorSocial = constants.deDuzentosATrezeentos; break;
+      case metroTotal >= 300 && metroTotal <= 400: fatorSocial = constants.deTrezentosAQuatrocentos; break;
+      default: fatorSocial = constants.acimaDeQuatrocentos; break;
     }
 
-    //O valor que tiver no tipo de construção, também será o do fator social
-    fatorSocial = tipoDeConstrucaoPorcentagem;
+    const mesInicioDaConstrucao = new Date(inicioConstrucao).getMonth() + 1;
 
-    const custoObra = m2Construcao * valorVau * 89 + m2PiscinaQuadra * 25 * valorVau;
-    const rmtObra = custoObra * tipoDeConstrucaoPorcentagem * fatorSocial;
-    const totalImpostoSemReducao = rmtObra * 36.8;
-
-    if (tipoProprietario.value !== "Pessoa Judírica") {
-      return "Pessoa Judírica";
+    //Verifica se inicio da construção é menor que o mês atual
+    switch (true) {
+      case mesInicioDaConstrucao < constants.mesAtual - 3: valorMesRetroativo = constants.mesRetroativoQuandoMenorQueQuatroAnosEmDiante; break;
+      case mesInicioDaConstrucao < constants.mesAtual - 2: valorMesRetroativo = constants.mesRetroativoQuandoMenorQueTresAnos; break;
+      case mesInicioDaConstrucao < constants.mesAtual - 1: valorMesRetroativo = constants.mesRetroativoQuandoMenorQueDoisAnos; break;
+      case mesInicioDaConstrucao < constants.mesAtual: valorMesRetroativo = constants.mesRetroativoQuandoMenorQueUmAno; break;
+      default: valorMesRetroativo = false; break;
     }
 
-    totalImpostoComReducao = rmtObra * porcentagemDaReducao * constants.cotaPatronal;
+    const custoObraTotal = ((m2Construcao * constants.percentualAreaPrincipal * valorVau) + (m2PiscinaQuadra * constants.percentualAreaComplementar * valorVau)).toFixed(2)
 
-    porcentagemDoParcelamentoTotal = (totalImpostoComReducao % 60) === 0 ? 60 : totalImpostoComReducao % 60;
+    const tipoConstrucaoPorcentagem = tipoConstrucao === "Alvenaria" ? constants.tipoDeConstrucaoComAlvenaria : constants.tipoDeConstrucaoComMadeiraOuMista;
 
-    valorDoParcelamentoTotal = totalImpostoComReducao / porcentagemDoParcelamentoTotal;
+    //Calculo da RMT
+    if(concretoUsinado === "Sim") rmtObra = (custoObraTotal * tipoConstrucaoPorcentagem * fatorSocial * constants.usoDeConcretoUsinadoDesconto).toFixed(2);
+    else rmtObra = (custoObraTotal * tipoConstrucaoPorcentagem * fatorSocial).toFixed(2);
+
+    const totalImpostoSemReducao = (rmtObra * constants.fatorMultiplicadorRmt).toFixed(2);
+
+    //Apresenta numero para contato devido pessoa Jurídica
+    if (tipoProprietario.value !== "Pessoa Física") return "Pessoa Judírica";
+
+    //Descobre valor da redução com base na metragem total do terreno
+    if (metroTotal < 350) porcentagemDaReducao = constants.rmtParaAteTrezentosECinquenta;
+    else porcentagemDaReducao = constants.rmtParaAcimaDeTrezentosECinquenta;
+
+    totalImpostoComReducao = (rmtObra * porcentagemDaReducao * constants.cotaPatronal).toFixed(2);
+
+    porcentagemDoParcelamentoTotal = totalImpostoComReducao % 60 === 0 ? 60 : totalImpostoComReducao % 60;
+
+    valorDoParcelamentoTotal = (totalImpostoComReducao / porcentagemDoParcelamentoTotal).toFixed(2);
 
     console.log(
       `O valor do imposto sem redução é de: ${totalImpostoSemReducao} \n
@@ -67,11 +126,11 @@ export const useCalculatorHandler = () => {
 	  A Área total da obra é de: ${metroTotal} \n
 	  A Área Complementar da obra é de: ${m2PiscinaQuadra} \n
 	  O RMT da obra é de: ${rmtObra} \n
-	  Tabela VAU(A fazer) \n
-	  Usar o valor da quantidade de meses e ver se temos retroativos ou não
-	  `
-	);
+	  Valor Tabela VAU Do Estado: ${valorVau} \n
+	  ${valorMesRetroativo ? `Valor Mes Retroativo: ${valorMesRetroativo}` : "Sem Mêses Retroativos"} \n
+	  `,
+    );
   };
 
-    return { handleCalculatorData };
+  return { handleCalculatorData };
 };

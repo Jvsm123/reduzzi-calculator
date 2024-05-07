@@ -313,6 +313,42 @@ const DadosObra = ({ register, errors, control }) => {
 
       <div className="w-full flex flex-col gap-2 max-w-[48%]">
         <label
+          htmlFor="tipoConstrucao"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
+          Tipo Da Construção
+        </label>
+        <Input
+          type={"select"}
+          placeholder={"Tipo Da Construção"}
+          label={"tipoConstrucao"}
+          register={register}
+          required={true}
+          errors={errors}
+          control={control}
+        />
+      </div>
+
+      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+        <label
+          htmlFor="concretoUsinado"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
+          Uso de Concreto Usinado?
+        </label>
+        <Input
+          type={"select"}
+          placeholder={"Uso de Concreto Usinado?"}
+          label={"concretoUsinado"}
+          register={register}
+          required={true}
+          errors={errors}
+          control={control}
+        />
+      </div>
+
+      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+        <label
           htmlFor="ufObra"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
         >
