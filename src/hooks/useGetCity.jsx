@@ -25,7 +25,13 @@ export const useGetCity = () => {
 
       const data = await result.json();
 
-      setCities(data);
+      let cities = [];
+
+      data.forEach((city) => {
+        cities.push({ label: city.nome, value: city.nome });
+      });
+
+      setCities(cities);
     };
 
     uf && getCity();

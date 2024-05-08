@@ -17,6 +17,8 @@ import arrowBlue from "../../assets/arrow-blue.png";
 import arrowGreen from "../../assets/arrow-green.png";
 import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
 
+import { useGetCity } from "../../hooks/useGetCity.jsx";
+
 const Home = () => {
   const {
     register,
@@ -30,6 +32,8 @@ const Home = () => {
   const { handleCalculatorData } = useCalculatorHandler();
 
   const onSubmit = (data) => handleCalculatorData(data);
+
+  const { cities, setUf } = useGetCity();
 
   return (
     <main className="max-w-[1440rem] m-auto">
@@ -75,7 +79,12 @@ const Home = () => {
               />
               <h2 className="text-2xl font-bold">DADOS DA OBRA</h2>
             </div>
-            <DadosObra register={register} errors={errors} control={control} />
+            <DadosObra
+              register={register}
+              errors={errors}
+              control={control}
+              cityControl={{ cities: cities, setUf: setUf }}
+            />
 
             <div className="mt-[60rem] mb-4 flex items-center gap-2">
               <img
@@ -128,6 +137,7 @@ const Input = ({
   required,
   errors,
   control,
+  cityControl = false,
   // onChange,
 }) => {
   return (
@@ -181,7 +191,7 @@ const Input = ({
           {getFormErrorMessage(errors, label)}
         </>
       )}
-      {type === "select" && (
+      {type === "select" && label !== "cidadeObra" && label !== "ufObra" && (
         <Controller
           name={label}
           control={control}
@@ -191,6 +201,61 @@ const Input = ({
               <Select
                 options={constants[label]}
                 {...field}
+                styles={{
+                  control: (styles) => ({
+                    ...styles,
+                    borderColor: "",
+                    borderWidth: "",
+                    outline: "",
+                    boxShadow: "",
+                  }),
+                }}
+                placeholder={placeholder}
+                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+              />
+              {getFormErrorMessage(errors, label)}
+            </>
+          )}
+        />
+      )}
+      {type === "select" && label === "cidadeObra" && (
+        <Controller
+          name={label}
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <>
+              <Select
+                options={cityControl.cities}
+                {...field}
+                styles={{
+                  control: (styles) => ({
+                    ...styles,
+                    borderColor: "",
+                    borderWidth: "",
+                    outline: "",
+                    boxShadow: "",
+                  }),
+                }}
+                placeholder={placeholder}
+                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+              />
+              {getFormErrorMessage(errors, label)}
+            </>
+          )}
+        />
+      )}
+      {type === "select" && label === "ufObra" && (
+        <Controller
+          name={label}
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <>
+              <Select
+                options={constants[label]}
+                {...field}
+                onChange={(e) => cityControl.setUf(e)}
                 styles={{
                   control: (styles) => ({
                     ...styles,
@@ -272,7 +337,7 @@ const DadosDoProprietario = ({ register, errors, control }) => {
   );
 };
 
-const DadosObra = ({ register, errors, control }) => {
+const DadosObra = ({ register, errors, control, cityControl }) => {
   return (
     <div className="bg-[var(--bg-modal-whitegray)] rounded-[10rem] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
       <div className="w-full flex flex-col gap-2 max-w-[48%]">
@@ -362,6 +427,7 @@ const DadosObra = ({ register, errors, control }) => {
           required={true}
           errors={errors}
           control={control}
+	      cityControl={cityControl}
           // onChange={(e) => setUf(e)}
         />
       </div>
@@ -381,6 +447,7 @@ const DadosObra = ({ register, errors, control }) => {
           required={true}
           errors={errors}
           control={control}
+          cityControl={cityControl}
         />
       </div>
 

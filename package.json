@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@react-pdf/renderer": "^3.4.4",
     "dotenv": "^16.4.5",
     "firebase": "^10.11.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
+    "react-pdf-tailwind": "^2.3.0",
     "react-phone-number-input": "^3.4.1",
     "react-router-dom": "^6.23.0",
     "react-select": "^5.8.0",
