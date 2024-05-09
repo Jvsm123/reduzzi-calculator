@@ -1,6 +1,6 @@
 import "react-phone-number-input/style.css";
 
-import Select from "react-select";
+import Select, { components } from "react-select";
 import PhoneInput from "react-phone-number-input";
 
 import React from "react";
@@ -15,6 +15,8 @@ import { constants } from "../../constants/selectsValues.js";
 
 import arrowBlue from "../../assets/arrow-blue.png";
 import arrowGreen from "../../assets/arrow-green.png";
+import selectIcon from "../../assets/selectIcon.svg";
+import calculatorIcon from "../../assets/calculatorIcon.svg";
 import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
 
 import { useGetCity } from "../../hooks/useGetCity.jsx";
@@ -101,13 +103,12 @@ const Home = () => {
             />
           </div>
 
-          <div>
-            <button
-              onClick={handleSubmit(onSubmit)}
-              className="bg-[#00CC93] text-white text-xl font-semibold px-14 py-3 rounded-lg"
-            >
-              CALCULAR
-            </button>
+          <div
+            onClick={handleSubmit(onSubmit)}
+            className="bg-[#00CC93] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] w-[436rem] flex justify-end items-center hover:cursor-pointer"
+          >
+            <button className="mr-[50rem]">CALCULAR</button>
+            <img src={calculatorIcon} className="h-[40rem]" />
           </div>
         </section>
       </section>
@@ -128,6 +129,18 @@ const getFormErrorMessage = (errors, name) => {
     <small className="p-error">&nbsp;</small>
   );
 };
+
+const DropdownIndicator = (props) => (
+  <components.DropdownIndicator {...props}>
+    <img
+      src={selectIcon}
+      label={"Icon Select"}
+      className="color-[#ff9000] w-[15rem] h-[15rem]"
+    />
+  </components.DropdownIndicator>
+);
+
+const IndicatorSeparator = () => {};
 
 const Input = ({
   type,
@@ -152,7 +165,7 @@ const Input = ({
             maxLength="17"
             international={true}
             withCountryCallingCode={false}
-            className="h-[60rem] bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow"
+            className="h-[60rem] bg-white focus:outline-none focus-visible:bg-transparent border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow"
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -163,7 +176,7 @@ const Input = ({
             {...register(label, { required })}
             type={type}
             placeholder={placeholder}
-            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -175,7 +188,7 @@ const Input = ({
             type={type}
             placeholder={placeholder}
             pattern="[0-9]*"
-            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -186,7 +199,7 @@ const Input = ({
             {...register(label, { required })}
             type={type}
             placeholder={placeholder}
-            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -199,6 +212,7 @@ const Input = ({
           render={({ field }) => (
             <>
               <Select
+                components={{ DropdownIndicator, IndicatorSeparator }}
                 options={constants[label]}
                 {...field}
                 styles={{
@@ -211,7 +225,7 @@ const Input = ({
                   }),
                 }}
                 placeholder={placeholder}
-                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
               />
               {getFormErrorMessage(errors, label)}
             </>
@@ -227,6 +241,7 @@ const Input = ({
             <>
               <Select
                 options={cityControl.cities}
+                components={{ DropdownIndicator, IndicatorSeparator }}
                 {...field}
                 styles={{
                   control: (styles) => ({
@@ -238,7 +253,7 @@ const Input = ({
                   }),
                 }}
                 placeholder={placeholder}
-                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
               />
               {getFormErrorMessage(errors, label)}
             </>
@@ -254,6 +269,7 @@ const Input = ({
             <>
               <Select
                 options={constants[label]}
+                components={{ DropdownIndicator, IndicatorSeparator }}
                 {...field}
                 onChange={(e) => cityControl.setUf(e)}
                 styles={{
@@ -266,7 +282,7 @@ const Input = ({
                   }),
                 }}
                 placeholder={placeholder}
-                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"}`}
+                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
               />
               {getFormErrorMessage(errors, label)}
             </>
@@ -289,7 +305,7 @@ const DadosDoProprietario = ({ register, errors, control }) => {
         </label>
         <Input
           type={"text"}
-          placeholder={"Responsável pela obra"}
+          placeholder={"Nome do Proprietário"}
           label={"proprietario"}
           register={register}
           required={true}
@@ -324,7 +340,7 @@ const DadosDoProprietario = ({ register, errors, control }) => {
           </label>
           <Input
             type={"select"}
-            placeholder={"Tipo de proprietário"}
+            placeholder={"Selecione"}
             label={"tipoProprietario"}
             register={register}
             required={true}
@@ -349,7 +365,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         </label>
         <Input
           type={"select"}
-          placeholder={"Destinação da obra"}
+          placeholder={"Selecione"}
           label={"destinacaoObra"}
           register={register}
           required={true}
@@ -367,7 +383,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         </label>
         <Input
           type={"select"}
-          placeholder={"Obra com financiamento?"}
+          placeholder={"Selecione"}
           label={"obraFinanciamento"}
           register={register}
           required={true}
@@ -385,7 +401,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         </label>
         <Input
           type={"select"}
-          placeholder={"Tipo Da Construção"}
+          placeholder={"Selecione"}
           label={"tipoConstrucao"}
           register={register}
           required={true}
@@ -403,7 +419,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         </label>
         <Input
           type={"select"}
-          placeholder={"Uso de Concreto Usinado?"}
+          placeholder={"Selecione"}
           label={"concretoUsinado"}
           register={register}
           required={true}
@@ -421,13 +437,13 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         </label>
         <Input
           type={"select"}
-          placeholder={"UF da obra"}
+          placeholder={"Selecione"}
           label={"ufObra"}
           register={register}
           required={true}
           errors={errors}
           control={control}
-	      cityControl={cityControl}
+          cityControl={cityControl}
           // onChange={(e) => setUf(e)}
         />
       </div>
@@ -441,7 +457,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         </label>
         <Input
           type={"select"}
-          placeholder={"Cidade da obra"}
+          placeholder={"Selecione"}
           label={"cidadeObra"}
           register={register}
           required={true}
@@ -460,7 +476,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         </label>
         <Input
           type={"select"}
-          placeholder={"Fase atual da obra"}
+          placeholder={"Selecione"}
           label={"faseObra"}
           register={register}
           required={true}
@@ -485,7 +501,7 @@ const MetragemObra = ({ register, errors }) => {
         </label>
         <Input
           type={"number"}
-          placeholder={"M² DE CONSTRUÇÃO"}
+          placeholder={"00,00 m²"}
           label={"m2Construcao"}
           register={register}
           required={true}
@@ -502,7 +518,7 @@ const MetragemObra = ({ register, errors }) => {
         </label>
         <Input
           type={"number"}
-          placeholder={"M² DE PISCINA + QUADRA POLIESPORTIVA"}
+          placeholder={"00,00 m²"}
           label={"m2PiscinaQuadra"}
           register={register}
           required={true}
