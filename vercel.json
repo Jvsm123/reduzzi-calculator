@@ -1,7 +1,5 @@
 {
-  "routes":  [
-    {"src": "/", "dest": "/"},
-    {"src": "/res", "dest": "/res"},
-    {"src": "/pdf", "dest": "/pdf"}
-  ]
+   "rewrites":  [
+       {"source": "/(.*)", "destination": "/"}
+    ]
 }
