@@ -1,7 +1,12 @@
 import React from "react";
 import AppBar from "../Home/AppBar";
 import arrowBlue from "../../assets/arrow-blue.png";
+import arrowGray from "../../assets/arrow-gray.png";
+import iconPlusBlue from "../../assets/icon-plus-blue.png";
+import iconEqualBlue from "../../assets/icon-equal-blue.png";
+
 import { useForm } from "react-hook-form";
+import Footer from "../Home/Footer";
 
 const ResultPage = () => {
   const {
@@ -21,7 +26,7 @@ const ResultPage = () => {
       <main className="max-w-[1440px] m-auto">
         <div className="mt-[60px] mb-4 flex items-center justify-center gap-2">
           <img src={arrowBlue} alt="arrow blue" className="w-[20px]" />
-          <h2 className="text-2xl font-bold">RESULTADO</h2>
+          <h2 className="text-4xl font-bold">RESULTADO</h2>
         </div>
 
         <section className="bg-[#ffffff] mb-20 mx-14">
@@ -143,7 +148,7 @@ const ResultPage = () => {
             </p>
           </div>
 
-          <div className="bg-[#006837ff] flex justify-between">
+          <div className="bg-[#006837ff] flex justify-between rounded-b-lg overflow-hidden">
             <section className="flex items-center justify-between w-[60%] py-6 px-10">
               <p className="border-l-[5px] border-[#00cc93ff] text-white font-bold text-[24px] pl-3">
                 ECONOMIA <br />
@@ -156,12 +161,154 @@ const ResultPage = () => {
             <section className="bg-[#063958ff] text-center py-3 px-10">
               <p className="text-white font-bold text-[40px]">72% DE REDUÇÃO</p>
               <p className="text-white font-bold text-center">
-                BASE LEGAL ATUAL DA RECEITA FEDERAL CONFORME IN. 2021/021
+                BASE LEGAL ATUAL DA RECEITA FEDERAL CONFORME IN. 2021/2021
               </p>
             </section>
           </div>
         </section>
+
+        {/* FORMA DE PAGAMENTO DOS IMPOSTOS */}
+        <section className="mx-14 border border-[#999999ff] rounded-[8px] relative flex flex-col items-center mb-10 py-10">
+          <div className="inline-flex items-center gap-1 bg-white border border-[#999999ff] rounded-[8px] px-4 py-1 absolute top-[-20px]">
+            <img src={arrowBlue} alt="arrow blue" className="w-[17px]" />
+            <h2 className="text-lg font-bold">
+              FORMA DE PAGAMENTO DOS IMPOSTOS
+            </h2>
+          </div>
+
+          <section className="flex gap-4">
+            <div>
+              <p className="text-xl text-[#666666ff] font-medium ml-4">
+                Entrada:
+              </p>
+              <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8px]">
+                <img
+                  src={arrowGray}
+                  alt="arrow gray"
+                  className="w-[10px] h-[12px]"
+                />
+                <p className="text-[#063958ff] font-bold text-xl">R$ 400,00</p>
+              </span>
+            </div>
+            <img
+              src={iconPlusBlue}
+              alt="icon plus blue"
+              className="w-[40px] h-[40px] mt-7"
+            />
+            <div>
+              <p className="text-xl text-[#666666ff] font-medium ml-4">
+                <span className="text-[#063958ff] font-bold">6</span> meses de:
+              </p>
+              <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8px]">
+                <img
+                  src={arrowGray}
+                  alt="arrow gray"
+                  className="w-[10px] h-[12px]"
+                />
+                <p className="text-[#063958ff] font-bold text-xl">R$ 264,00</p>
+              </span>
+            </div>
+            <img
+              src={iconPlusBlue}
+              alt="icon plus blue"
+              className="w-[40px] h-[40px] mt-7"
+            />
+
+            {/* final da obra */}
+            <div>
+              <div>
+                <p className="text-xl text-[#666666ff] font-medium ml-4">
+                  Final da obra:
+                </p>
+                <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 w-full py-2 rounded-[8px]">
+                  <img
+                    src={arrowGray}
+                    alt="arrow gray"
+                    className="w-[10px] h-[12px]"
+                  />
+                  <p className="text-[#063958ff] font-bold text-xl">
+                    R$ 3.816,00
+                  </p>
+                </span>
+              </div>
+              <p className="text-[#808080ff] font-bold mt-4">
+                NO FINAL DA OBRA ESSES
+              </p>
+              <p className="text-[#808080ff] font-bold">
+                <span className="text-[#063958ff] text-lg font-bold">
+                  R$ 3.816,00
+                </span>{" "}
+                PODERÁ SER PAGO
+              </p>
+              <p className="text-[#808080ff] font-bold">
+                Á VISTA OU PARCELADO EM ATÉ
+              </p>
+              <p className="text-[#063958ff] font-bold text-3xl my-2">
+                42<span className="text-[#999999ff] text-xl font-bold">X</span>{" "}
+                R$ 100,00
+              </p>
+              <hr className="h-[2px] bg-[#999999ff]" />
+              <p className="text-[#808080ff] font-bold mt-2">
+                NO DÉBITO AUTOMÁTICO
+              </p>
+            </div>
+            <img
+              src={iconEqualBlue}
+              alt="icon plus blue"
+              className="w-[40px] h-[40px] mt-7"
+            />
+
+            <div>
+              <p className="text-xl text-[#666666ff] font-medium ml-4">
+                Total pago:
+              </p>
+              <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8px]">
+                <img
+                  src={arrowGray}
+                  alt="arrow gray"
+                  className="w-[10px] h-[12px]"
+                />
+                <p className="text-[#063958ff] font-bold text-xl">
+                  R$ 5.800,00
+                </p>
+              </span>
+            </div>
+          </section>
+        </section>
+
+        <section className="mx-14 border border-[#999999ff] rounded-[8px] relative flex justify-center items-center mb-10 py-10 gap-8">
+          <div className="inline-flex items-center gap-1 bg-white border border-[#999999ff] rounded-[8px] px-4 py-1 absolute top-[-20px]">
+            <img src={arrowBlue} alt="arrow blue" className="w-[17px]" />
+            <h2 className="text-lg font-bold">
+              FORMA DE PAGAMENTO DOS NOSSOS HONORÁRIOS
+            </h2>
+          </div>
+
+          <div>
+            <p className="text-xl text-[#666666ff] font-medium ml-4">
+              Honorários:
+            </p>
+            <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8px]">
+              <img
+                src={arrowGray}
+                alt="arrow gray"
+                className="w-[10px] h-[12px]"
+              />
+              <p className="text-[#063958ff] font-bold text-xl">R$ 3.500,00</p>
+            </span>
+          </div>
+
+          <p className="text-[#063958ff] font-bold text-2xl mt-6">À vista</p>
+          <div className="border-l border-[#999999ff] pl-5 mt-6">
+            <p className="text-[#808080ff] font-bold">PARCELADO</p>
+            <p className="text-[#063958ff] font-bold text-2xl">
+              12<span className="text-[#808080ff] font-bold text-lg">X</span> R$
+              350,00
+            </p>
+          </div>
+        </section>
       </main>
+      <Footer />
     </>
   );
 };
