@@ -17,34 +17,34 @@ const AppBar = () => {
             className="max-h-[70rem] cursor-pointer"
           />
 
-          <div className="flex gap-6">
+          <div className="flex gap-6 ">
             <img
               src={facebook}
               alt="facebook"
-              className="max-w-[30rem] fill-white cursor-pointer"
+              className="max-w-[30rem] fill-white cursor-pointer hidden md:flex"
             />
             <img
               src={insta}
               alt="insta"
-              className="max-w-[30rem] fill-white cursor-pointer"
+              className="max-w-[30rem] fill-white cursor-pointer hidden md:flex"
             />
             <img
               src={whats}
               alt="whats"
-              className="max-w-[30rem] fill-white cursor-pointer"
+              className="max-w-[30rem] fill-white cursor-pointer hidden md:flex"
             />
             <img
               src={youtube}
               alt="youtube"
-              className="max-w-[30rem] fill-white cursor-pointer"
+              className="max-w-[30rem] fill-white cursor-pointer hidden md:flex"
             />
             <img
               src={linkedin}
               alt="linkedin"
-              className="max-w-[30rem] fill-white cursor-pointer"
+              className="max-w-[30rem] fill-white cursor-pointer hidden md:flex"
             />
 
-            <button className="bg-white text-[var(--main-blue)] rounded-[10rem] text-xl py-4 px-14">
+            <button className="bg-white text-[var(--main-blue)] rounded-[10rem] text-xl py-4 px-14 hidden sm:block">
               Login
             </button>
           </div>

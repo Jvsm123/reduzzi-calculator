@@ -41,7 +41,7 @@ const Home = () => {
       <AppBar />
       <WhatsappHandler
         className={
-          "w-[100rem] h-[100rem] fixed right-[60rem] bottom-[40rem] shadow-xl cursor-pointer bg-green-500 flex items-center justify-center p-3 rounded-[20rem]"
+          "w-[70rem] h-[70rem] rounded-[10rem] lg:w-[100rem] lg:h-[100rem] lg:rounded-[20rem] fixed right-[55rem] lg:right-[60rem] bottom-[20rem] lg:bottom-[40rem] shadow-xl cursor-pointer bg-green-500 flex items-center justify-center p-3"
         }
       />
       <main className="max-w-[1440rem] m-auto">
@@ -70,7 +70,7 @@ const Home = () => {
             <h2 className="text-2xl font-bold">DADOS DO PROPRIETÁRIO</h2>
           </div>
 
-          <section className="flex gap-14">
+          <section className="lg:flex gap-14">
             <div className="w-full">
               <DadosDoProprietario
                 register={register}
@@ -110,7 +110,7 @@ const Home = () => {
 
             <div
               onClick={handleSubmit(onSubmit)}
-              className="bg-[#00CC93] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] w-[436rem] flex justify-end items-center hover:cursor-pointer"
+              className="bg-[#00CC93] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] flex items-center hover:cursor-pointer lg:w-[436rem] w-full lg:mt-0 mt-10 justify-center lg:justify-end"
             >
               <button className="mr-[50rem]">CALCULAR</button>
               <img src={calculatorIcon} className="h-[40rem]" />
@@ -321,7 +321,7 @@ const DadosDoProprietario = ({ register, errors, control }) => {
         />
       </div>
 
-      <section className="flex justify-between gap-10 mt-7">
+      <section className="flex justify-between gap-10 mt-7 flex-wrap lg:flex-nowrap">
         <div className="w-full flex flex-col gap-2">
           <label
             htmlFor="celular"
@@ -364,7 +364,7 @@ const DadosDoProprietario = ({ register, errors, control }) => {
 const DadosObra = ({ register, errors, control, cityControl }) => {
   return (
     <div className="bg-[var(--bg-modal-whitegray)] rounded-[10rem] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="destinacaoObra"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
@@ -382,7 +382,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         />
       </div>
 
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%] ">
         <label
           htmlFor="obraFinanciamento"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
@@ -400,7 +400,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         />
       </div>
 
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="tipoConstrucao"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
@@ -418,7 +418,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         />
       </div>
 
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="concretoUsinado"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
@@ -436,7 +436,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         />
       </div>
 
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="ufObra"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
@@ -456,7 +456,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         />
       </div>
 
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="cidadeObra"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
@@ -499,7 +499,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
 const MetragemObra = ({ register, errors }) => {
   return (
     <div className="bg-[var(--bg-modal-whitegray)] rounded-[10rem] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="m2Construcao"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
@@ -517,7 +517,7 @@ const MetragemObra = ({ register, errors }) => {
         />
       </div>
 
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="m2PiscinaQuadra"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
@@ -534,7 +534,7 @@ const MetragemObra = ({ register, errors }) => {
         />
       </div>
 
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="inicioConstrucao"
           className="after:content-['_*'] text-[var(--gray)] text-xl font-semibold"
@@ -551,7 +551,7 @@ const MetragemObra = ({ register, errors }) => {
         />
       </div>
 
-      <div className="w-full flex flex-col gap-2 max-w-[48%]">
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="previsaoTermino"
           className="after:content-['_*'] text-[var(--gray)] text-xl font-semibold"
