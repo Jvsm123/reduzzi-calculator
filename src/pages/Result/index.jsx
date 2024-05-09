@@ -87,12 +87,13 @@ const ResultPage = () => {
 
           <div className="flex justify-center items-center mt-5 m-auto max-w-[650rem]">
             <hr className="w-full h-[2rem] bg-[#999999ff]" />
-            <p className="italic text-[#666666ff] min-w-[220rem] text-[18rem] mx-10">
+            <p className="italic text-[#666666ff] min-w-[220rem] text-[18rem] mx-10 mb-10">
               Valor do imposto a pagar
             </p>
             <hr className="w-full h-[2rem] bg-[#999999ff]" />
           </div>
 
+          {/*
           <div className="flex gap-4 items-center justify-center mt-14 mb-16">
             <p className="text-[#666666ff] font-medium text-xl">
               Nº de parcelas
@@ -104,6 +105,7 @@ const ResultPage = () => {
               {`${Number(valorDoParcelamentoTotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
             </p>
           </div>
+          */}
 
           <div className="bg-[#006837ff] flex justify-between rounded-b-lg overflow-hidden">
             <section className="flex items-center justify-between w-[60%] py-6 px-10">
@@ -117,9 +119,7 @@ const ResultPage = () => {
 
             <section className="bg-[#063958ff] text-center py-3 px-10">
               <p className="text-white font-bold text-[40rem]">
-                {
-                  `${(100 - (Number(totalImpostoComReducao) / 23000) * 100).toFixed(0)}% De Redução`
-                }
+                {`${(100 - (Number(totalImpostoComReducao) / 23000) * 100).toFixed(0)}% DE REDUÇÃO`}
               </p>
               <p className="text-white font-bold text-[16rem] text-center">
                 BASE LEGAL ATUAL DA RECEITA FEDERAL CONFORME IN. 2021/2021
@@ -131,7 +131,7 @@ const ResultPage = () => {
         {/* FORMA DE PAGAMENTO DOS IMPOSTOS */}
         <section className="mx-14 border border-[#999999ff] rounded-[8rem] relative flex flex-col items-center mb-10 py-10">
           <div className="inline-flex items-center gap-1 bg-white border border-[#999999ff] rounded-[8rem] px-4 py-1 absolute top-[-20rem]">
-            <img src={arrowBlue} alt="arrow blue" className="w-[17rem]" />
+            <img src={arrowBlue} alt="arrow blue" className="w-[12rem]" />
             <h2 className="text-lg font-bold">
               FORMA DE PAGAMENTO DOS IMPOSTOS
             </h2>
@@ -239,7 +239,7 @@ const ResultPage = () => {
 
         <section className="mx-14 border border-[#999999ff] rounded-[8rem] relative flex justify-center items-center text-center mb-10 py-10 gap-8">
           <div className="inline-flex items-center gap-1 bg-white border border-[#999999ff] rounded-[8rem] px-4 py-1 absolute top-[-20rem]">
-            <img src={arrowBlue} alt="arrow blue" className="w-[17rem]" />
+            <img src={arrowBlue} alt="arrow blue" className="w-[12rem]" />
             <h2 className="text-lg font-bold">
               FORMA DE PAGAMENTO DOS NOSSOS HONORÁRIOS
             </h2>
