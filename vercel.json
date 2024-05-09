@@ -1,0 +1,7 @@
+{
+  "rewrites":  [
+    {"source": "/", "destination": "/"},
+    {"source": "/res", "destination": "/res"},
+    {"source": "/pdf", "destination": "/pdf"}
+  ]
+}
