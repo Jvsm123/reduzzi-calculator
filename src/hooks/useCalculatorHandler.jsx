@@ -95,13 +95,13 @@ export const useCalculatorHandler = () => {
       default: valorMesRetroativo = false; break;
     }
 
-    const custoObraTotal = ((m2Construcao * constants.percentualAreaPrincipal * valorVau) + (m2PiscinaQuadra * constants.percentualAreaComplementar * valorVau)).toFixed(2)
+    const custoObraTotal = (m2Construcao * constants.percentualAreaPrincipal * valorVau + m2PiscinaQuadra * constants.percentualAreaComplementar * valorVau).toFixed(2);
 
-    const tipoConstrucaoPorcentagem = tipoConstrucao === "Alvenaria" ? constants.tipoDeConstrucaoComAlvenaria : constants.tipoDeConstrucaoComMadeiraOuMista;
+    const tipoConstrucaoPorcentagem = tipoConstrucao.value === "Alvenaria" ? constants.tipoDeConstrucaoComAlvenaria : constants.tipoDeConstrucaoComMadeiraOuMista;
 
     //Calculo da RMT
-    if(concretoUsinado === "Sim") rmtObra = (custoObraTotal * tipoConstrucaoPorcentagem * fatorSocial * constants.usoDeConcretoUsinadoDesconto).toFixed(2);
-    else rmtObra = (custoObraTotal * tipoConstrucaoPorcentagem * fatorSocial).toFixed(2);
+    if (concretoUsinado === "Sim") rmtObra = (custoObraTotal * tipoConstrucaoPorcentagem * fatorSocial * constants.usoDeConcretoUsinadoDesconto).toFixed(2);
+    else rmtObra = ( custoObraTotal * tipoConstrucaoPorcentagem * fatorSocial).toFixed(2);
 
     const totalImpostoSemReducao = (rmtObra * constants.fatorMultiplicadorRmt).toFixed(2);
 
@@ -130,6 +130,25 @@ export const useCalculatorHandler = () => {
 	  ${valorMesRetroativo ? `Valor Mes Retroativo: ${valorMesRetroativo}` : "Sem Mêses Retroativos"} \n
 	  `,
     );
+
+    //Insert on localstorage
+    localStorage.setItem(
+      "obraData",
+      JSON.stringify({
+        totalImpostoSemReducao,
+        totalImpostoComReducao,
+        valorDoParcelamentoTotal,
+        porcentagemDoParcelamentoTotal,
+        metroTotal,
+        m2PiscinaQuadra,
+        rmtObra,
+        valorVau,
+        valorMesRetroativo,
+      }),
+    );
+
+    //navigate to /res with react router
+    window.location.href = "/res";
   };
 
   return { handleCalculatorData };

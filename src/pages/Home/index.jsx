@@ -1,25 +1,24 @@
 import "react-phone-number-input/style.css";
 
-import Select, { components } from "react-select";
 import PhoneInput from "react-phone-number-input";
+import Select, { components } from "react-select";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, Controller } from "react-hook-form";
 
-import React from "react";
 import AppBar from "./AppBar";
 import Footer from "./Footer";
+import { WhatsappHandler } from "../../componentes/WhatsappHandler";
 
-import { useForm, Controller } from "react-hook-form";
 import { schema } from "../../utils/yupSchema.js";
-import { yupResolver } from "@hookform/resolvers/yup";
-
 import { constants } from "../../constants/selectsValues.js";
 
 import arrowBlue from "../../assets/arrow-blue.png";
 import arrowGreen from "../../assets/arrow-green.png";
 import selectIcon from "../../assets/selectIcon.svg";
 import calculatorIcon from "../../assets/calculatorIcon.svg";
-import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
 
 import { useGetCity } from "../../hooks/useGetCity.jsx";
+import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
 
 const Home = () => {
   const {
@@ -38,83 +37,89 @@ const Home = () => {
   const { cities, setUf } = useGetCity();
 
   return (
-    <main className="max-w-[1440rem] m-auto">
+    <>
       <AppBar />
-      <section className="px-14">
-        <div className="mt-[90rem] flex items-center gap-2">
-          <img
-            src={arrowGreen}
-            alt="arrow green"
-            className="w-[20rem] h-[20rem]"
-          />
-          <h2 className="text-[var(--main-blue)] text-3xl font-semibold">
-            Calculadora para redução de imposto de obra
-          </h2>
-        </div>
-
-        <p className="text-[var(--gray)] italic text-lg mt-2 ml-7">
-          Instrução Normativa RFB Nº 2.021 de 16/04/2021
-        </p>
-
-        <div className="mt-[60rem] mb-4 flex items-center gap-2">
-          <img
-            src={arrowBlue}
-            alt="arrow blue"
-            className="w-[20rem] h-[20rem]"
-          />
-          <h2 className="text-2xl font-bold">DADOS DO PROPRIETÁRIO</h2>
-        </div>
-
-        <section className="flex gap-14">
-          <div className="w-full">
-            <DadosDoProprietario
-              register={register}
-              errors={errors}
-              control={control}
+      <WhatsappHandler
+        className={
+          "w-[100rem] h-[100rem] fixed right-[60rem] bottom-[40rem] shadow-xl cursor-pointer bg-green-500 flex items-center justify-center p-3 rounded-[20rem]"
+        }
+      />
+      <main className="max-w-[1440rem] m-auto">
+        <section className="px-14">
+          <div className="mt-[90rem] flex items-center gap-2">
+            <img
+              src={arrowGreen}
+              alt="arrow green"
+              className="w-[20rem] h-[20rem]"
             />
-
-            <div className="mt-[60rem] mb-4 flex items-center gap-2">
-              <img
-                src={arrowBlue}
-                alt="arrow blue"
-                className="w-[20rem] h-[20rem]"
-              />
-              <h2 className="text-2xl font-bold">DADOS DA OBRA</h2>
-            </div>
-            <DadosObra
-              register={register}
-              errors={errors}
-              control={control}
-              cityControl={{ cities: cities, setUf: setUf }}
-            />
-
-            <div className="mt-[60rem] mb-4 flex items-center gap-2">
-              <img
-                src={arrowBlue}
-                alt="arrow blue"
-                className="w-[20rem] h-[20rem]"
-              />
-              <h2 className="text-2xl font-bold">METRAGEM DA OBRA</h2>
-            </div>
-            <MetragemObra
-              register={register}
-              errors={errors}
-              control={control}
-            />
+            <h2 className="text-[var(--main-blue)] text-3xl font-semibold">
+              Calculadora para redução de imposto de obra
+            </h2>
           </div>
 
-          <div
-            onClick={handleSubmit(onSubmit)}
-            className="bg-[#00CC93] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] w-[436rem] flex justify-end items-center hover:cursor-pointer"
-          >
-            <button className="mr-[50rem]">CALCULAR</button>
-            <img src={calculatorIcon} className="h-[40rem]" />
+          <p className="text-[var(--gray)] italic text-lg mt-2 ml-7">
+            Instrução Normativa RFB Nº 2.021 de 16/04/2021
+          </p>
+
+          <div className="mt-[60rem] mb-4 flex items-center gap-2">
+            <img
+              src={arrowBlue}
+              alt="arrow blue"
+              className="w-[20rem] h-[20rem]"
+            />
+            <h2 className="text-2xl font-bold">DADOS DO PROPRIETÁRIO</h2>
           </div>
+
+          <section className="flex gap-14">
+            <div className="w-full">
+              <DadosDoProprietario
+                register={register}
+                errors={errors}
+                control={control}
+              />
+
+              <div className="mt-[60rem] mb-4 flex items-center gap-2">
+                <img
+                  src={arrowBlue}
+                  alt="arrow blue"
+                  className="w-[20rem] h-[20rem]"
+                />
+                <h2 className="text-2xl font-bold">DADOS DA OBRA</h2>
+              </div>
+              <DadosObra
+                register={register}
+                errors={errors}
+                control={control}
+                cityControl={{ cities: cities, setUf: setUf }}
+              />
+
+              <div className="mt-[60rem] mb-4 flex items-center gap-2">
+                <img
+                  src={arrowBlue}
+                  alt="arrow blue"
+                  className="w-[20rem] h-[20rem]"
+                />
+                <h2 className="text-2xl font-bold">METRAGEM DA OBRA</h2>
+              </div>
+              <MetragemObra
+                register={register}
+                errors={errors}
+                control={control}
+              />
+            </div>
+
+            <div
+              onClick={handleSubmit(onSubmit)}
+              className="bg-[#00CC93] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] w-[436rem] flex justify-end items-center hover:cursor-pointer"
+            >
+              <button className="mr-[50rem]">CALCULAR</button>
+              <img src={calculatorIcon} className="h-[40rem]" />
+            </div>
+          </section>
         </section>
-      </section>
-
+      </main>
       <Footer />
-    </main>
+    </>
   );
 };
 
@@ -271,7 +276,10 @@ const Input = ({
                 options={constants[label]}
                 components={{ DropdownIndicator, IndicatorSeparator }}
                 {...field}
-                onChange={(e) => cityControl.setUf(e)}
+                onChange={(e) => {
+                  cityControl.setUf(e);
+                  field.onChange(e);
+                }}
                 styles={{
                   control: (styles) => ({
                     ...styles,
