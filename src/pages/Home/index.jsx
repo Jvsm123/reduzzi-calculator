@@ -30,6 +30,8 @@ const Home = () => {
     resolver: yupResolver(schema),
   });
 
+  console.log(errors);
+
   const { handleCalculatorData } = useCalculatorHandler();
 
   const onSubmit = (data) => handleCalculatorData(data);
