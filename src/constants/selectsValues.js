@@ -78,6 +78,13 @@ export const constants = {
   metragemAte400: '10',
   metragemAcima400: '12',
 
+  honorarioAteCem: 'metade do valor',
+  honorarioAteDuzentos: 2500,
+  honorarioAteTrezentos: 3500,
+  honorarioAteQuatrocentos: 4500,
+  honorarioAteDeQuinhentos: 5500,
+  honorarioAcimaDeQuinhentos: 'CONSULTAR',
+
   usoDeConcretoUsinadoDesconto: 0.6,
 
   tipoDeConstrucaoComAlvenaria: 0.20,

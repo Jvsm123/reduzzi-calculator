@@ -29,6 +29,7 @@ const ResultPage = () => {
     valorVau,
     valorMesRetroativo,
     metragemPorMes,
+    honorarioValor,
   } = JSON.parse(localStorage.getItem("obraData"));
 
   const navigator = useNavigate();
@@ -79,7 +80,7 @@ const ResultPage = () => {
               <span className="inline-flex items-end gap-3">
                 <p className="text-[24rem] font-medium italic  mb-2">De</p>
                 <p className="border border-[#ccccccff] rounded-[8rem] inline-block px-4 py-2 text-4xl font-bold">
-                  R$ 23.000,00
+                  {`${Math.round(Number(totalImpostoSemReducao)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </p>
               </span>
             </div>
@@ -130,7 +131,7 @@ const ResultPage = () => {
               </p>
 
               <p className="text-white font-extrabold text-[40rem] sm:text-[50rem]">{`${Number(
-                23000 - totalImpostoComReducao,
+                totalImpostoSemReducao - totalImpostoComReducao,
               ).toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
@@ -141,7 +142,8 @@ const ResultPage = () => {
               <p className="text-white font-extrabold text-[40rem]">
                 {`${(
                   100 -
-                  (Number(totalImpostoComReducao) / 23000) * 100
+                  (Number(totalImpostoComReducao) / totalImpostoSemReducao) *
+                    100
                 ).toFixed(0)}% DE REDUÇÃO`}
               </p>
               <p className="text-white font-bold text-[16rem] text-center">
@@ -278,7 +280,6 @@ const ResultPage = () => {
               FORMA DE PAGAMENTO DOS NOSSOS HONORÁRIOS
             </h2>
           </div>
-
           <div>
             <p className="text-xl text-[#666666ff] font-medium ml-4 mt-8 md:mt-0">
               Honorários:
@@ -287,30 +288,48 @@ const ResultPage = () => {
               <img
                 src={arrowGray}
                 alt="arrow gray"
-                className="w-[10rem] h-[12rem]"
+                className="w-[10rem] h-[10rem]"
               />
-              <p className="text-[#063958ff] font-bold text-xl">R$ 3.500,00</p>
+              <p className="text-[#063958ff] font-bold text-xl">{`${(typeof honorarioValor === "string" && honorarioValor) || Number(honorarioValor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}</p>
             </span>
           </div>
-
-          <p className="text-[#063958ff] font-bold text-2xl mt-6">À vista</p>
-          <div className="border-l border-[#999999ff] pl-5 mt-6">
-            <p className="text-[#808080ff] font-bold text-[12rem]">PARCELADO</p>
-            <p className="text-[#063958ff] font-bold text-2xl">
-              12<span className="text-[#808080ff] font-bold text-lg">X</span> R$
-              350,00
-            </p>
-          </div>
+          {typeof honorarioValor !== "string" && (
+            <>
+              <p className="text-[#063958ff] font-bold text-2xl mt-6">
+                À vista
+              </p>
+              <div className="border-l border-[#999999ff] pl-5 mt-6">
+                <p className="text-[#808080ff] font-bold text-[12rem]">
+                  PARCELADO
+                </p>
+                <p className="text-[#063958ff] font-bold text-2xl">
+                  12
+                  <span className="text-[#808080ff] font-bold text-lg">
+                    X
+                  </span>{" "}
+                  R$ 350,00
+                </p>
+              </div>
+            </>
+          )}
         </section>
 
         <section className="mx-7 md:mx-14 flex justify-start items-center text-center mb-10 py-10 gap-8 flex-wrap">
           <button className="bg-[#ff9000] text-white font-bold text-2xl px-10 py-3 rounded-[8rem]">
             GERAR PDF
           </button>
-          <button className="bg-[#063958] text-white font-bold text-2xl px-10 py-3 rounded-[8rem]">
-            BAIXE A INSTRUÇÃO NORMATIVA
-          </button>
-          <button className="bg-gray-400 text-white font-bold text-2xl px-10 py-3 rounded-[8rem]" onClick={() => navigator('/')}>
+          <a
+            href="http://normas.receita.fazenda.gov.br/sijut2consulta/link.action?idAto=116968"
+            target="_blank"
+          >
+            <button className="bg-[#063958] text-white font-bold text-2xl px-10 py-3 rounded-[8rem]">
+              BAIXE A INSTRUÇÃO NORMATIVA
+            </button>
+          </a>
+          <button
+            className="bg-gray-400 text-white font-bold text-2xl px-10 py-3 rounded-[8rem]"
+            onClick={() => navigator("/")}
+          >
             VOLTAR
           </button>
         </section>

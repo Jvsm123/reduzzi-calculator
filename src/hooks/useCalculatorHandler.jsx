@@ -1,6 +1,7 @@
 import { constants } from "../constants/selectsValues";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { useModal } from "./useModal";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,6 +16,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const useCalculatorHandler = () => {
+  const { openModal } = useModal();
+
   const handleCalculatorData = async (data) => {
     let {
       // celular,
@@ -42,7 +45,8 @@ export const useCalculatorHandler = () => {
     let porcentagemDoParcelamentoTotal;
     let valorMesRetroativo;
     let rmtObra;
-	let metragemPorMes;
+    let metragemPorMes;
+    let honorarioValor;
 
     try {
       async function getValorVau() {
@@ -104,18 +108,26 @@ export const useCalculatorHandler = () => {
       default: metragemPorMes = constants.metragemAcima400; break;
     }
 
+    switch(true) {
+      case metroTotal <= 100: honorarioValor = metroTotal / 2; break;
+      case metroTotal <= 200: honorarioValor = constants.honorarioAteDuzentos; break;
+      case metroTotal <= 300: honorarioValor = constants.honorarioAteTrezentos; break;
+      case metroTotal <= 400: honorarioValor = constants.honorarioAteQuatrocentos; break;
+      case metroTotal <= 500: honorarioValor = constants.honorarioAteDeQuinhentos; break;
+      default: honorarioValor = constants.honorarioAcimaDeQuinhentos; break;
+    }
+
     const custoObraTotal = (m2Construcao * constants.percentualAreaPrincipal * valorVau + m2PiscinaQuadra * constants.percentualAreaComplementar * valorVau).toFixed(2);
 
     const tipoConstrucaoPorcentagem = tipoConstrucao.value === "Alvenaria" ? constants.tipoDeConstrucaoComAlvenaria : constants.tipoDeConstrucaoComMadeiraOuMista;
 
     //Calculo da RMT
-    if (concretoUsinado === "Sim") rmtObra = (custoObraTotal * tipoConstrucaoPorcentagem * fatorSocial * constants.usoDeConcretoUsinadoDesconto).toFixed(2);
-    else rmtObra = ( custoObraTotal * tipoConstrucaoPorcentagem * fatorSocial).toFixed(2);
+    rmtObra = ( custoObraTotal * tipoConstrucaoPorcentagem * fatorSocial).toFixed(2);
 
     const totalImpostoSemReducao = (rmtObra * constants.fatorMultiplicadorRmt).toFixed(2);
 
     //Apresenta numero para contato devido pessoa Jurídica
-    if (tipoProprietario.value !== "Pessoa Física") return "Pessoa Judírica";
+    if (tipoProprietario.value !== "Pessoa Física") return "Por favor, entre em contato com nossos especialistas.";
 
     //Descobre valor da redução com base na metragem total do terreno
     if (metroTotal < 350) porcentagemDaReducao = constants.rmtParaAteTrezentosECinquenta;
@@ -126,20 +138,6 @@ export const useCalculatorHandler = () => {
     porcentagemDoParcelamentoTotal = totalImpostoComReducao % 60 === 0 ? 60 : totalImpostoComReducao % 60;
 
     valorDoParcelamentoTotal = (totalImpostoComReducao / porcentagemDoParcelamentoTotal).toFixed(2);
-
-    console.log(
-      `O valor do imposto sem redução é de: ${totalImpostoSemReducao} \n
-	  O valor do imposto com redução é de: ${totalImpostoComReducao} \n
-	  O valor do parcelamento total é de: ${valorDoParcelamentoTotal} \n
-	  A porcentagem do parcelamento total é de: ${porcentagemDoParcelamentoTotal} \n
-	  A Área total da obra é de: ${metroTotal} \n
-	  A Área Complementar da obra é de: ${m2PiscinaQuadra} \n
-	  O RMT da obra é de: ${rmtObra} \n
-	  Valor Tabela VAU Do Estado: ${valorVau} \n
-	  ${valorMesRetroativo ? `Valor Mes Retroativo: ${valorMesRetroativo}` : "Sem Mêses Retroativos"} \n
-	  Metragem por Mês: ${metragemPorMes} \n
-	  `,
-    );
 
     //Insert on localstorage
     localStorage.setItem(
@@ -155,6 +153,7 @@ export const useCalculatorHandler = () => {
         valorVau,
         valorMesRetroativo,
         metragemPorMes,
+        honorarioValor,
       }),
     );
 

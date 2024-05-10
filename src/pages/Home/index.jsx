@@ -7,6 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 
 import AppBar from "./AppBar";
 import Footer from "./Footer";
+import { Modal } from "../../componentes/Modal";
 import { WhatsappHandler } from "../../componentes/WhatsappHandler";
 
 import { schema } from "../../utils/yupSchema.js";
@@ -19,6 +20,7 @@ import calculatorIcon from "../../assets/calculatorIcon.svg";
 
 import { useGetCity } from "../../hooks/useGetCity.jsx";
 import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
+import { useModal } from "../../hooks/useModal";
 
 const Home = () => {
   const {
@@ -30,15 +32,18 @@ const Home = () => {
     resolver: yupResolver(schema),
   });
 
+  const { isOpen, openModal, closeModal } = useModal();
+
+  const { cities, setUf } = useGetCity();
+
   const { handleCalculatorData } = useCalculatorHandler();
 
   const onSubmit = (data) => handleCalculatorData(data);
 
-  const { cities, setUf } = useGetCity();
-
   return (
     <>
       <AppBar />
+      {isOpen && <Modal closeModal={closeModal} />}
       <WhatsappHandler
         className={
           "w-[70rem] h-[70rem] rounded-[10rem] lg:w-[100rem] lg:h-[100rem] lg:rounded-[20rem] fixed right-[55rem] lg:right-[60rem] bottom-[20rem] lg:bottom-[40rem] shadow-xl cursor-pointer bg-green-500 flex items-center justify-center p-3"
@@ -109,7 +114,12 @@ const Home = () => {
             </div>
 
             <div
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleSubmit((data) => {
+                if (data.tipoProprietario.value === "Pessoa Jurídica")
+                  return openModal();
+
+                onSubmit(data);
+              })}
               className="bg-[#00CC93] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] flex items-center hover:cursor-pointer lg:w-[436rem] w-full lg:mt-0 mt-10 justify-center lg:justify-end"
             >
               <button className="mr-[50rem]">CALCULAR</button>
@@ -364,7 +374,7 @@ const DadosDoProprietario = ({ register, errors, control }) => {
             label={"celular"}
             register={register}
             required={true}
-	        control={control}
+            control={control}
             errors={errors}
           />
         </div>
@@ -448,6 +458,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
         />
       </div>
 
+      {/*
       <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="concretoUsinado"
@@ -465,6 +476,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
           control={control}
         />
       </div>
+	  */}
 
       <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
