@@ -72,6 +72,12 @@ export const constants = {
   mesRetroativoQuandoMenorQueTresAnos: 300,
   mesRetroativoQuandoMenorQueQuatroAnosEmDiante: 400,
 
+  metragemAte120: '1',
+  metragemAte200: '6',
+  metragemAte300: '8',
+  metragemAte400: '10',
+  metragemAcima400: '12',
+
   usoDeConcretoUsinadoDesconto: 0.6,
 
   tipoDeConstrucaoComAlvenaria: 0.20,

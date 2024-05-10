@@ -42,6 +42,7 @@ export const useCalculatorHandler = () => {
     let porcentagemDoParcelamentoTotal;
     let valorMesRetroativo;
     let rmtObra;
+	let metragemPorMes;
 
     try {
       async function getValorVau() {
@@ -95,6 +96,14 @@ export const useCalculatorHandler = () => {
       default: valorMesRetroativo = false; break;
     }
 
+    switch(true) {
+      case metroTotal <= 120: metragemPorMes = constants.metragemAte120; break;
+      case metroTotal <= 200: metragemPorMes = constants.metragemAte200; break;
+      case metroTotal <= 300: metragemPorMes = constants.metragemAte300; break;
+      case metroTotal <= 400: metragemPorMes = constants.metragemAte400; break;
+      default: metragemPorMes = constants.metragemAcima400; break;
+    }
+
     const custoObraTotal = (m2Construcao * constants.percentualAreaPrincipal * valorVau + m2PiscinaQuadra * constants.percentualAreaComplementar * valorVau).toFixed(2);
 
     const tipoConstrucaoPorcentagem = tipoConstrucao.value === "Alvenaria" ? constants.tipoDeConstrucaoComAlvenaria : constants.tipoDeConstrucaoComMadeiraOuMista;
@@ -128,6 +137,7 @@ export const useCalculatorHandler = () => {
 	  O RMT da obra é de: ${rmtObra} \n
 	  Valor Tabela VAU Do Estado: ${valorVau} \n
 	  ${valorMesRetroativo ? `Valor Mes Retroativo: ${valorMesRetroativo}` : "Sem Mêses Retroativos"} \n
+	  Metragem por Mês: ${metragemPorMes} \n
 	  `,
     );
 
@@ -144,6 +154,7 @@ export const useCalculatorHandler = () => {
         rmtObra,
         valorVau,
         valorMesRetroativo,
+        metragemPorMes,
       }),
     );
 

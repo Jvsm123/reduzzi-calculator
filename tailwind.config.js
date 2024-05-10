@@ -4,6 +4,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Axiforma", "sans-serif"],
+      },
       fontSize: {
         xs: "12rem",
         sm: "14rem",

@@ -18,8 +18,8 @@ html {
   text-rendering: optimizeLegibility;
   --main-blue: #044264;
   --gray: #666666;
-  --bg-modal-whitegray: #EEF1F6;
-  --green-input: #37A96D;
+  --bg-modal-whitegray: #eef1f6;
+  --green-input: #37a96d;
   --bg-gray-detail: #eef1f6ff;
   /* -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
@@ -33,12 +33,12 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
 
 /* phone input on first item */
 .PhoneInputInput:focus-visible {
-	outline: none;
+  outline: none;
 }

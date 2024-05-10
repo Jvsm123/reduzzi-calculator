@@ -6,6 +6,7 @@ import iconEqualBlue from "../../assets/icon-equal-blue.png";
 
 import Footer from "../Home/Footer";
 import { WhatsappHandler } from "../../componentes/WhatsappHandler";
+import { useNavigate } from "react-router-dom";
 
 const DivResultData = ({ label, value }) => (
   <div className="w-full flex flex-col gap-2 md:max-w-[250rem]">
@@ -17,7 +18,6 @@ const DivResultData = ({ label, value }) => (
 );
 
 const ResultPage = () => {
-  //get value obraData on localstorage
   const {
     totalImpostoSemReducao,
     totalImpostoComReducao,
@@ -28,7 +28,10 @@ const ResultPage = () => {
     rmtObra,
     valorVau,
     valorMesRetroativo,
+    metragemPorMes,
   } = JSON.parse(localStorage.getItem("obraData"));
+
+  const navigator = useNavigate();
 
   return (
     <>
@@ -47,7 +50,7 @@ const ResultPage = () => {
         <section className="bg-[#ffffff] mb-20 mx-7 md:mx-14 border border-[#006837ff] rounded-[8rem]">
           <div className="bg-[var(--bg-gray-detail)] flex gap-10 px-10 py-7 rounded-t-lg flex-wrap justify-center">
             <DivResultData
-              label="Área total"
+              label="M² De Construção"
               value={`${Number(metroTotal).toLocaleString({
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
@@ -72,9 +75,9 @@ const ResultPage = () => {
 
           <div className="flex justify-center gap-12 mt-14 flex-wrap">
             <div className="text-[#666666ff]">
-              <p className="text-[30rem] font-medium ml-10">Na regra antiga</p>
+              <p className="text-[30rem] font-bold ml-10">Na regra antiga</p>
               <span className="inline-flex items-end gap-3">
-                <p className="text-[24rem] font-medium italic mb-2">De</p>
+                <p className="text-[24rem] font-medium italic  mb-2">De</p>
                 <p className="border border-[#ccccccff] rounded-[8rem] inline-block px-4 py-2 text-4xl font-bold">
                   R$ 23.000,00
                 </p>
@@ -82,7 +85,7 @@ const ResultPage = () => {
             </div>
 
             <div className="text-[#666666ff]">
-              <p className="text-[30rem] font-medium text-[#006837ff] ml-12">
+              <p className="text-[30rem] font-bold text-[#006837ff] ml-12">
                 Na regra atual
               </p>
               <span className="inline-flex items-end gap-3">
@@ -90,16 +93,16 @@ const ResultPage = () => {
                 <p className="text-[#063958ff] border border-[#ccccccff] rounded-[8rem] inline-block px-4 py-2 text-4xl font-bold">
                   {`${Math.round(Number(totalImpostoComReducao)).toLocaleString(
                     "pt-BR",
-                    { style: "currency", currency: "BRL" }
+                    { style: "currency", currency: "BRL" },
                   )}`}
                 </p>
               </span>
             </div>
           </div>
 
-          <div className="flex justify-center items-center mt-5 m-auto max-w-[650rem]">
+          <div className="flex justify-center items-center mt-5 mb-5 m-auto max-w-[650rem] text-center">
             <hr className="w-full h-[2rem] bg-[#999999ff]" />
-            <p className="italic text-[#666666ff] min-w-[220rem] text-[18rem] mx-10 mb-10">
+            <p className="italic text-[#666666ff] min-w-[220rem] text-[18rem] mx-10 mb-1">
               Valor do imposto a pagar
             </p>
             <hr className="w-full h-[2rem] bg-[#999999ff]" />
@@ -121,13 +124,13 @@ const ResultPage = () => {
 
           <div className="bg-[#006837ff] flex justify-between rounded-b-lg md:overflow-hidden flex-wrap lg:flex-nowrap">
             <section className="flex md:items-center justify-between w-full lg:w-[60%] py-6 px-10 flex-col md:flex-row">
-              <p className="border-l-[5rem] border-[#00cc93ff] text-white font-bold text-[24rem] pl-3">
+              <p className="border-l-[5rem] border-[#00cc93ff] text-white font-extrabold text-[24rem] pl-3">
                 ECONOMIA <br />
                 GERADA:
               </p>
 
-              <p className="text-white font-bold text-[40rem] sm:text-[50rem]">{`${Number(
-                23000 - totalImpostoComReducao
+              <p className="text-white font-extrabold text-[40rem] sm:text-[50rem]">{`${Number(
+                23000 - totalImpostoComReducao,
               ).toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
@@ -135,7 +138,7 @@ const ResultPage = () => {
             </section>
 
             <section className="bg-[#063958ff] text-center py-3 px-10 w-full lg:max-w-[40%]">
-              <p className="text-white font-bold text-[40rem]">
+              <p className="text-white font-extrabold text-[40rem]">
                 {`${(
                   100 -
                   (Number(totalImpostoComReducao) / 23000) * 100
@@ -169,7 +172,7 @@ const ResultPage = () => {
                   className="w-[10rem] h-[12rem]"
                 />
                 <p className="text-[#063958ff] font-bold text-xl">{`${Number(
-                  valorMesRetroativo
+                  valorMesRetroativo,
                 ).toLocaleString("pt-BR", {
                   style: "currency",
                   currency: "BRL",
@@ -183,7 +186,10 @@ const ResultPage = () => {
             />
             <div>
               <p className="text-xl text-[#666666ff] font-medium ml-4">
-                <span className="text-[#063958ff] font-bold">6</span> meses de:
+                <span className="text-[#063958ff] font-bold">
+                  {metragemPorMes}
+                </span>{" "}
+                meses de:
               </p>
               <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8rem]">
                 <img
@@ -213,7 +219,7 @@ const ResultPage = () => {
                     className="w-[10rem] h-[12rem]"
                   />
                   <p className="text-[#063958ff] font-bold text-xl">
-                    R$ 3.816,00
+                    {`${(Number(totalImpostoComReducao) - Number(valorMesRetroativo) - Number(import.meta.env.VITE_DESCONTO_METRAGEM)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                   </p>
                 </span>
               </div>
@@ -222,7 +228,7 @@ const ResultPage = () => {
               </p>
               <p className="text-[#808080ff] font-bold">
                 <span className="text-[#063958ff] text-lg font-bold">
-                  R$ 3.816,00
+                  {`${Number(totalImpostoComReducao).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </span>
                 <span className="text-[12rem] ml-1"> PODERÁ SER PAGO</span>
               </p>
@@ -230,8 +236,11 @@ const ResultPage = () => {
                 Á VISTA OU PARCELADO EM ATÉ
               </p>
               <p className="text-[#063958ff] font-bold text-3xl my-2">
-                42<span className="text-[#999999ff] text-xl font-bold">X</span>{" "}
-                R$ 100,00
+                {`${Number(porcentagemDoParcelamentoTotal).toFixed(0)}`}
+                <span className="text-[#999999ff] text-xl font-bold">
+                  X
+                </span>{" "}
+                {`${Number(valorDoParcelamentoTotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
               </p>
               <hr className="h-[2rem] bg-[#999999ff]" />
               <p className="text-[#808080ff] font-bold mt-2 text-[12rem]">
@@ -255,7 +264,7 @@ const ResultPage = () => {
                   className="w-[10rem] h-[12rem]"
                 />
                 <p className="text-[#063958ff] font-bold text-xl">
-                  R$ 5.800,00
+                  {`${Number(totalImpostoComReducao).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </p>
               </span>
             </div>
@@ -292,6 +301,18 @@ const ResultPage = () => {
               350,00
             </p>
           </div>
+        </section>
+
+        <section className="mx-7 md:mx-14 flex justify-start items-center text-center mb-10 py-10 gap-8 flex-wrap">
+          <button className="bg-[#ff9000] text-white font-bold text-2xl px-10 py-3 rounded-[8rem]">
+            GERAR PDF
+          </button>
+          <button className="bg-[#063958] text-white font-bold text-2xl px-10 py-3 rounded-[8rem]">
+            BAIXE A INSTRUÇÃO NORMATIVA
+          </button>
+          <button className="bg-gray-400 text-white font-bold text-2xl px-10 py-3 rounded-[8rem]" onClick={() => navigator('/')}>
+            VOLTAR
+          </button>
         </section>
       </main>
       <Footer />
