@@ -37,12 +37,8 @@ const ResultPage = () => {
   return (
     <>
       <AppBar />
-      <WhatsappHandler
-        className={
-          "w-[100rem] h-[100rem] fixed right-[60rem] bottom-[40rem] shadow-xl cursor-pointer bg-green-500 flex items-center justify-center p-3 rounded-[20rem]"
-        }
-      />
-      <main className="max-w-[1440rem] m-auto">
+      <WhatsappHandler/>
+      <main className="max-w-[1440rem] m-auto scale-90">
         <div className="mt-[60rem] mb-4 flex items-center justify-center gap-2">
           <img src={arrowBlue} alt="arrow blue" className="w-[20rem]" />
           <h2 className="text-4xl font-bold">RESULTADO</h2>

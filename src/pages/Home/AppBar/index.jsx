@@ -10,7 +10,7 @@ const AppBar = () => {
   return (
     <>
       <nav className="bg-[var(--main-blue)] w-full">
-        <div className="max-w-[1440rem] m-auto w-full flex items-center justify-between px-14 h-[110rem]">
+        <div className="max-w-[1440rem] m-auto w-full flex items-center justify-between px-14 h-[110rem] scale-90">
           <img
             src={logo}
             alt="Reduzzi Logo"

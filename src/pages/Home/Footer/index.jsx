@@ -4,7 +4,7 @@ import footerLogo from "../../../assets/footer-logo.png";
 const Footer = () => {
   return (
     <footer className="w-full bg-[var(--main-blue)]">
-      <div className="m-auto max-w-[1440rem] mt-20 p-10 flex flex-wrap justify-between">
+      <div className="m-auto max-w-[1440rem] mt-20 p-10 flex flex-wrap justify-between scale-90">
         <img
           src={footerLogo}
           alt="footer logo"

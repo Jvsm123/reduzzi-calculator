@@ -46,11 +46,11 @@ const Home = () => {
       {isOpen && <Modal closeModal={closeModal} />}
       <WhatsappHandler
         className={
-          "w-[70rem] h-[70rem] rounded-[10rem] lg:w-[100rem] lg:h-[100rem] lg:rounded-[20rem] fixed right-[55rem] lg:right-[60rem] bottom-[20rem] lg:bottom-[40rem] shadow-xl cursor-pointer bg-green-500 flex items-center justify-center p-3"
+          "w-[60rem] h-[60rem] rounded-[10rem] lg:w-[100rem] lg:h-[100rem] lg:rounded-[20rem] fixed right-[55rem] lg:right-[60rem] bottom-[20rem] lg:bottom-[40rem] shadow-xl cursor-pointer bg-green-500 flex items-center justify-center p-3 z-50"
         }
       />
-      <main className="max-w-[1440rem] m-auto">
-        <section className="px-14">
+      <main className="max-w-[1440rem] m-auto scale-90">
+        <section className="px-14 relative">
           <div className="mt-[90rem] flex items-center gap-2">
             <img
               src={arrowGreen}
@@ -75,7 +75,7 @@ const Home = () => {
             <h2 className="text-2xl font-bold">DADOS DO PROPRIETÁRIO</h2>
           </div>
 
-          <section className="lg:flex gap-14">
+          <section className="lg:flex gap-14 sticky">
             <div className="w-full">
               <DadosDoProprietario
                 register={register}
@@ -120,7 +120,7 @@ const Home = () => {
 
                 onSubmit(data);
               })}
-              className="bg-[#00CC93] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] flex items-center hover:cursor-pointer lg:w-[436rem] w-full lg:mt-0 mt-10 justify-center lg:justify-end"
+              className="bg-[#00CC93] sticky top-[200rem] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] flex items-center hover:cursor-pointer lg:w-[436rem] w-full lg:mt-0 mt-10 justify-center lg:justify-end z-10"
             >
               <button className="mr-[50rem]">CALCULAR</button>
               <img src={calculatorIcon} className="h-[40rem]" />
@@ -175,7 +175,7 @@ const Input = ({
   cityControl = false,
   // onChange,
 }) => {
-    return (
+  return (
     <div>
       {label === "celular" && (
         <Controller
@@ -190,6 +190,7 @@ const Input = ({
                 defaultCountry="BR"
                 countries={["BR"]}
                 maxLength="17"
+                countryCallingCodeEditable={false}
                 international={true}
                 withCountryCallingCode={false}
                 className={`h-[60rem] bg-white focus:outline-none focus-visible:bg-transparent border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 ${
