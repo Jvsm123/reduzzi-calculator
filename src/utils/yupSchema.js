@@ -2,7 +2,10 @@ import * as yup from "yup";
 
 export const schema = yup.object().shape({
   proprietario: yup.string().required("O campo Proprietario é necessário!"),
-  celular: yup.string().required("O campo celular é necessário!").min(17, "Celular inválido"),
+  celular: yup
+    .string()
+    .required("O campo celular é necessário!")
+    .min(17, "Celular inválido"),
   tipoProprietario: yup.object().shape({
     value: yup.string().required("O campo Tipo de Proprietario é necessário!"),
     label: yup.string().required("O campo Tipo de Proprietario é necessário!"),
@@ -35,9 +38,15 @@ export const schema = yup.object().shape({
     value: yup.string().required("O campo Fase Atual da Obra é necessário!"),
     label: yup.string().required("O campo Fase Atual da Obra é necessário!"),
   }),
-  m2Construcao: yup.string().required("O campo M² De Construcao é necessário!"),
+  m2Construcao: yup
+    .number()
+    .typeError("Digite um número válido")
+    .positive("Digite um número positivo ou zero")
+    .required("O campo M² De Construcao é necessário!"),
   m2PiscinaQuadra: yup
-    .string()
+    .number()
+    .typeError("Digite um número válido")
+    .positive("Digite um número positivo ou zero")
     .required("O campo M² De Piscina + Quadra é necessário!"),
   inicioConstrucao: yup
     .string()

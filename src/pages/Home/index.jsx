@@ -165,7 +165,7 @@ const Input = ({
   cityControl = false,
   // onChange,
 }) => {
-  return (
+    return (
     <div>
       {label === "celular" && (
         <Controller
@@ -182,7 +182,9 @@ const Input = ({
                 maxLength="17"
                 international={true}
                 withCountryCallingCode={false}
-                className={`h-[60rem] bg-white focus:outline-none focus-visible:bg-transparent border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 ${errors[label] && "border-red-500"} focus:font-medium w-full p-2 shadow`}
+                className={`h-[60rem] bg-white focus:outline-none focus-visible:bg-transparent border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 ${
+                  errors[label] && "border-red-500"
+                } focus:font-medium w-full p-2 shadow`}
               />
               {getFormErrorMessage(errors, label)}
             </>
@@ -195,7 +197,9 @@ const Input = ({
             {...register(label, { required })}
             type={type}
             placeholder={placeholder}
-            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
+            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+              errors[label] && "border-red-500"
+            } h-[60rem]`}
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -207,7 +211,9 @@ const Input = ({
             type={type}
             placeholder={placeholder}
             pattern="[0-9]*"
-            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
+            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+              errors[label] && "border-red-500"
+            } h-[60rem]`}
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -218,7 +224,9 @@ const Input = ({
             {...register(label, { required })}
             type={type}
             placeholder={placeholder}
-            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
+            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+              errors[label] && "border-red-500"
+            } h-[60rem]`}
           />
           {getFormErrorMessage(errors, label)}
         </>
@@ -245,7 +253,9 @@ const Input = ({
                   }),
                 }}
                 placeholder={placeholder}
-                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
+                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+                  errors[label] && "border-red-500"
+                } h-[60rem]`}
               />
               {getFormErrorMessage(errors, label, type)}
             </>
@@ -273,7 +283,9 @@ const Input = ({
                   }),
                 }}
                 placeholder={placeholder}
-                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
+                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+                  errors[label] && "border-red-500"
+                } h-[60rem]`}
               />
               {getFormErrorMessage(errors, label, type)}
             </>
@@ -305,7 +317,9 @@ const Input = ({
                   }),
                 }}
                 placeholder={placeholder}
-                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
+                className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+                  errors[label] && "border-red-500"
+                } h-[60rem]`}
               />
               {getFormErrorMessage(errors, label, type)}
             </>
