@@ -303,7 +303,7 @@ const ResultPage = () => {
                   <span className="text-[#808080ff] font-bold text-lg">
                     X
                   </span>{" "}
-                  R$ 350,00
+				  {`${Number(honorarioValor / 12).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </p>
               </div>
             </>

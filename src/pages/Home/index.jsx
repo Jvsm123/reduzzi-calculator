@@ -2,6 +2,8 @@ import "react-phone-number-input/style.css";
 
 import PhoneInput from "react-phone-number-input";
 import Select, { components } from "react-select";
+import { NumericFormat } from "react-number-format";
+import InputMask from "react-input-mask";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 
@@ -202,45 +204,58 @@ const Input = ({
           )}
         />
       )}
-      {type === "text" && (
-        <>
-          <input
-            {...register(label, { required })}
-            type={type}
-            placeholder={placeholder}
-            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
-              errors[label] && "border-red-500"
-            } h-[60rem]`}
-          />
-          {getFormErrorMessage(errors, label)}
-        </>
-      )}
+      {(type === "text" &&
+        (label === "previsaoTermino" || label === "inicioConstrucao") && (
+          <>
+            <InputMask
+              mask="99/99"
+              {...register(label, { required })}
+              type={type}
+              placeholder={placeholder}
+              className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+                errors[label] && "border-red-500"
+              } h-[60rem]`}
+            />
+            {getFormErrorMessage(errors, label)}
+          </>
+        )) ||
+        (type === "text" && (
+          <>
+            <input
+              {...register(label, { required })}
+              type={type}
+              placeholder={placeholder}
+              className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+                errors[label] && "border-red-500"
+              } h-[60rem]`}
+            />
+            {getFormErrorMessage(errors, label)}
+          </>
+        ))}
       {type === "number" && (
-        <>
-          <input
-            {...register(label, { required })}
-            type={type}
-            placeholder={placeholder}
-            pattern="[0-9]*"
-            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
-              errors[label] && "border-red-500"
-            } h-[60rem]`}
-          />
-          {getFormErrorMessage(errors, label)}
-        </>
-      )}
-      {type === "date" && (
-        <>
-          <input
-            {...register(label, { required })}
-            type={type}
-            placeholder={placeholder}
-            className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
-              errors[label] && "border-red-500"
-            } h-[60rem]`}
-          />
-          {getFormErrorMessage(errors, label)}
-        </>
+        <Controller
+          name={label}
+          control={control}
+          rules={{ required }}
+          render={({ field }) => (
+            <>
+              <NumericFormat
+                {...field}
+                allowNegative={false}
+                type="text"
+                allowLeadingZeros={false}
+                decimalScale={2}
+                decimalSeparator=","
+                placeholder={placeholder}
+                suffix=" m²"
+                className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+                  errors[label] && "border-red-500"
+                } h-[60rem]`}
+              />
+              {getFormErrorMessage(errors, label)}
+            </>
+          )}
+        />
       )}
       {type === "select" && label !== "cidadeObra" && label !== "ufObra" && (
         <Controller
@@ -539,7 +554,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
   );
 };
 
-const MetragemObra = ({ register, errors }) => {
+const MetragemObra = ({ register, control, errors }) => {
   return (
     <div className="bg-[var(--bg-modal-whitegray)] rounded-[10rem] p-6 w-full flex justify-between gap-5 mt-7 flex-wrap">
       <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
@@ -553,8 +568,8 @@ const MetragemObra = ({ register, errors }) => {
         <Input
           type={"number"}
           placeholder={"00,00 m²"}
+	      control={control}
           label={"m2Construcao"}
-          register={register}
           required={true}
           errors={errors}
         />
@@ -571,7 +586,7 @@ const MetragemObra = ({ register, errors }) => {
           type={"number"}
           placeholder={"00,00 m²"}
           label={"m2PiscinaQuadra"}
-          register={register}
+	      control={control}
           required={true}
           errors={errors}
         />
@@ -585,8 +600,8 @@ const MetragemObra = ({ register, errors }) => {
           INÍCIO DA CONSTRUÇÃO
         </label>
         <Input
-          type={"date"}
-          placeholder={"INÍCIO DA CONSTRUÇÃO"}
+          type={"text"}
+          placeholder={"Mês/Ano"}
           label={"inicioConstrucao"}
           register={register}
           required={true}
@@ -602,8 +617,8 @@ const MetragemObra = ({ register, errors }) => {
           PREVISÃO DE TÉRMINO
         </label>
         <Input
-          type={"date"}
-          placeholder={"PREVISÃO DE TÉRMINO"}
+          type={"text"}
+          placeholder={"Mês/Ano"}
           label={"previsaoTermino"}
           register={register}
           required={true}

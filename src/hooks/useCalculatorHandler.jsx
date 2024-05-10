@@ -1,7 +1,6 @@
 import { constants } from "../constants/selectsValues";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
-import { useModal } from "./useModal";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -16,8 +15,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const useCalculatorHandler = () => {
-  const { openModal } = useModal();
-
   const handleCalculatorData = async (data) => {
     let {
       // celular,
@@ -26,7 +23,7 @@ export const useCalculatorHandler = () => {
       m2PiscinaQuadra,
       m2Construcao,
       tipoConstrucao,
-      concretoUsinado,
+      // concretoUsinado,
       // obraFinanciamento,
       // previsaoTermino,
       inicioConstrucao,
@@ -35,6 +32,8 @@ export const useCalculatorHandler = () => {
       ufObra,
       // cidadeObra,
     } = data;
+
+	console.log('jdlkasjldl' ,m2Construcao)
 
     let valorVau;
     let fatorSocial;
@@ -66,6 +65,10 @@ export const useCalculatorHandler = () => {
       return;
     }
 
+	//remover m² da piscina e quadra
+	m2Construcao = m2Construcao.replace('m²', '');
+	m2PiscinaQuadra = m2PiscinaQuadra.replace('m²', '');
+
     m2Construcao = Number(m2Construcao);
     m2PiscinaQuadra = Number(m2PiscinaQuadra);
 
@@ -89,7 +92,7 @@ export const useCalculatorHandler = () => {
       default: fatorSocial = constants.acimaDeQuatrocentos; break;
     }
 
-    const mesInicioDaConstrucao = new Date(inicioConstrucao).getMonth() + 1;
+    const mesInicioDaConstrucao = new Date().getMonth(inicioConstrucao) + 1;
 
     //Verifica se inicio da construção é menor que o mês atual
     switch (true) {
