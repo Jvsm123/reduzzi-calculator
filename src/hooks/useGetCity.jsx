@@ -7,7 +7,7 @@ export const useGetCity = () => {
   useEffect(() => {
     const getCity = async () => {
       const result = await fetch(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf.value}/distritos`,
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf.value}/distritos?orderBy=nome`,
         {
           headers: {
             "Content-Type": "application/json",

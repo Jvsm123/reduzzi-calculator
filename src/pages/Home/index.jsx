@@ -30,8 +30,6 @@ const Home = () => {
     resolver: yupResolver(schema),
   });
 
-  console.log(errors);
-
   const { handleCalculatorData } = useCalculatorHandler();
 
   const onSubmit = (data) => handleCalculatorData(data);
@@ -127,13 +125,20 @@ const Home = () => {
 
 export default Home;
 
-const getFormErrorMessage = (errors, name) => {
-  return errors[name] ? (
-    <small className="font-bold text-sm text-red-700">
-      {errors[name].message}
-    </small>
-  ) : (
-    <small className="p-error">&nbsp;</small>
+const getFormErrorMessage = (errors, name, type = false) => {
+  return (
+    <>
+      {(errors[name] && type === "select" && (
+        <small className="font-bold text-sm text-red-700">
+          {errors[name].value.message}
+        </small>
+      )) ||
+        (errors[name] && type !== "select" && (
+          <small className="font-bold text-sm text-red-700">
+            {errors[name].message}
+          </small>
+        ))}
+    </>
   );
 };
 
@@ -163,19 +168,26 @@ const Input = ({
   return (
     <div>
       {label === "celular" && (
-        <>
-          <PhoneInput
-            {...register(label, { required })}
-            placeholder={placeholder}
-            defaultCountry="BR"
-            countries={["BR"]}
-            maxLength="17"
-            international={true}
-            withCountryCallingCode={false}
-            className="h-[60rem] bg-white focus:outline-none focus-visible:bg-transparent border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow"
-          />
-          {getFormErrorMessage(errors, label)}
-        </>
+        <Controller
+          name={label}
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <>
+              <PhoneInput
+                {...field}
+                placeholder={placeholder}
+                defaultCountry="BR"
+                countries={["BR"]}
+                maxLength="17"
+                international={true}
+                withCountryCallingCode={false}
+                className={`h-[60rem] bg-white focus:outline-none focus-visible:bg-transparent border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 ${errors[label] && "border-red-500"} focus:font-medium w-full p-2 shadow`}
+              />
+              {getFormErrorMessage(errors, label)}
+            </>
+          )}
+        />
       )}
       {type === "text" && (
         <>
@@ -222,6 +234,7 @@ const Input = ({
                 components={{ DropdownIndicator, IndicatorSeparator }}
                 options={constants[label]}
                 {...field}
+                ref={field.ref}
                 styles={{
                   control: (styles) => ({
                     ...styles,
@@ -234,7 +247,7 @@ const Input = ({
                 placeholder={placeholder}
                 className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
               />
-              {getFormErrorMessage(errors, label)}
+              {getFormErrorMessage(errors, label, type)}
             </>
           )}
         />
@@ -262,7 +275,7 @@ const Input = ({
                 placeholder={placeholder}
                 className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
               />
-              {getFormErrorMessage(errors, label)}
+              {getFormErrorMessage(errors, label, type)}
             </>
           )}
         />
@@ -294,7 +307,7 @@ const Input = ({
                 placeholder={placeholder}
                 className={`bg-white focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${errors[label] && "border-red-500"} h-[60rem]`}
               />
-              {getFormErrorMessage(errors, label)}
+              {getFormErrorMessage(errors, label, type)}
             </>
           )}
         />
@@ -337,6 +350,7 @@ const DadosDoProprietario = ({ register, errors, control }) => {
             label={"celular"}
             register={register}
             required={true}
+	        control={control}
             errors={errors}
           />
         </div>
@@ -389,7 +403,7 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
           htmlFor="obraFinanciamento"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
         >
-          Obra com financiamento?
+          Obra com Financiamento?
         </label>
         <Input
           type={"select"}
