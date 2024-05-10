@@ -37,7 +37,7 @@ const ResultPage = () => {
   return (
     <>
       <AppBar />
-      <WhatsappHandler/>
+      <WhatsappHandler />
       <main className="max-w-[1440rem] m-auto scale-90">
         <div className="mt-[60rem] mb-4 flex items-center justify-center gap-2">
           <img src={arrowBlue} alt="arrow blue" className="w-[20rem]" />
@@ -72,22 +72,22 @@ const ResultPage = () => {
 
           <div className="flex justify-center gap-12 mt-14 flex-wrap">
             <div className="text-[#666666ff]">
-              <p className="text-[30rem] font-bold ml-10">Na regra antiga</p>
+              <p className="text-[35rem] font-bold ml-10">Na regra antiga</p>
               <span className="inline-flex items-end gap-3">
-                <p className="text-[24rem] font-medium italic  mb-2">De</p>
-                <p className="border border-[#ccccccff] rounded-[8rem] inline-block px-4 py-2 text-4xl font-bold">
+                <p className="text-[28rem] font-bold italic mb-2">De</p>
+                <p className="border border-[#ccccccff] rounded-[8rem] inline-block px-4 py-2 text-5xl font-bold">
                   {`${Math.round(Number(totalImpostoSemReducao)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </p>
               </span>
             </div>
 
             <div className="text-[#666666ff]">
-              <p className="text-[30rem] font-bold text-[#006837ff] ml-12">
+              <p className="text-[35rem] font-bold text-[#006837ff] ml-12">
                 Na regra atual
               </p>
               <span className="inline-flex items-end gap-3">
-                <p className="text-[24rem] font-medium italic mb-2">Por</p>
-                <p className="text-[#063958ff] border border-[#ccccccff] rounded-[8rem] inline-block px-4 py-2 text-4xl font-bold">
+                <p className="text-[28rem] font-bold italic mb-2">Por</p>
+                <p className="text-[#063958ff] border border-[#ccccccff] rounded-[8rem] inline-block px-4 py-2 text-5xl font-bold">
                   {`${Math.round(Number(totalImpostoComReducao)).toLocaleString(
                     "pt-BR",
                     { style: "currency", currency: "BRL" },
@@ -97,12 +97,12 @@ const ResultPage = () => {
             </div>
           </div>
 
-          <div className="flex justify-center items-center mt-5 mb-5 m-auto max-w-[650rem] text-center">
-            <hr className="w-full h-[2rem] bg-[#999999ff]" />
-            <p className="italic text-[#666666ff] min-w-[220rem] text-[18rem] mx-10 mb-1">
+          <div className="flex justify-center items-center mt-5 mb-14 m-auto max-w-[800rem] text-center">
+            <hr className="w-full h-[3rem] bg-[#999999ff]" />
+            <p className="italic text-[#666666ff] min-w-[300rem] text-[26rem] mx-10 mb-1">
               Valor do imposto a pagar
             </p>
-            <hr className="w-full h-[2rem] bg-[#999999ff]" />
+            <hr className="w-full h-[3rem] bg-[#999999ff]" />
           </div>
 
           {/*
@@ -303,7 +303,7 @@ const ResultPage = () => {
                   <span className="text-[#808080ff] font-bold text-lg">
                     X
                   </span>{" "}
-				  {`${Number(honorarioValor / 12).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
+                  {`${Number(honorarioValor / 12).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </p>
               </div>
             </>

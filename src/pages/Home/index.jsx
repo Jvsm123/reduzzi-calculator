@@ -496,6 +496,24 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
 
       <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
+          htmlFor="faseObra"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+        >
+          Fase atual da obra
+        </label>
+        <Input
+          type={"select"}
+          placeholder={"Selecione"}
+          label={"faseObra"}
+          register={register}
+          required={true}
+          errors={errors}
+          control={control}
+        />
+      </div>
+
+      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
+        <label
           htmlFor="ufObra"
           className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
         >
@@ -530,24 +548,6 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
           errors={errors}
           control={control}
           cityControl={cityControl}
-        />
-      </div>
-
-      <div className="w-full flex flex-col gap-2">
-        <label
-          htmlFor="faseObra"
-          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
-        >
-          Fase atual da obra
-        </label>
-        <Input
-          type={"select"}
-          placeholder={"Selecione"}
-          label={"faseObra"}
-          register={register}
-          required={true}
-          errors={errors}
-          control={control}
         />
       </div>
     </div>
