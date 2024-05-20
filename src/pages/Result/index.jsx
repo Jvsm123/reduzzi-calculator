@@ -320,7 +320,7 @@ const ResultPage = () => {
         </section>
 
         <section className="mx-7 md:mx-14 flex justify-start items-center text-center mb-10 py-10 gap-8 flex-wrap">
-          <button className="bg-[#ff9000] text-white font-bold text-2xl px-10 py-3 rounded-[8rem]">
+          <button className="bg-[#ff9000] text-white font-bold text-2xl px-10 py-3 rounded-[8rem]" onClick={() => navigator("/pdf")}>
             GERAR PDF
           </button>
           <a
