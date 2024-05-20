@@ -20,19 +20,25 @@ import arrowGreen from "../../assets/arrow-green.png";
 import selectIcon from "../../assets/selectIcon.svg";
 import calculatorIcon from "../../assets/calculatorIcon.svg";
 
+import { useModal } from "../../hooks/useModal";
 import { useGetCity } from "../../hooks/useGetCity.jsx";
 import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
-import { useModal } from "../../hooks/useModal";
 import { useAuth } from "../../contexts/authContext";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useEffect } from "react";
 
 const Home = () => {
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
+    mode: "onSubmit",
+    keepValues: true,
   });
 
   const { isOpen, openModal, closeModal } = useModal();
@@ -47,6 +53,10 @@ const Home = () => {
 
   const { userLoggedIn, currentUser, isGoogleUser } = useAuth();
 
+  const { dataObra } = useLocalStorage();
+
+  useEffect(() => (console.log('dataObra', dataObra), reset(dataObra)), [dataObra]);
+
   return (
     <>
       <AppBar />
@@ -58,7 +68,7 @@ const Home = () => {
       />
       <main className="max-w-[1440rem] m-auto scale-90">
         <section className="px-14 relative">
-          <div className="mt-[90rem] flex items-center gap-2">
+          <div className="mt-[10rem] flex items-center gap-2">
             <img
               src={arrowGreen}
               alt="arrow green"
@@ -123,6 +133,12 @@ const Home = () => {
             <div
               onClick={handleSubmit((data) => {
                 if (data.tipoProprietario.value === "Pessoa Jurídica")
+                  return openModal();
+
+                if (data.destinacaoObra.value !== "Casa Unifamiliar")
+                  return openModal();
+
+                if (data.tipoConstrucao.value !== "Alvenaria")
                   return openModal();
 
                 onSubmit(data);
@@ -200,7 +216,7 @@ const Input = ({
                 countryCallingCodeEditable={false}
                 international={true}
                 withCountryCallingCode={false}
-                className={`h-[60rem] bg-white focus:outline-none focus-visible:bg-transparent border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 ${
+                className={`h-[60rem] bg-white focus:outline-none focus-visible:bg-transparent border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 ${
                   errors[label] && "border-red-500"
                 } focus:font-medium w-full p-2 shadow`}
               />
@@ -213,12 +229,12 @@ const Input = ({
         (label === "previsaoTermino" || label === "inicioConstrucao") && (
           <>
             <InputMask
-              mask="99/99"
+              mask="99/9999"
               {...register(label, { required })}
               type={type}
               placeholder={placeholder}
-              className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
-                errors[label] && "border-red-500"
+              className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 focus:font-medium w-full p-2 shadow ${
+                errors[label] && "border-red-500" || ""
               } h-[60rem]`}
             />
             {getFormErrorMessage(errors, label)}
@@ -230,7 +246,7 @@ const Input = ({
               {...register(label, { required })}
               type={type}
               placeholder={placeholder}
-              className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+              className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 focus:font-medium w-full p-2 shadow ${
                 errors[label] && "border-red-500"
               } h-[60rem]`}
             />
@@ -253,7 +269,7 @@ const Input = ({
                 decimalSeparator=","
                 placeholder={placeholder}
                 suffix=" m²"
-                className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-gray-400 focus:font-medium w-full p-2 shadow ${
+                className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 focus:font-medium w-full p-2 shadow ${
                   errors[label] && "border-red-500"
                 } h-[60rem]`}
               />
@@ -606,7 +622,7 @@ const MetragemObra = ({ register, control, errors }) => {
         </label>
         <Input
           type={"text"}
-          placeholder={"Mês/Ano"}
+          placeholder={"Mês/Ano (MM/AAAA)"}
           label={"inicioConstrucao"}
           register={register}
           required={true}
@@ -623,7 +639,7 @@ const MetragemObra = ({ register, control, errors }) => {
         </label>
         <Input
           type={"text"}
-          placeholder={"Mês/Ano"}
+          placeholder={"Mês/Ano (MM/AAAA)"}
           label={"previsaoTermino"}
           register={register}
           required={true}

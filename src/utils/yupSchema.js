@@ -49,8 +49,22 @@ export const schema = yup.object().shape({
     .required("O campo M² De Piscina + Quadra é necessário!"),
   inicioConstrucao: yup
     .string()
+    .typeError("Valor da data não é válido!")
+    .matches(
+      /^(0[1-9]|1[0-2])\/\d{4}$/,
+      "Valor da data não segue o padrão mm/yyyy!",
+    )
+    .min(7, "A data deve ter no mínimo 5 caracteres!")
+    .max(7, "A data deve ter no máximo 5 caracteres!")
     .required("O campo Início da Construção é necessário!"),
   previsaoTermino: yup
     .string()
+    .typeError("Valor da data não é válido!")
+    .matches(
+      /^(0[1-9]|1[0-2])\/\d{4}$/,
+      "Valor da data não segue o padrão mm/yyyy!",
+    )
+    .min(7, "A data deve ter no mínimo 5 caracteres!")
+    .max(7, "A data deve ter no máximo 5 caracteres!")
     .required("O campo Previsão de Término é necessário!"),
 });

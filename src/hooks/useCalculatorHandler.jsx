@@ -34,8 +34,6 @@ export const useCalculatorHandler = () => {
       // cidadeObra,
     } = data;
 
-    console.log("jdlkasjldl", m2Construcao);
-
     let valorVau;
     let fatorSocial;
     let tipoDeConstrucaoPorcentagem;
@@ -67,8 +65,8 @@ export const useCalculatorHandler = () => {
     }
 
     //remover m² da piscina e quadra
-    m2Construcao = m2Construcao.replace("m²", "");
-    m2PiscinaQuadra = m2PiscinaQuadra.replace("m²", "");
+    m2Construcao = m2Construcao.replace('m²', '');
+    m2PiscinaQuadra = m2PiscinaQuadra.replace('m²', '');
 
     m2Construcao = Number(m2Construcao);
     m2PiscinaQuadra = Number(m2PiscinaQuadra);
@@ -113,27 +111,16 @@ export const useCalculatorHandler = () => {
         break;
     }
 
-    const mesInicioDaConstrucao = new Date().getMonth(inicioConstrucao) + 1;
+    inicioConstrucao = inicioConstrucao.replace(/\//g, '-').split('-');
 
-    //Verifica se inicio da construção é menor que o mês atual
-    switch (true) {
-      case mesInicioDaConstrucao < constants.mesAtual - 3:
-        valorMesRetroativo =
-          constants.mesRetroativoQuandoMenorQueQuatroAnosEmDiante;
-        break;
-      case mesInicioDaConstrucao < constants.mesAtual - 2:
-        valorMesRetroativo = constants.mesRetroativoQuandoMenorQueTresAnos;
-        break;
-      case mesInicioDaConstrucao < constants.mesAtual - 1:
-        valorMesRetroativo = constants.mesRetroativoQuandoMenorQueDoisAnos;
-        break;
-      case mesInicioDaConstrucao < constants.mesAtual:
-        valorMesRetroativo = constants.mesRetroativoQuandoMenorQueUmAno;
-        break;
-      default:
-        valorMesRetroativo = false;
-        break;
-    }
+    const date = new Date();
+    date.setMonth(inicioConstrucao[0] - 1);
+    date.setFullYear(inicioConstrucao[1]);
+
+    const diff = Math.abs(date.getTime() - constants.dataAtual.getTime());
+    const monthDiff = Math.ceil(diff / (1000 * 60 * 60 * 24 * 30)) - 1;
+
+    valorMesRetroativo = (monthDiff * constants.descontoPorMesRetroativo);
 
     switch (true) {
       case metroTotal <= 120:
@@ -210,29 +197,53 @@ export const useCalculatorHandler = () => {
       constants.cotaPatronal
     ).toFixed(2);
 
-    porcentagemDoParcelamentoTotal =
-      totalImpostoComReducao % 60 === 0 ? 60 : totalImpostoComReducao % 60;
+    const valorFinalDaObra = totalImpostoComReducao - (valorMesRetroativo + (Number(metragemPorMes) * Number(import.meta.env.VITE_DESCONTO_METRAGEM)));
 
-    valorDoParcelamentoTotal = (
-      totalImpostoComReducao / porcentagemDoParcelamentoTotal
-    ).toFixed(2);
+    let valorFinalDaObraParcelamento;
+
+    //Se valor final da obra + 10% / 100 for menor que 60, parcela em até 59x e se for maior que 100, parcela em até 60x
+    if((valorFinalDaObra + (valorFinalDaObra * 0.10)) / 100 < 60 ) {
+      valorFinalDaObraParcelamento = Math.round((valorFinalDaObra + (valorFinalDaObra * 0.10)) / 100);
+      valorDoParcelamentoTotal = 100;
+    }
+    else {
+      valorFinalDaObraParcelamento = 60;
+      valorDoParcelamentoTotal = Math.round(valorFinalDaObra / valorFinalDaObraParcelamento);
+    }
 
     //Insert on localstorage
     localStorage.setItem(
       "obraData",
       JSON.stringify({
+        // valores do useCalculatorHandler
         totalImpostoSemReducao,
         totalImpostoComReducao,
-        valorDoParcelamentoTotal,
         porcentagemDoParcelamentoTotal,
         metroTotal,
         m2PiscinaQuadra,
+        m2Construcao,
         rmtObra,
-        valorVau,
-        valorMesRetroativo,
         metragemPorMes,
         honorarioValor,
-      })
+        valorVau,
+        valorFinalDaObra,
+        valorMesRetroativo,
+        valorDoParcelamentoTotal,
+        valorFinalDaObraParcelamento,
+
+        //campos da home
+        proprietario: data.proprietario,
+        celular: data.celular,
+        tipoProprietario: data.tipoProprietario,
+        destinacaoObra: data.destinacaoObra,
+        obraFinanciamento: data.obraFinanciamento,
+        tipoConstrucao: data.tipoConstrucao,
+        faseObra: data.faseObra,
+        ufObra: data.ufObra,
+        cidadeObra: data.cidadeObra,
+        previsaoTermino: data.previsaoTermino,
+        inicioConstrucao: data.inicioConstrucao,
+      }),
     );
 
     if (user)
@@ -253,8 +264,8 @@ export const useCalculatorHandler = () => {
         user
       );
 
-    //navigate to /res with react router
-    // window.location.href = "/res";
+    // navigate to /res with react router
+    window.location.href = "/res";
   };
 
   return { handleCalculatorData };

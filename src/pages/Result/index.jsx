@@ -9,9 +9,9 @@ import { WhatsappHandler } from "../../componentes/WhatsappHandler";
 import { useNavigate } from "react-router-dom";
 
 const DivResultData = ({ label, value }) => (
-  <div className="w-full flex flex-col gap-2 md:max-w-[250rem]">
-    <label className="text-xl font-semibold text-[var(--gray)]">{label}</label>
-    <div className="border border-gray-300 rounded p-3">
+  <div className="w-full flex flex-col gap-2 md:max-w-fit">
+    <label className="text-[20rem] font-semibold md:max-w-fit text-[var(--gray)]">{label}</label>
+    <div className="border border-gray-300 rounded max-w-[135rem] p-3">
       <div className="text-lg text-gray-500">{value}</div>
     </div>
   </div>
@@ -24,13 +24,21 @@ const ResultPage = () => {
     valorDoParcelamentoTotal,
     porcentagemDoParcelamentoTotal,
     metroTotal,
+    m2Construcao,
     m2PiscinaQuadra,
     rmtObra,
     valorVau,
     valorMesRetroativo,
+    valorFinalDaObra,
+    valorFinalDaObraParcelamento,
     metragemPorMes,
     honorarioValor,
   } = JSON.parse(localStorage.getItem("obraData"));
+
+  console.log(metragemPorMes);
+  console.log(valorMesRetroativo);
+
+  console.log(valorFinalDaObra);
 
   const navigator = useNavigate();
 
@@ -45,10 +53,10 @@ const ResultPage = () => {
         </div>
 
         <section className="bg-[#ffffff] mb-20 mx-7 md:mx-14 border border-[#006837ff] rounded-[8rem]">
-          <div className="bg-[var(--bg-gray-detail)] flex gap-10 px-10 py-7 rounded-t-lg flex-wrap justify-center">
+          <div className="bg-[var(--bg-gray-detail)] flex gap-[67rem] px-10 py-7 rounded-t-lg justify-center">
             <DivResultData
               label="M² De Construção"
-              value={`${Number(metroTotal).toLocaleString({
+              value={`${Number(m2Construcao).toLocaleString({
                 maximumFractionDigits: 2,
                 minimumFractionDigits: 2,
               })} m²`}
@@ -68,6 +76,7 @@ const ResultPage = () => {
               })}`}
             />
             <DivResultData label="Tabela VAU" value={`${valorVau}`} />
+            <DivResultData label="Numero de Trabalhadores" value={`${Math.round(totalImpostoComReducao / 100 / 2)}`} />
           </div>
 
           <div className="flex justify-center gap-12 mt-14 flex-wrap">
@@ -185,7 +194,7 @@ const ResultPage = () => {
             <div>
               <p className="text-xl text-[#666666ff] font-medium ml-4">
                 <span className="text-[#063958ff] font-bold">
-                  {metragemPorMes}
+                  {metragemPorMes - (valorMesRetroativo / 100) - 1}
                 </span>{" "}
                 meses de:
               </p>
@@ -195,7 +204,7 @@ const ResultPage = () => {
                   alt="arrow gray"
                   className="w-[10rem] h-[12rem]"
                 />
-                <p className="text-[#063958ff] font-bold text-xl">R$ 264,00</p>
+                <p className="text-[#063958ff] font-bold text-xl">{`${ Number(import.meta.env.VITE_DESCONTO_METRAGEM).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }`}</p>
               </span>
             </div>
             <img
@@ -217,7 +226,7 @@ const ResultPage = () => {
                     className="w-[10rem] h-[12rem]"
                   />
                   <p className="text-[#063958ff] font-bold text-xl">
-                    {`${(Number(totalImpostoComReducao) - Number(valorMesRetroativo) - Number(import.meta.env.VITE_DESCONTO_METRAGEM)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
+                    {valorFinalDaObra.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                   </p>
                 </span>
               </div>
@@ -226,7 +235,7 @@ const ResultPage = () => {
               </p>
               <p className="text-[#808080ff] font-bold">
                 <span className="text-[#063958ff] text-lg font-bold">
-                  {`${Number(totalImpostoComReducao).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
+                  {`${Number(valorFinalDaObra).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </span>
                 <span className="text-[12rem] ml-1"> PODERÁ SER PAGO</span>
               </p>
@@ -234,7 +243,7 @@ const ResultPage = () => {
                 Á VISTA OU PARCELADO EM ATÉ
               </p>
               <p className="text-[#063958ff] font-bold text-3xl my-2">
-                {`${Number(porcentagemDoParcelamentoTotal).toFixed(0)}`}
+                {`${Number(valorFinalDaObraParcelamento)}`}
                 <span className="text-[#999999ff] text-xl font-bold">
                   X
                 </span>{" "}
@@ -303,7 +312,7 @@ const ResultPage = () => {
                   <span className="text-[#808080ff] font-bold text-lg">
                     X
                   </span>{" "}
-                  {`${Number(honorarioValor / 12).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
+                  {`${Number(honorarioValor / 10).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </p>
               </div>
             </>

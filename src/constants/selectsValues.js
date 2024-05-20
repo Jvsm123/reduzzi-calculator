@@ -65,8 +65,6 @@ export const constants = {
     { value: "Pronta a Mais de 5 Anos", label: "Pronta a Mais de 5 Anos" },
   ],
 
-  mesAtual: new Date().getMonth() + 1,
-
   mesRetroativoQuandoMenorQueUmAno: 100,
   mesRetroativoQuandoMenorQueDoisAnos: 200,
   mesRetroativoQuandoMenorQueTresAnos: 300,
@@ -77,6 +75,10 @@ export const constants = {
   metragemAte300: '8',
   metragemAte400: '10',
   metragemAcima400: '12',
+
+  dataAtual: new Date(),
+
+  descontoPorMesRetroativo: 100,
 
   honorarioAteCem: 'metade do valor',
   honorarioAteDuzentos: 2500,
