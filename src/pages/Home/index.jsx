@@ -600,7 +600,7 @@ const MetragemObra = ({ register, control, errors }) => {
       <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="inicioConstrucao"
-          className="after:content-['_*'] text-[var(--gray)] text-xl font-semibold"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
         >
           INÍCIO DA CONSTRUÇÃO
         </label>
@@ -617,7 +617,7 @@ const MetragemObra = ({ register, control, errors }) => {
       <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
           htmlFor="previsaoTermino"
-          className="after:content-['_*'] text-[var(--gray)] text-xl font-semibold"
+          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
         >
           PREVISÃO DE TÉRMINO
         </label>
