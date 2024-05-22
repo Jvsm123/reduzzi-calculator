@@ -23,6 +23,7 @@ import calculatorIcon from "../../assets/calculatorIcon.svg";
 import { useGetCity } from "../../hooks/useGetCity.jsx";
 import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
 import { useModal } from "../../hooks/useModal";
+import { useAuth } from "../../contexts/authContext";
 
 const Home = () => {
   const {
@@ -40,7 +41,11 @@ const Home = () => {
 
   const { handleCalculatorData } = useCalculatorHandler();
 
-  const onSubmit = (data) => handleCalculatorData(data);
+  const onSubmit = (data) => {
+    handleCalculatorData(data, currentUser);
+  };
+
+  const { userLoggedIn, currentUser, isGoogleUser } = useAuth();
 
   return (
     <>
@@ -568,7 +573,7 @@ const MetragemObra = ({ register, control, errors }) => {
         <Input
           type={"number"}
           placeholder={"00,00 m²"}
-	      control={control}
+          control={control}
           label={"m2Construcao"}
           required={true}
           errors={errors}
@@ -586,7 +591,7 @@ const MetragemObra = ({ register, control, errors }) => {
           type={"number"}
           placeholder={"00,00 m²"}
           label={"m2PiscinaQuadra"}
-	      control={control}
+          control={control}
           required={true}
           errors={errors}
         />

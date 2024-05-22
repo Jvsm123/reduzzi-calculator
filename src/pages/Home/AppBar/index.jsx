@@ -6,7 +6,34 @@ import linkedin from "../../../assets/linkedin.svg";
 import whats from "../../../assets/whats.svg";
 import youtube from "../../../assets/youtube.svg";
 
+import { doSignInWithGoogle, doSignOut } from "../../../utils/firebase/auth";
+import { useAuth } from "../../../contexts/authContext";
+
 const AppBar = () => {
+  const { userLoggedIn, currentUser, isGoogleUser } = useAuth();
+
+  const handleChangeBtn = () => {
+    if (userLoggedIn) {
+      return (
+        <button
+          className="bg-white text-[var(--main-blue)] rounded-[10rem] text-xl py-4 px-14 hidden sm:block"
+          onClick={() => doSignOut()}
+        >
+          Sign out
+        </button>
+      );
+    }
+
+    return (
+      <button
+        className="bg-white text-[var(--main-blue)] rounded-[10rem] text-xl py-4 px-14 hidden sm:block"
+        onClick={() => doSignInWithGoogle()}
+      >
+        Login
+      </button>
+    );
+  };
+
   return (
     <>
       <nav className="bg-[var(--main-blue)] w-full">
@@ -44,9 +71,7 @@ const AppBar = () => {
               className="max-w-[30rem] fill-white cursor-pointer hidden md:flex"
             />
 
-            <button className="bg-white text-[var(--main-blue)] rounded-[10rem] text-xl py-4 px-14 hidden sm:block">
-              Login
-            </button>
+            {handleChangeBtn()}
           </div>
         </div>
       </nav>
