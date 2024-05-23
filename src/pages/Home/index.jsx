@@ -1,9 +1,9 @@
 import "react-phone-number-input/style.css";
 
+import InputMask from "react-input-mask";
 import PhoneInput from "react-phone-number-input";
 import Select, { components } from "react-select";
 import { NumericFormat } from "react-number-format";
-import InputMask from "react-input-mask";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 
@@ -16,19 +16,18 @@ import { schema } from "../../utils/yupSchema.js";
 import { constants } from "../../constants/selectsValues.js";
 
 import arrowBlue from "../../assets/arrow-blue.png";
-import arrowGreen from "../../assets/arrow-green.png";
 import selectIcon from "../../assets/selectIcon.svg";
+import arrowGreen from "../../assets/arrow-green.png";
 import calculatorIcon from "../../assets/calculatorIcon.svg";
 
-import { useModal } from "../../hooks/useModal";
-import { useGetCity } from "../../hooks/useGetCity.jsx";
-import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
-import { useAuth } from "../../contexts/authContext";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useEffect } from "react";
+import { useModal } from "../../hooks/useModal";
+import { useAuth } from "../../contexts/authContext";
+import { useGetCity } from "../../hooks/useGetCity.jsx";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useCalculatorHandler } from "../../hooks/useCalculatorHandler";
 
 const Home = () => {
-
   const {
     register,
     handleSubmit,
@@ -51,7 +50,7 @@ const Home = () => {
     handleCalculatorData(data, currentUser);
   };
 
-  const { userLoggedIn, currentUser, isGoogleUser } = useAuth();
+  const { currentUser } = useAuth();
 
   const { dataObra } = useLocalStorage();
 
@@ -232,6 +231,7 @@ const Input = ({
               mask="99/9999"
               {...register(label, { required })}
               type={type}
+              defaultValue={{...register(label)}}
               placeholder={placeholder}
               className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 focus:font-medium w-full p-2 shadow ${
                 errors[label] && "border-red-500" || ""
@@ -393,6 +393,7 @@ const DadosDoProprietario = ({ register, errors, control }) => {
           label={"proprietario"}
           register={register}
           required={true}
+          control={control}
           errors={errors}
         />
       </div>
@@ -626,6 +627,7 @@ const MetragemObra = ({ register, control, errors }) => {
           label={"inicioConstrucao"}
           register={register}
           required={true}
+          control={control}
           errors={errors}
         />
       </div>
@@ -643,6 +645,7 @@ const MetragemObra = ({ register, control, errors }) => {
           label={"previsaoTermino"}
           register={register}
           required={true}
+          control={control}
           errors={errors}
         />
       </div>

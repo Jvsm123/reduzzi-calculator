@@ -35,11 +35,6 @@ const ResultPage = () => {
     honorarioValor,
   } = JSON.parse(localStorage.getItem("obraData"));
 
-  console.log(metragemPorMes);
-  console.log(valorMesRetroativo);
-
-  console.log(valorFinalDaObra);
-
   const navigator = useNavigate();
 
   return (
