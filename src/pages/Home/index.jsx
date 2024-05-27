@@ -54,7 +54,7 @@ const Home = () => {
 
   const { dataObra } = useLocalStorage();
 
-  useEffect(() => (console.log('dataObra', dataObra), reset(dataObra)), [dataObra]);
+  useEffect(() => reset(dataObra), [dataObra]);
 
   return (
     <>
@@ -226,25 +226,32 @@ const Input = ({
       )}
       {(type === "text" &&
         (label === "previsaoTermino" || label === "inicioConstrucao") && (
-          <>
-            <InputMask
-              mask="99/9999"
-              {...register(label, { required })}
-              type={type}
-              defaultValue={{...register(label)}}
-              placeholder={placeholder}
-              className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 focus:font-medium w-full p-2 shadow ${
-                errors[label] && "border-red-500" || ""
-              } h-[60rem]`}
-            />
-            {getFormErrorMessage(errors, label)}
-          </>
+          <Controller
+            control={control}
+            name={label}
+            rules={{ required }}
+            render={({ field }) => (
+              <>
+                <InputMask
+                  {...field}
+                  mask="99/9999"
+                  type={type}
+                  placeholder={placeholder}
+                  className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 focus:font-medium w-full p-2 shadow ${
+                    errors[label] && "border-red-500" || ""
+                  } h-[60rem]`}
+                />
+                {getFormErrorMessage(errors, label)}
+              </>
+            )}
+          />
         )) ||
         (type === "text" && (
           <>
             <input
               {...register(label, { required })}
               type={type}
+              control={control}
               placeholder={placeholder}
               className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 focus:font-medium w-full p-2 shadow ${
                 errors[label] && "border-red-500"
@@ -263,6 +270,7 @@ const Input = ({
               <NumericFormat
                 {...field}
                 allowNegative={false}
+                control={control}
                 type="text"
                 allowLeadingZeros={false}
                 decimalScale={2}
@@ -430,8 +438,8 @@ const DadosDoProprietario = ({ register, errors, control }) => {
             label={"tipoProprietario"}
             register={register}
             required={true}
-            errors={errors}
             control={control}
+            errors={errors}
           />
         </div>
       </section>
@@ -495,26 +503,6 @@ const DadosObra = ({ register, errors, control, cityControl }) => {
           control={control}
         />
       </div>
-
-      {/*
-      <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
-        <label
-          htmlFor="concretoUsinado"
-          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
-        >
-          Uso de Concreto Usinado?
-        </label>
-        <Input
-          type={"select"}
-          placeholder={"Selecione"}
-          label={"concretoUsinado"}
-          register={register}
-          required={true}
-          errors={errors}
-          control={control}
-        />
-      </div>
-	  */}
 
       <div className="w-full flex flex-col gap-2 md:max-w-[48%]">
         <label
@@ -607,8 +595,8 @@ const MetragemObra = ({ register, control, errors }) => {
         <Input
           type={"number"}
           placeholder={"00,00 m²"}
-          label={"m2PiscinaQuadra"}
           control={control}
+          label={"m2PiscinaQuadra"}
           required={true}
           errors={errors}
         />
@@ -624,10 +612,10 @@ const MetragemObra = ({ register, control, errors }) => {
         <Input
           type={"text"}
           placeholder={"Mês/Ano (MM/AAAA)"}
+          control={control}
           label={"inicioConstrucao"}
           register={register}
           required={true}
-          control={control}
           errors={errors}
         />
       </div>
@@ -642,10 +630,10 @@ const MetragemObra = ({ register, control, errors }) => {
         <Input
           type={"text"}
           placeholder={"Mês/Ano (MM/AAAA)"}
+          control={control}
           label={"previsaoTermino"}
           register={register}
           required={true}
-          control={control}
           errors={errors}
         />
       </div>

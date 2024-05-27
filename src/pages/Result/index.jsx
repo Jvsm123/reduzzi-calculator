@@ -22,8 +22,7 @@ const ResultPage = () => {
     totalImpostoSemReducao,
     totalImpostoComReducao,
     valorDoParcelamentoTotal,
-    porcentagemDoParcelamentoTotal,
-    metroTotal,
+    mesesALancar,
     m2Construcao,
     m2PiscinaQuadra,
     rmtObra,
@@ -31,7 +30,7 @@ const ResultPage = () => {
     valorMesRetroativo,
     valorFinalDaObra,
     valorFinalDaObraParcelamento,
-    metragemPorMes,
+    terminoMaiorQueAtual,
     honorarioValor,
   } = JSON.parse(localStorage.getItem("obraData"));
 
@@ -71,7 +70,7 @@ const ResultPage = () => {
               })}`}
             />
             <DivResultData label="Tabela VAU" value={`${valorVau}`} />
-            <DivResultData label="Numero de Trabalhadores" value={`${Math.round(totalImpostoComReducao / 100 / 2)}`} />
+            <DivResultData label="Numero de Trabalhadores" value={`${Math.round(totalImpostoComReducao / 100 / 2 / 10)}`} />
           </div>
 
           <div className="flex justify-center gap-12 mt-14 flex-wrap">
@@ -108,20 +107,6 @@ const ResultPage = () => {
             </p>
             <hr className="w-full h-[3rem] bg-[#999999ff]" />
           </div>
-
-          {/*
-          <div className="flex gap-4 items-center justify-center mt-14 mb-16">
-            <p className="text-[#666666ff] font-medium text-xl">
-              Nº de parcelas
-            </p>
-            <p className="border border-[#ccccccff] text-[#999999ff] text-xl w-[100rem] h-[50rem] pl-4 font-medium rounded-[8rem] flex items-center">{`${Number(porcentagemDoParcelamentoTotal).toFixed(0)}`}</p>
-
-            <p className="text-[#666666ff] font-medium text-xl ml-3">Valor</p>
-            <p className="border border-[#ccccccff] text-[#063958ff] text-xl pr-4 h-[50rem] pl-4 font-medium rounded-[8rem] inline-flex items-center">
-              {`${Number(valorDoParcelamentoTotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
-            </p>
-          </div>
-          */}
 
           <div className="bg-[#006837ff] flex justify-between rounded-b-lg md:overflow-hidden flex-wrap lg:flex-nowrap">
             <section className="flex md:items-center justify-between w-full lg:w-[60%] py-6 px-10 flex-col md:flex-row">
@@ -181,27 +166,31 @@ const ResultPage = () => {
                 })}`}</p>
               </span>
             </div>
-            <img
-              src={iconPlusBlue}
-              alt="icon plus blue"
-              className="w-[40rem] h-[40rem] mt-7"
-            />
-            <div>
-              <p className="text-xl text-[#666666ff] font-medium ml-4">
-                <span className="text-[#063958ff] font-bold">
-                  {metragemPorMes - (valorMesRetroativo / 100) - 1}
-                </span>{" "}
-                meses de:
-              </p>
-              <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8rem]">
+            {!terminoMaiorQueAtual &&
+              <>
                 <img
-                  src={arrowGray}
-                  alt="arrow gray"
-                  className="w-[10rem] h-[12rem]"
+                  src={iconPlusBlue}
+                  alt="icon plus blue"
+                  className="w-[40rem] h-[40rem] mt-7"
                 />
-                <p className="text-[#063958ff] font-bold text-xl">{`${ Number(import.meta.env.VITE_DESCONTO_METRAGEM).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }`}</p>
-              </span>
-            </div>
+                <div>
+                    <p className="text-xl text-[#666666ff] font-medium ml-4">
+                      <span className="text-[#063958ff] font-bold">
+                        {mesesALancar}
+                      </span>{" "}
+                      { mesesALancar < 2 ? "mes de:" : "meses de:" }
+                    </p>
+                  <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8rem]">
+                    <img
+                      src={arrowGray}
+                      alt="arrow gray"
+                      className="w-[10rem] h-[12rem]"
+                    />
+                    <p className="text-[#063958ff] font-bold text-xl">{`${ Number(import.meta.env.VITE_DESCONTO_METRAGEM).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }`}</p>
+                  </span>
+                </div>
+              </>
+            }
             <img
               src={iconPlusBlue}
               alt="icon plus blue"
@@ -221,7 +210,7 @@ const ResultPage = () => {
                     className="w-[10rem] h-[12rem]"
                   />
                   <p className="text-[#063958ff] font-bold text-xl">
-                    {valorFinalDaObra.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    {Math.round(valorFinalDaObra).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                   </p>
                 </span>
               </div>

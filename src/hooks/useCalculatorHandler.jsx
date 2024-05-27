@@ -26,7 +26,7 @@ export const useCalculatorHandler = () => {
       tipoConstrucao,
       // concretoUsinado,
       // obraFinanciamento,
-      // previsaoTermino,
+      previsaoTermino,
       inicioConstrucao,
       // proprietario,
       tipoProprietario,
@@ -45,6 +45,9 @@ export const useCalculatorHandler = () => {
     let rmtObra;
     let metragemPorMes;
     let honorarioValor;
+    let terminoMaiorQueAtual;
+    let valorFinalDaObra;
+    let mesesALancar;
 
     try {
       async function getValorVau() {
@@ -73,92 +76,57 @@ export const useCalculatorHandler = () => {
 
     //Valor total da área
     switch (true) {
-      case m2Construcao < 100:
-        tipoDeConstrucaoPorcentagem = constants.menorQueCem;
-        break;
-      case m2Construcao >= 100 && m2Construcao <= 200:
-        tipoDeConstrucaoPorcentagem = constants.deCemADozentos;
-        break;
-      case m2Construcao >= 200 && m2Construcao <= 300:
-        tipoDeConstrucaoPorcentagem = constants.deDuzentosATrezeentos;
-        break;
-      case m2Construcao >= 300 && m2Construcao <= 400:
-        tipoDeConstrucaoPorcentagem = constants.deTrezentosAQuatrocentos;
-        break;
-      default:
-        tipoDeConstrucaoPorcentagem = constants.acimaDeQuatrocentos;
-        break;
+      case m2Construcao < 100: tipoDeConstrucaoPorcentagem = constants.menorQueCem; break;
+      case m2Construcao >= 100 && m2Construcao <= 200: tipoDeConstrucaoPorcentagem = constants.deCemADozentos; break;
+      case m2Construcao >= 200 && m2Construcao <= 300: tipoDeConstrucaoPorcentagem = constants.deDuzentosATrezeentos; break;
+      case m2Construcao >= 300 && m2Construcao <= 400: tipoDeConstrucaoPorcentagem = constants.deTrezentosAQuatrocentos; break;
+      default: tipoDeConstrucaoPorcentagem = constants.acimaDeQuatrocentos; break;
     }
 
     const metroTotal = m2Construcao + m2PiscinaQuadra;
 
     //calcula fator social
     switch (true) {
-      case metroTotal < 100:
-        fatorSocial = constants.menorQueCem;
-        break;
-      case metroTotal >= 100 && metroTotal <= 200:
-        fatorSocial = constants.deCemADozentos;
-        break;
-      case metroTotal >= 200 && metroTotal <= 300:
-        fatorSocial = constants.deDuzentosATrezeentos;
-        break;
-      case metroTotal >= 300 && metroTotal <= 400:
-        fatorSocial = constants.deTrezentosAQuatrocentos;
-        break;
-      default:
-        fatorSocial = constants.acimaDeQuatrocentos;
-        break;
+      case metroTotal < 100: fatorSocial = constants.menorQueCem; break;
+      case metroTotal >= 100 && metroTotal <= 200: fatorSocial = constants.deCemADozentos; break;
+      case metroTotal >= 200 && metroTotal <= 300: fatorSocial = constants.deDuzentosATrezeentos; break;
+      case metroTotal >= 300 && metroTotal <= 400: fatorSocial = constants.deTrezentosAQuatrocentos; break;
+      default: fatorSocial = constants.acimaDeQuatrocentos; break;
     }
 
     inicioConstrucao = inicioConstrucao.replace(/\//g, '-').split('-');
+    previsaoTermino = previsaoTermino.replace(/\//g, '-').split('-');
 
-    const date = new Date();
-    date.setMonth(inicioConstrucao[0] - 1);
-    date.setFullYear(inicioConstrucao[1]);
+    const dateInicio = new Date();
+    dateInicio.setMonth(inicioConstrucao[0] - 1);
+    dateInicio.setFullYear(inicioConstrucao[1]);
 
-    const diff = Math.abs(date.getTime() - constants.dataAtual.getTime());
-    const monthDiff = Math.ceil(diff / (1000 * 60 * 60 * 24 * 30)) - 1;
+    const dataFinal = new Date();
+    dataFinal.setMonth(previsaoTermino[0] - 1);
+    dataFinal.setFullYear(previsaoTermino[1]);
 
-    valorMesRetroativo = (monthDiff * constants.descontoPorMesRetroativo);
+    terminoMaiorQueAtual = dataFinal < new Date();
+
+    const diff = Math.abs(dateInicio.getTime() - constants.dataAtual.getTime());
+    const monthDiff = Math.round(diff / (1000 * 60 * 60 * 24 * 30));
+
+    valorMesRetroativo = (monthDiff > 0 && monthDiff * constants.descontoPorMesRetroativo + 100);
 
     switch (true) {
-      case metroTotal <= 120:
-        metragemPorMes = constants.metragemAte120;
-        break;
-      case metroTotal <= 200:
-        metragemPorMes = constants.metragemAte200;
-        break;
-      case metroTotal <= 300:
-        metragemPorMes = constants.metragemAte300;
-        break;
-      case metroTotal <= 400:
-        metragemPorMes = constants.metragemAte400;
-        break;
-      default:
-        metragemPorMes = constants.metragemAcima400;
-        break;
+      case metroTotal <= 120: metragemPorMes = constants.metragemAte120; break;
+      case metroTotal <= 200: metragemPorMes = constants.metragemAte200; break;
+      case metroTotal <= 300: metragemPorMes = constants.metragemAte300; break;
+      case metroTotal <= 400: metragemPorMes = constants.metragemAte400; break;
+      default: metragemPorMes = constants.metragemAcima400; break;
     }
 
     switch (true) {
-      case metroTotal <= 100:
-        honorarioValor = metroTotal / 2;
-        break;
-      case metroTotal <= 200:
-        honorarioValor = constants.honorarioAteDuzentos;
-        break;
-      case metroTotal <= 300:
-        honorarioValor = constants.honorarioAteTrezentos;
-        break;
-      case metroTotal <= 400:
-        honorarioValor = constants.honorarioAteQuatrocentos;
-        break;
-      case metroTotal <= 500:
-        honorarioValor = constants.honorarioAteDeQuinhentos;
-        break;
-      default:
-        honorarioValor = constants.honorarioAcimaDeQuinhentos;
-        break;
+      case metroTotal <= 100: honorarioValor = metroTotal / 2; break;
+      case metroTotal <= 200: honorarioValor = constants.honorarioAteDuzentos; break;
+      case metroTotal <= 300: honorarioValor = constants.honorarioAteTrezentos; break;
+      case metroTotal <= 400: honorarioValor = constants.honorarioAteQuatrocentos; break;
+      case metroTotal <= 500: honorarioValor = constants.honorarioAteDeQuinhentos; break;
+      default: honorarioValor = constants.honorarioAcimaDeQuinhentos; break;
     }
 
     const custoObraTotal = (
@@ -197,7 +165,11 @@ export const useCalculatorHandler = () => {
       constants.cotaPatronal
     ).toFixed(2);
 
-    const valorFinalDaObra = totalImpostoComReducao - (valorMesRetroativo + (Number(metragemPorMes) * Number(import.meta.env.VITE_DESCONTO_METRAGEM)));
+    if(monthDiff > 0 && !terminoMaiorQueAtual) totalImpostoComReducao = Math.round(Number(totalImpostoComReducao) + Math.round(rmtObra * 0.01) + Number(valorMesRetroativo));
+    else totalImpostoComReducao = Math.round(Number(totalImpostoComReducao) + Math.round(rmtObra * 0.02) + valorMesRetroativo);
+
+    if(!terminoMaiorQueAtual) valorFinalDaObra = totalImpostoComReducao - (valorMesRetroativo + ((metragemPorMes - monthDiff - (monthDiff > 0 ? 1 : 0)) * Number(import.meta.env.VITE_DESCONTO_METRAGEM)));
+    else valorFinalDaObra = totalImpostoComReducao
 
     let valorFinalDaObraParcelamento;
 
@@ -211,20 +183,31 @@ export const useCalculatorHandler = () => {
       valorDoParcelamentoTotal = Math.round(valorFinalDaObra / valorFinalDaObraParcelamento);
     }
 
+    if(!terminoMaiorQueAtual) {
+      mesesALancar = monthDiff > 0 ? metragemPorMes - monthDiff - 1 : metragemPorMes
+    }
+    else {
+      mesesALancar = 0;
+      valorMesRetroativo = 0;
+    }
+
     //Insert on localstorage
     localStorage.setItem(
       "obraData",
       JSON.stringify({
         // valores do useCalculatorHandler
+        honorarioValor,
+        porcentagemDoParcelamentoTotal,
+        monthDiff,
+        metroTotal,
+        mesesALancar,
+        metragemPorMes,
+        m2Construcao,
+        m2PiscinaQuadra,
+        rmtObra,
+        terminoMaiorQueAtual,
         totalImpostoSemReducao,
         totalImpostoComReducao,
-        porcentagemDoParcelamentoTotal,
-        metroTotal,
-        m2PiscinaQuadra,
-        m2Construcao,
-        rmtObra,
-        metragemPorMes,
-        honorarioValor,
         valorVau,
         valorFinalDaObra,
         valorMesRetroativo,

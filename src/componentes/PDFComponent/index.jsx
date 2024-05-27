@@ -50,7 +50,6 @@ const ContainerComparativo = ({ header, content, container }) => (
     </div>
 
     {content.map((item, index, arr) => (
-        console.log('index', index, 'arr', arr),
         <div style={tw("text-gray-600 w-[100%] text-[10px]")}>
           {item}
           {index !== arr.length - 1 && <hr style={tw("w-[100%] h-[1px] my-3 bg-gray-500")} />}
@@ -61,8 +60,6 @@ const ContainerComparativo = ({ header, content, container }) => (
 
 export const PDFComponent = () => {
   const data = JSON.parse(localStorage.getItem("obraData"));
-
-  console.log(data);
 
   return (
     <PDFViewer style={{ width: window.innerWidth, height: window.innerHeight }}>
@@ -88,11 +85,14 @@ export const PDFComponent = () => {
               </Text>
             </div>
 
-            <div style={tw("flex flex-row text-sm text-gray-600 gap-6")}>
-              <ValoresGerais label="Área total" value={`${data?.metroTotal} m²`}/>
+            <div style={tw("flex flex-row flex-wrap items-center justify-center text-sm text-gray-600 gap-6")}>
+              <ValoresGerais label="Área Principal" value={`${data?.m2Construcao} m²`}/>
               <ValoresGerais label="Complementar" value={`${data?.m2PiscinaQuadra} m²`}/>
+              <ValoresGerais label="Área total" value={`${data?.metroTotal} m²`}/>
               <ValoresGerais label="RMT gerada" value={`${Number(data?.rmtObra).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}/>
               <ValoresGerais label="Tabela VAU" value={`${data?.valorVau}`} />
+              <ValoresGerais label="Trabalhadores" value={`${Math.round(data?.totalImpostoComReducao / 100 / 2 / 10)}`}/>
+              <ValoresGerais label="Data do Aferimento" value={new Date().toLocaleDateString("pt-BR")}/>
             </div>
 
             <div style={tw("flex flex-row text-sm text-gray-600 gap-[8rem]")}>
@@ -158,10 +158,10 @@ export const PDFComponent = () => {
                     </div>
                   </div>,
 
-                  <div style={tw("flex flex-row items-start gap-6")}>
+                  !data.terminoMaiorQueAtual && <div style={tw("flex flex-row items-start gap-6")}>
                     <Image src={plusIcon} style={tw("w-[8px] h-[8px]")}/>
                     <div style={tw("flex flex-row gap-2 flex-end")}>
-                      <Text style={tw("")}>{data.metragemPorMes}</Text>
+                      <Text style={tw("")}>{data.monthDiff > 0 ? data.metragemPorMes - data.monthDiff - 1 : data.metragemPorMes}</Text>
                       <Text style={tw("")}>meses de: </Text>
                       <Text style={tw("text-[#063958ff]")}>{Number(import.meta.env.VITE_DESCONTO_METRAGEM).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</Text>
                     </div>
@@ -172,7 +172,7 @@ export const PDFComponent = () => {
                       <Image src={plusIcon} style={tw("w-[8px] h-[8px]")}/>
                       <div style={tw("flex flex-row gap-3 flex-end")}>
                         <Text style={tw("")}>Final da Obra:</Text>
-                        <Text style={tw("text-[#063958ff]")}>{(Number(data?.valorMesRetroativo) + Number(import.meta.env.VITE_DESCONTO_METRAGEM * data?.metragemPorMes)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</Text>
+                        <Text style={tw("text-[#063958ff]")}>{(data.valorFinalDaObra).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</Text>
                       </div>
                     </div>
 
@@ -217,8 +217,13 @@ export const PDFComponent = () => {
 
                     <>
                       {data?.honorarioValor !== 'CONSULTAR' &&
-                      <div style={tw("flex flex-row")}>
-                        <Image src={arrowBlue} style={tw("w-[8px] h-[8px]")}/>
+                      <div style={tw("flex flex-row gap-4")}>
+                      <Svg viewBox="0 0 5.9333191 7.3599852" style={tw("w-[8px]")}>
+                        <Path
+                          d="M 0.000 0.000 L 5.933 3.680 L 0.000 7.360 L 0.000 0.000 Z"
+                          fill="#00395e"
+                        />
+                      </Svg>
                         <Text>À vista ou em</Text>
                         <Text style={tw("text-[#063958ff]")}>12X</Text>
                         <Text>de</Text>
@@ -265,7 +270,7 @@ export const PDFComponent = () => {
 
               <div style={tw("flex flex-col justify-between gap-12")}>
                 <div style={tw("flex flex-row bg-white p-4 rounded-[50%]")}>
-                  <Text style={tw("text-[#00395e]")}>DATA:{new Date().toLocaleDateString("pt-BR")}</Text>
+                  <Text style={tw("text-[#00395e]")}>DATA: {new Date().toLocaleDateString("pt-BR")}</Text>
                 </div>
 
                 <div style={tw("flex flex-col")}>
