@@ -171,7 +171,7 @@ export const useCalculatorHandler = () => {
     ).toFixed(2);
 
     if(monthDiff > 0 && !terminoMaiorQueAtual) totalImpostoComReducao = Math.round(Number(totalImpostoComReducao) + Math.round(rmtObra * 0.01) + Number(valorMesRetroativo));
-    else totalImpostoComReducao = Math.round(Number(totalImpostoComReducao) + Math.round(rmtObra * 0.02) + valorMesRetroativo);
+    else if(terminoMaiorQueAtual) totalImpostoComReducao = Math.round(Number(totalImpostoComReducao) + Math.round(rmtObra * 0.02) + valorMesRetroativo);
 
     if(!terminoMaiorQueAtual) valorFinalDaObra = totalImpostoComReducao - (valorMesRetroativo + ((metragemPorMes - monthDiff - (monthDiff > 0 ? 1 : 0)) * Number(import.meta.env.VITE_DESCONTO_METRAGEM)));
     else valorFinalDaObra = totalImpostoComReducao
