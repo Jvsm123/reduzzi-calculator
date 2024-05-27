@@ -109,8 +109,13 @@ export const useCalculatorHandler = () => {
 
     const diff = Math.abs(dateInicio.getTime() - constants.dataAtual.getTime());
     const monthDiff = Math.round(diff / (1000 * 60 * 60 * 24 * 30));
+    const diffTermino = Math.abs(dataFinal.getTime() - constants.dataAtual.getTime());
+    const monthDiffTermino = Math.round(diffTermino / (1000 * 60 * 60 * 24 * 30));
 
-    valorMesRetroativo = (monthDiff > 0 && monthDiff * constants.descontoPorMesRetroativo + 100);
+    if(!terminoMaiorQueAtual)
+      valorMesRetroativo = (monthDiff > 0 && monthDiff * constants.descontoPorMesRetroativo + 100);
+    else
+      valorMesRetroativo = (monthDiff - monthDiffTermino - 1) * constants.descontoPorMesRetroativo;
 
     switch (true) {
       case metroTotal <= 120: metragemPorMes = constants.metragemAte120; break;
