@@ -142,7 +142,7 @@ const Home = () => {
 
                 onSubmit(data);
               })}
-              className="bg-[#00CC93] sticky top-[200rem] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] flex items-center hover:cursor-pointer lg:w-[436rem] w-full lg:mt-0 mt-10 justify-center lg:justify-end z-10"
+              className="bg-[#00CC93] sticky top-[calc(100%_/_2.5)] text-white text-xl font-semibold pr-[50rem] rounded-lg h-[70rem] flex items-center hover:cursor-pointer lg:w-[436rem] w-full lg:mt-0 mt-10 justify-center lg:justify-end z-10"
             >
               <button className="mr-[50rem]">CALCULAR</button>
               <img src={calculatorIcon} className="h-[40rem]" />

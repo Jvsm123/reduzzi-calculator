@@ -68,8 +68,8 @@ export const useCalculatorHandler = () => {
     }
 
     //remover m² da piscina e quadra
-    m2Construcao = m2Construcao.replace('m²', '');
-    m2PiscinaQuadra = m2PiscinaQuadra.replace('m²', '');
+    m2Construcao = m2Construcao.replace('m²', '').replace(',', '.');
+    m2PiscinaQuadra = m2PiscinaQuadra.replace('m²', '').replace(',', '.');
 
     m2Construcao = Number(m2Construcao);
     m2PiscinaQuadra = Number(m2PiscinaQuadra);
