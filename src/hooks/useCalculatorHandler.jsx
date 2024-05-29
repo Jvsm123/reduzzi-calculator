@@ -186,7 +186,10 @@ export const useCalculatorHandler = () => {
     else {
       valorFinalDaObraParcelamento = 60;
       valorDoParcelamentoTotal = Math.round(valorFinalDaObra / valorFinalDaObraParcelamento);
+
+      if(valorDoParcelamentoTotal < 100) valorDoParcelamentoTotal = 100;
     }
+
 
     if(!terminoMaiorQueAtual) {
       mesesALancar = monthDiff > 0 ? metragemPorMes - monthDiff - 1 : metragemPorMes
