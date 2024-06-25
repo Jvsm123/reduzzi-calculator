@@ -151,6 +151,7 @@ const ResultPage = () => {
           </div>
 
           <section className="flex gap-4 flex-wrap justify-center">
+            {!terminoMaiorQueAtual && (
             <div>
               <p className="text-xl text-[#666666ff] font-medium ml-4">
                 Entrada:
@@ -169,7 +170,8 @@ const ResultPage = () => {
                 })}`}</p>
               </span>
             </div>
-            {!terminoMaiorQueAtual &&
+            )}
+            {!terminoMaiorQueAtual && (
               <>
                 <img
                   src={iconPlusBlue}
@@ -192,13 +194,14 @@ const ResultPage = () => {
                     <p className="text-[#063958ff] font-bold text-xl">{`${ Number(import.meta.env.VITE_DESCONTO_METRAGEM).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }`}</p>
                   </span>
                 </div>
-              </>
-            }
             <img
               src={iconPlusBlue}
               alt="icon plus blue"
               className="w-[40rem] h-[40rem] mt-7"
             />
+              </>
+            )
+            }
 
             {/* final da obra */}
             <div>
@@ -213,7 +216,7 @@ const ResultPage = () => {
                     className="w-[10rem] h-[12rem]"
                   />
                   <p className="text-[#063958ff] font-bold text-xl">
-                    {Math.round(valorFinalDaObra).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    {terminoMaiorQueAtual ? Math.round(totalImpostoComReducao).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : Math.round(valorFinalDaObra).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                   </p>
                 </span>
               </div>
@@ -222,7 +225,7 @@ const ResultPage = () => {
               </p>
               <p className="text-[#808080ff] font-bold">
                 <span className="text-[#063958ff] text-lg font-bold">
-                  {`${Number(valorFinalDaObra).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
+                  {!terminoMaiorQueAtual ? `${Math.round(Number(valorFinalDaObra)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}` : Math.round(totalImpostoComReducao).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }
                 </span>
                 <span className="text-[12rem] ml-1"> PODERÁ SER PAGO</span>
               </p>
@@ -258,7 +261,7 @@ const ResultPage = () => {
                   className="w-[10rem] h-[12rem]"
                 />
                 <p className="text-[#063958ff] font-bold text-xl">
-                  {`${Number(totalImpostoComReducao).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
+                  {`${Math.round(Number(totalImpostoComReducao)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </p>
               </span>
             </div>

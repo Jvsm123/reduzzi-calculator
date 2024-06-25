@@ -48,6 +48,7 @@ export const useCalculatorHandler = () => {
     let terminoMaiorQueAtual;
     let valorFinalDaObra;
     let mesesALancar;
+    let percentualDoImpostoComReducao;
 
     try {
       async function getValorVau() {
@@ -94,6 +95,15 @@ export const useCalculatorHandler = () => {
       default: fatorSocial = constants.acimaDeQuatrocentos; break;
     }
 
+    switch (true) {
+      case metroTotal <= 100: metragemPorMes = constants.metragemAte100; break;
+      case metroTotal <= 120: metragemPorMes = constants.metragemAte120; break;
+      case metroTotal <= 200: metragemPorMes = constants.metragemAte200; break;
+      case metroTotal <= 300: metragemPorMes = constants.metragemAte300; break;
+      case metroTotal <= 400: metragemPorMes = constants.metragemAte400; break;
+      default: metragemPorMes = constants.metragemAcima400; break;
+    }
+
     inicioConstrucao = inicioConstrucao.replace(/\//g, '-').split('-');
     previsaoTermino = previsaoTermino.replace(/\//g, '-').split('-');
 
@@ -107,23 +117,10 @@ export const useCalculatorHandler = () => {
 
     terminoMaiorQueAtual = dataFinal <= new Date();
 
-    const diff = Math.abs(dateInicio.getTime() - constants.dataAtual.getTime());
-    const monthDiff = Math.round(diff / (1000 * 60 * 60 * 24 * 30));
     const diffTermino = Math.abs(dataFinal.getTime() - constants.dataAtual.getTime());
     const monthDiffTermino = Math.round(diffTermino / (1000 * 60 * 60 * 24 * 30));
 
-    if(!terminoMaiorQueAtual)
-      valorMesRetroativo = (monthDiff > 0 && monthDiff * constants.descontoPorMesRetroativo + 100);
-    else
-      valorMesRetroativo = (monthDiff - monthDiffTermino - 1) * constants.descontoPorMesRetroativo;
-
-    switch (true) {
-      case metroTotal <= 120: metragemPorMes = constants.metragemAte120; break;
-      case metroTotal <= 200: metragemPorMes = constants.metragemAte200; break;
-      case metroTotal <= 300: metragemPorMes = constants.metragemAte300; break;
-      case metroTotal <= 400: metragemPorMes = constants.metragemAte400; break;
-      default: metragemPorMes = constants.metragemAcima400; break;
-    }
+    valorMesRetroativo = metragemPorMes * 100;
 
     const custoObraTotal = (
       m2Construcao * constants.percentualAreaPrincipal * valorVau +
@@ -170,11 +167,24 @@ export const useCalculatorHandler = () => {
       default: honorarioValor = constants.honorarioAcimaDeQuinhentos; break;
     }
 
-    if(monthDiff > 0 && !terminoMaiorQueAtual) totalImpostoComReducao = Math.round(Number(totalImpostoComReducao) + Math.round(rmtObra * 0.01) + Number(valorMesRetroativo));
-    else if(terminoMaiorQueAtual) totalImpostoComReducao = Math.round(Number(totalImpostoComReducao) + Math.round(rmtObra * 0.02) + valorMesRetroativo);
+    switch (true) {
+      case metroTotal <= 350: percentualDoImpostoComReducao = constants.percentualAteTrezentosECinquenta; break;
+      default: percentualDoImpostoComReducao = constants.percentualAcimaDeTrezentosECinquenta; break;
+    }
 
-    if(!terminoMaiorQueAtual) valorFinalDaObra = totalImpostoComReducao - (valorMesRetroativo + ((metragemPorMes - monthDiff - (monthDiff > 0 ? 1 : 0)) * Number(import.meta.env.VITE_DESCONTO_METRAGEM)));
-    else valorFinalDaObra = totalImpostoComReducao
+    if(terminoMaiorQueAtual) {
+      mesesALancar = metragemPorMes
+      totalImpostoComReducao = Number(totalImpostoComReducao) + (Number(metragemPorMes) * 100) + (Number(rmtObra) * percentualDoImpostoComReducao);
+      valorFinalDaObra = totalImpostoComReducao - ((Number(metragemPorMes) * Number(import.meta.env.VITE_DESCONTO_METRAGEM)));
+    }
+    else {
+      // totalImpostoComReducao = Number(totalImpostoComReducao) + (Number(metragemPorMes) * 100) + (Number(rmtObra) * percentualDoImpostoComReducao);
+      mesesALancar = monthDiffTermino <= metragemPorMes ? monthDiffTermino : metragemPorMes;
+      valorMesRetroativo = valorMesRetroativo - (monthDiffTermino * 100) > 0 ? valorMesRetroativo - (monthDiffTermino * 100) : 0;
+      valorFinalDaObra = totalImpostoComReducao - (valorMesRetroativo + ((Number(mesesALancar) * Number(import.meta.env.VITE_DESCONTO_METRAGEM))));
+
+      if(metroTotal <= 100) terminoMaiorQueAtual = true;
+    }
 
     let valorFinalDaObraParcelamento;
 
@@ -190,15 +200,6 @@ export const useCalculatorHandler = () => {
       if(valorDoParcelamentoTotal < 100) valorDoParcelamentoTotal = 100;
     }
 
-
-    if(!terminoMaiorQueAtual) {
-      mesesALancar = monthDiff > 0 ? metragemPorMes - monthDiff - 1 : metragemPorMes
-    }
-    else {
-      mesesALancar = 0;
-      valorMesRetroativo = 0;
-    }
-
     //Insert on localstorage
     localStorage.setItem(
       "obraData",
@@ -206,7 +207,7 @@ export const useCalculatorHandler = () => {
         // valores do useCalculatorHandler
         honorarioValor,
         porcentagemDoParcelamentoTotal,
-        monthDiff,
+        // monthDiff,
         metroTotal,
         mesesALancar,
         metragemPorMes,

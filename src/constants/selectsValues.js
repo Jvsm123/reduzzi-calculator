@@ -70,26 +70,27 @@ export const constants = {
   mesRetroativoQuandoMenorQueTresAnos: 300,
   mesRetroativoQuandoMenorQueQuatroAnosEmDiante: 400,
 
-  metragemAte120: '1',
-  metragemAte200: '6',
-  metragemAte300: '8',
-  metragemAte400: '10',
-  metragemAcima400: '12',
+  metragemAte100: "1",
+  metragemAte120: "3",
+  metragemAte200: "6",
+  metragemAte300: "8",
+  metragemAte400: "10",
+  metragemAcima400: "12",
 
   dataAtual: new Date(),
 
   descontoPorMesRetroativo: 100,
 
-  honorarioAteCem: 'metade do valor',
+  honorarioAteCem: "metade do valor",
   honorarioAteDuzentos: 2500,
   honorarioAteTrezentos: 3500,
   honorarioAteQuatrocentos: 4500,
   honorarioAteDeQuinhentos: 5500,
-  honorarioAcimaDeQuinhentos: 'CONSULTAR',
+  honorarioAcimaDeQuinhentos: "CONSULTAR",
 
   usoDeConcretoUsinadoDesconto: 0.6,
 
-  tipoDeConstrucaoComAlvenaria: 0.20,
+  tipoDeConstrucaoComAlvenaria: 0.2,
   tipoDeConstrucaoComMadeiraOuMista: 0.15,
 
   menorQueCem: 0.2,
@@ -103,6 +104,9 @@ export const constants = {
 
   rmtParaAteTrezentosECinquenta: 0.5,
   rmtParaAcimaDeTrezentosECinquenta: 0.7,
+
+  percentualAteTrezentosECinquenta: 0.01,
+  percentualAcimaDeTrezentosECinquenta: 0.02,
 
   fatorMultiplicadorRmt: 0.368,
 
