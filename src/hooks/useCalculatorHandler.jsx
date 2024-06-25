@@ -105,7 +105,7 @@ export const useCalculatorHandler = () => {
     dataFinal.setMonth(previsaoTermino[0] - 1);
     dataFinal.setFullYear(previsaoTermino[1]);
 
-    terminoMaiorQueAtual = dataFinal < new Date();
+    terminoMaiorQueAtual = dataFinal <= new Date();
 
     const diff = Math.abs(dateInicio.getTime() - constants.dataAtual.getTime());
     const monthDiff = Math.round(diff / (1000 * 60 * 60 * 24 * 30));
@@ -123,15 +123,6 @@ export const useCalculatorHandler = () => {
       case metroTotal <= 300: metragemPorMes = constants.metragemAte300; break;
       case metroTotal <= 400: metragemPorMes = constants.metragemAte400; break;
       default: metragemPorMes = constants.metragemAcima400; break;
-    }
-
-    switch (true) {
-      case metroTotal <= 100: honorarioValor = metroTotal / 2; break;
-      case metroTotal <= 200: honorarioValor = constants.honorarioAteDuzentos; break;
-      case metroTotal <= 300: honorarioValor = constants.honorarioAteTrezentos; break;
-      case metroTotal <= 400: honorarioValor = constants.honorarioAteQuatrocentos; break;
-      case metroTotal <= 500: honorarioValor = constants.honorarioAteDeQuinhentos; break;
-      default: honorarioValor = constants.honorarioAcimaDeQuinhentos; break;
     }
 
     const custoObraTotal = (
@@ -170,6 +161,15 @@ export const useCalculatorHandler = () => {
       constants.cotaPatronal
     ).toFixed(2);
 
+    switch (true) {
+      case metroTotal <= 100: honorarioValor = Math.round((totalImpostoSemReducao - totalImpostoComReducao) / 2); break;
+      case metroTotal <= 200: honorarioValor = constants.honorarioAteDuzentos; break;
+      case metroTotal <= 300: honorarioValor = constants.honorarioAteTrezentos; break;
+      case metroTotal <= 400: honorarioValor = constants.honorarioAteQuatrocentos; break;
+      case metroTotal <= 500: honorarioValor = constants.honorarioAteDeQuinhentos; break;
+      default: honorarioValor = constants.honorarioAcimaDeQuinhentos; break;
+    }
+
     if(monthDiff > 0 && !terminoMaiorQueAtual) totalImpostoComReducao = Math.round(Number(totalImpostoComReducao) + Math.round(rmtObra * 0.01) + Number(valorMesRetroativo));
     else if(terminoMaiorQueAtual) totalImpostoComReducao = Math.round(Number(totalImpostoComReducao) + Math.round(rmtObra * 0.02) + valorMesRetroativo);
 
@@ -179,13 +179,13 @@ export const useCalculatorHandler = () => {
     let valorFinalDaObraParcelamento;
 
     //Se valor final da obra + 10% / 100 for menor que 60, parcela em até 59x e se for maior que 100, parcela em até 60x
-    if((valorFinalDaObra + (valorFinalDaObra * 0.10)) / 100 < 60 ) {
-      valorFinalDaObraParcelamento = Math.round((valorFinalDaObra + (valorFinalDaObra * 0.10)) / 100);
+    if((valorFinalDaObra + (valorFinalDaObra * 0.20)) / 60 < 100 ) {
+      valorFinalDaObraParcelamento = Math.round((valorFinalDaObra + (valorFinalDaObra * 0.20)) / 100);
       valorDoParcelamentoTotal = 100;
     }
     else {
       valorFinalDaObraParcelamento = 60;
-      valorDoParcelamentoTotal = Math.round(valorFinalDaObra / valorFinalDaObraParcelamento);
+      valorDoParcelamentoTotal = Math.round((valorFinalDaObra + (valorFinalDaObra * 0.20)) / valorFinalDaObraParcelamento);
 
       if(valorDoParcelamentoTotal < 100) valorDoParcelamentoTotal = 100;
     }

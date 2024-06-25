@@ -70,7 +70,10 @@ const ResultPage = () => {
               })}`}
             />
             <DivResultData label="Tabela VAU" value={`${valorVau}`} />
-            <DivResultData label="Numero de Trabalhadores" value={`${Math.round(totalImpostoComReducao / 100 / 2 / 10)}`} />
+            <DivResultData label="Numero de Trabalhadores" value={`${
+              m2Construcao <= 100 ? 1 :
+              Math.round(totalImpostoComReducao / 100 / 2 / 10)
+            }`} />
           </div>
 
           <div className="flex justify-center gap-12 mt-14 flex-wrap">
