@@ -189,15 +189,28 @@ export const useCalculatorHandler = () => {
     let valorFinalDaObraParcelamento;
 
     //Se valor final da obra + 10% / 100 for menor que 60, parcela em até 59x e se for maior que 100, parcela em até 60x
-    if((valorFinalDaObra + (valorFinalDaObra * 0.20)) / 60 < 100 ) {
-      valorFinalDaObraParcelamento = Math.round((valorFinalDaObra + (valorFinalDaObra * 0.20)) / 100);
-      valorDoParcelamentoTotal = 100;
+    if(!terminoMaiorQueAtual)
+    {
+      if((valorFinalDaObra + (valorFinalDaObra * 0.20)) / 60 < 100 ) {
+        valorFinalDaObraParcelamento = Math.round((valorFinalDaObra + (valorFinalDaObra * 0.20)) / 100);
+        valorDoParcelamentoTotal = 100;
+      }
+      else {
+        valorFinalDaObraParcelamento = 60;
+        valorDoParcelamentoTotal = ((valorFinalDaObra + (valorFinalDaObra * 0.20)) / 60);
+
+        if(valorDoParcelamentoTotal < 100) valorDoParcelamentoTotal = 100;
+      }
     }
     else {
-      valorFinalDaObraParcelamento = 60;
-      valorDoParcelamentoTotal = Math.round((valorFinalDaObra + (valorFinalDaObra * 0.20)) / valorFinalDaObraParcelamento);
-
-      if(valorDoParcelamentoTotal < 100) valorDoParcelamentoTotal = 100;
+      if((totalImpostoComReducao + (totalImpostoComReducao * 0.20)) / 100 < 60 ) {
+        valorFinalDaObraParcelamento = Math.round((totalImpostoComReducao + (totalImpostoComReducao * 0.20)) / 100) 
+        valorDoParcelamentoTotal = 100;
+      }
+      else {
+        valorFinalDaObraParcelamento = 60
+        valorDoParcelamentoTotal = ((totalImpostoComReducao + (totalImpostoComReducao * 0.20)) / 60);
+      }
     }
 
     //Insert on localstorage

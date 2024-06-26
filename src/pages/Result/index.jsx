@@ -34,6 +34,8 @@ const ResultPage = () => {
     honorarioValor,
   } = JSON.parse(localStorage.getItem("obraData"));
 
+  console.log('result', valorDoParcelamentoTotal)
+
   const navigator = useNavigate();
 
   return (
@@ -237,7 +239,7 @@ const ResultPage = () => {
                 <span className="text-[#999999ff] text-xl font-bold">
                   X
                 </span>{" "}
-                {`${Number(valorDoParcelamentoTotal).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
+                {`${Math.round(Number(valorDoParcelamentoTotal)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
               </p>
               <hr className="h-[2rem] bg-[#999999ff]" />
               <p className="text-[#808080ff] font-bold mt-2 text-[12rem]">
