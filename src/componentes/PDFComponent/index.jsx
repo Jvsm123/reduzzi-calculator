@@ -145,17 +145,23 @@ export const PDFComponent = () => {
                 header={"FORMA DE PAGAMENTO DO IMPOSTO"}
                 container={'w-[210px] flex flex-col items-center bg-white border-[1px] border-gray-700 rounded-lg p-6'}
                 content={[
-                  <div style={tw("flex flex-row items-start gap-6")}>
+                  <div style={!data.terminoMaiorQueAtual && tw("flex flex-row items-start gap-6") || tw("absolute")}>
+                    { !data.terminoMaiorQueAtual &&
+                      <>
                       <Svg viewBox="0 0 5.9333191 7.3599852" style={tw("w-[8px]")}>
                         <Path
                           d="M 0.000 0.000 L 5.933 3.680 L 0.000 7.360 L 0.000 0.000 Z"
                           fill="#00395e"
                         />
                       </Svg>
-                    <div style={tw("flex flex-row gap-3 flex-end")}>
-                      <Text style={tw("")}>Entrada:</Text>
-                      <Text style={tw("text-[#063958ff]")}>{Number(data?.valorMesRetroativo).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</Text>
-                    </div>
+                      <div style={tw("flex flex-row gap-3 flex-end")}>
+                        <Text style={tw("")}>Entrada:</Text>
+                        <Text style={tw("text-[#063958ff]")}>
+                          {Number(data?.valorMesRetroativo).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        </Text>
+                      </div>
+                      </>
+                    }
                   </div>,
 
                   !data.terminoMaiorQueAtual && <div style={tw("flex flex-row items-start gap-6")}>
@@ -172,11 +178,13 @@ export const PDFComponent = () => {
                       <Image src={plusIcon} style={tw("w-[8px] h-[8px]")}/>
                       <div style={tw("flex flex-row gap-3 flex-end")}>
                         <Text style={tw("")}>Final da Obra:</Text>
-                        <Text style={tw("text-[#063958ff]")}>{(data.valorFinalDaObra).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</Text>
+                        <Text style={tw("text-[#063958ff]")}>
+                          {data.terminoMaiorQueAtual ? Math.round(data.totalImpostoComReducao).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : Math.round(valorFinalDaObra).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                        </Text>
                       </div>
                     </div>
 
-                    <div style={tw("flex flex-col gap-3 items-center pl-1")}>
+                    <div style={tw("flex flex-col gap-5 items-center pl-1")}>
                       <Text style={tw("text-[10px]")}>NO FINAL DA OBRA ESSES {} PODERÁ SER PAGO Á VISTA OU PARCELADO EM ATÉ</Text>
                       <div style={tw("flex flex-row items-center gap-2")}>
                         <div style={tw("flex flex-row items-center")}>
