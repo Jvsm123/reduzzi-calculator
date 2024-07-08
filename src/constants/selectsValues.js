@@ -79,7 +79,7 @@ export const constants = {
 
   dataAtual: new Date(),
 
-  descontoPorMesRetroativo: 100,
+  descontoPorMesRetroativo: 364,
 
   honorarioAteCem: "metade do valor",
   honorarioAteDuzentos: 2500,

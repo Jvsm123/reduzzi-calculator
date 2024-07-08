@@ -195,7 +195,6 @@ const Input = ({
   errors,
   control,
   cityControl = false,
-  // onChange,
 }) => {
   return (
     <div>
@@ -208,6 +207,7 @@ const Input = ({
             <>
               <PhoneInput
                 {...field}
+                ref={field.ref}
                 placeholder={placeholder}
                 defaultCountry="BR"
                 countries={["BR"]}
@@ -234,11 +234,35 @@ const Input = ({
               <>
                 <InputMask
                   {...field}
+                  ref={field.ref}
                   mask="99/9999"
                   type={type}
                   placeholder={placeholder}
                   className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 focus:font-medium w-full p-2 shadow ${
-                    errors[label] && "border-red-500" || ""
+                    (errors[label] && "border-red-500") || ""
+                  } h-[60rem]`}
+                />
+                {getFormErrorMessage(errors, label)}
+              </>
+            )}
+          />
+        )) ||
+        (type === "text" && label === "cpf" && (
+          <Controller
+            control={control}
+            name={label}
+            rules={{ required }}
+            render={({ field }) => (
+              <>
+                <InputMask
+                  {...field}
+                  ref={() => {}}
+                  name={label}
+                  mask="999.999.999-99"
+                  type={type}
+                  placeholder={placeholder}
+                  className={`h-[60rem] focus:outline-none border-[2rem] focus:border-[var(--green-input)] rounded-[8rem] text-lg text-black-400 focus:font-medium w-full p-2 shadow ${
+                    (errors[label] && "border-red-500") || ""
                   } h-[60rem]`}
                 />
                 {getFormErrorMessage(errors, label)}
@@ -270,6 +294,7 @@ const Input = ({
               <NumericFormat
                 {...field}
                 allowNegative={false}
+                ref={field.ref}
                 control={control}
                 type="text"
                 allowLeadingZeros={false}
@@ -388,23 +413,43 @@ const Input = ({
 const DadosDoProprietario = ({ register, errors, control }) => {
   return (
     <div className="bg-[var(--bg-modal-whitegray)] rounded-[10rem] p-6 w-full">
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="proprietario"
-          className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
-        >
-          Responsável pela obra
-        </label>
-        <Input
-          type={"text"}
-          placeholder={"Nome do Proprietário"}
-          label={"proprietario"}
-          register={register}
-          required={true}
-          control={control}
-          errors={errors}
-        />
-      </div>
+      <section className="flex justify-between gap-10 mt-7 flex-wrap lg:flex-nowrap">
+        <div className="w-full flex flex-col gap-2">
+          <label
+            htmlFor="proprietario"
+            className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+          >
+            Responsável pela obra
+          </label>
+          <Input
+            type={"text"}
+            placeholder={"Nome do Proprietário"}
+            label={"proprietario"}
+            register={register}
+            required={true}
+            control={control}
+            errors={errors}
+          />
+        </div>
+
+        <div className="w-full flex flex-col gap-2">
+          <label
+            htmlFor="proprietario"
+            className="after:content-['_*'] after:text-red-500 text-[var(--gray)] text-xl font-semibold"
+          >
+            CPF
+          </label>
+          <Input
+            type={"text"}
+            placeholder={"000.000.000-00"}
+            label={"cpf"}
+            register={register}
+            required={true}
+            control={control}
+            errors={errors}
+          />
+        </div>
+      </section>
 
       <section className="flex justify-between gap-10 mt-7 flex-wrap lg:flex-nowrap">
         <div className="w-full flex flex-col gap-2">

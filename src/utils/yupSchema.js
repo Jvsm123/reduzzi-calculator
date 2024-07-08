@@ -2,6 +2,13 @@ import * as yup from "yup";
 
 export const schema = yup.object().shape({
   proprietario: yup.string().required("O campo Proprietario é necessário!"),
+  cpf: yup
+    .string()
+    .required("O campo CPF é necessário!")
+    .matches(
+      /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
+      "CPF inválido! Digite no formato: xxx.xxx.xxx-xx",
+    ),
   celular: yup
     .string()
     .required("O campo celular é necessário!")
