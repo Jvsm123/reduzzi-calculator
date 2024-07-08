@@ -12,7 +12,6 @@ import {
 
 import logo from "../../assets/pdf/reduzzi_logo_pdf.png";
 import arrowGray from "../../assets/pdf/arrow_gray_pdf.png";
-import arrowBlue from "../../assets/pdf/arrow_blue_pdf.png";
 import plusIcon from "../../assets/pdf/plus_pdf.png";
 import equalIcon from "../../assets/pdf/equal_pdf.png";
 import correct from "./correct.png";
@@ -131,6 +130,21 @@ export const PDFComponent = () => {
                 label="Data do Aferimento"
                 value={new Date().toLocaleDateString("pt-BR")}
               />
+              <ValoresGerais
+                label="Nome do Cliente"
+                value={data.proprietario}
+              />
+              <ValoresGerais label="CPF" value={data.cpf} />
+              <ValoresGerais
+                label="Data de Termino"
+                value={data.previsaoTermino}
+              />
+              {!terminoMenorOuIgualQueAtual && (
+                <ValoresGerais
+                  label="Meses a Lançar"
+                  value={data.mesesALancar}
+                />
+              )}
             </div>
 
             <div style={tw("flex flex-row text-sm text-gray-600 gap-[8rem]")}>
@@ -289,7 +303,7 @@ export const PDFComponent = () => {
                                   currency: "BRL",
                                 },
                               )
-                            : Math.round(valorFinalDaObra).toLocaleString(
+                            : Math.round(data?.valorFinalDaObra).toLocaleString(
                                 "pt-BR",
                                 { style: "currency", currency: "BRL" },
                               )}
