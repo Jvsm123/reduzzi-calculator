@@ -336,38 +336,44 @@ const ResultPage = () => {
               FORMA DE PAGAMENTO DOS NOSSOS HONORÁRIOS
             </h2>
           </div>
-          <div>
-            <p className="text-xl text-[#666666ff] font-medium ml-4 mt-8 md:mt-0">
-              Honorários:
-            </p>
-            <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8rem]">
-              <img
-                src={arrowGray}
-                alt="arrow gray"
-                className="w-[10rem] h-[10rem]"
-              />
-              <p className="text-[#063958ff] font-bold text-xl">{`${(typeof honorarioValor === "string" && honorarioValor) || Number(honorarioValor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}</p>
-            </span>
-          </div>
           {typeof honorarioValor !== "string" && (
             <>
-              <p className="text-[#063958ff] font-bold text-2xl mt-6">
-                À vista
-              </p>
-              <div className="border-l border-[#999999ff] pl-5 mt-6">
+              <div className="pl-5">
                 <p className="text-[#808080ff] font-bold text-[12rem]">
                   PARCELADO
                 </p>
                 <p className="text-[#063958ff] font-bold text-2xl">
                   12
                   <span className="text-[#808080ff] font-bold text-lg">
-                    X
+                    X de
                   </span>{" "}
                   {`${Number(honorarioValor / 10).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
                 </p>
               </div>
             </>
           )}
+          <div
+            className={`${typeof honorarioValor !== "string" && "border-l border-[#999999ff]"} h-[50rem] pl-5`}
+          >
+            {/* <p className="text-xl text-[#666666ff] font-medium ml-4 mt-8 md:mt-0">
+              Honorários:
+            </p> */}
+            <div className="flex items-center justify-center gap-5">
+              {typeof honorarioValor !== "string" && (
+                <p className="text-[#063958ff] font-bold text-2xl">
+                  À vista com 20% de Desconto
+                </p>
+              )}
+              <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8rem]">
+                <img
+                  src={arrowGray}
+                  alt="arrow gray"
+                  className="w-[10rem] h-[10rem]"
+                />
+                <p className="text-[#063958ff] font-bold text-xl">{`${(typeof honorarioValor === "string" && honorarioValor) || Number(honorarioValor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}</p>
+              </span>
+            </div>
+          </div>
         </section>
 
         <section className="mx-7 md:mx-14 flex justify-start items-center text-center mb-10 py-10 gap-8 flex-wrap">

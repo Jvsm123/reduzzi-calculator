@@ -31,7 +31,7 @@ const ValoresGerais = ({ label, value, textStyle, valueStyle, divStyle }) => (
       style={
         divStyle ||
         tw(
-          "px-2 border-[1px] border-gray-400 rounded-lg w-[90px] text-base items-center text-start pt-2",
+          "px-2 border-[1px] border-gray-400 rounded-lg w-[99px] text-base items-center text-start pt-2",
         )
       }
     >
@@ -57,7 +57,7 @@ const ContainerComparativo = ({ header, content, container }) => (
     </div>
 
     {content.map((item, index, arr) => (
-      <div style={tw("text-gray-600 w-[100%] text-[10px]")}>
+      <div style={tw("text-gray-600 w-[100%] text-[10px]")} key={index}>
         {item}
         {index !== arr.length - 1 && (
           <hr style={tw("w-[100%] h-[1px] my-3 bg-gray-500")} />
@@ -72,16 +72,24 @@ export const PDFComponent = () => {
 
   return (
     <PDFViewer style={{ width: window.innerWidth, height: window.innerHeight }}>
-      <Document>
+      <Document title="Orçamento" author="Reduzzi">
         <Page size="A4">
           <View
             style={tw(
-              "h-[8rem] p-6 flex flex-row justify-between items-center bg-gray-500 drop-shadow-xl bg-[#00395e]",
+              "h-[8rem] p-6 flex flex-row justify-between items-center bg-gray-500 bg-[#00395e]",
             )}
           >
             <Image src={logo} style={tw("w-[140px] h-[45px]")} />
             <div style={tw("text-white flex flex-row items-center gap-2")}>
-              <Image src={arrowGray} style={tw("w-[20px] h-[20px]")} />
+              <Svg
+                viewBox="0 0 5.9333191 7.3599852"
+                style={tw("w-[18px] h-[18px]")}
+              >
+                <Path
+                  d="M 0.000 0.000 L 5.933 3.680 L 0.000 7.360 L 0.000 0.000 Z"
+                  fill="gray"
+                />
+              </Svg>
               <Text style={tw("text-[24px] text-extrabold")}>ORÇAMENTO</Text>
             </div>
           </View>
@@ -127,10 +135,6 @@ export const PDFComponent = () => {
                 value={`${Math.round(data?.regraAtual / 100 / 2 / 10)}`}
               />
               <ValoresGerais
-                label="Data do Aferimento"
-                value={new Date().toLocaleDateString("pt-BR")}
-              />
-              <ValoresGerais
                 label="Nome do Cliente"
                 value={data.proprietario}
               />
@@ -139,7 +143,7 @@ export const PDFComponent = () => {
                 label="Data de Termino"
                 value={data.previsaoTermino}
               />
-              {!terminoMenorOuIgualQueAtual && (
+              {!data.terminoMenorOuIgualQueAtual && (
                 <ValoresGerais
                   label="Meses a Lançar"
                   value={data.mesesALancar}
@@ -185,17 +189,10 @@ export const PDFComponent = () => {
                 <div>
                   <Text
                     style={tw(
-                      "border-l-[5px] border-green-400 font-axiforma text-white font-extrabold text-[14px] pl-3",
+                      "border-l-[5px] border-green-400 font-axiforma text-white font-extrabold text-[14px] w-[80px] pl-3",
                     )}
                   >
-                    ECONOMIA
-                  </Text>
-                  <Text
-                    style={tw(
-                      "border-l-[5px] border-green-400 text-white font-extrabold text-[14px] pl-3",
-                    )}
-                  >
-                    GERADA:
+                    ECONOMIA GERADA:
                   </Text>
                 </div>
                 <Text
@@ -229,21 +226,15 @@ export const PDFComponent = () => {
             </div>
 
             <div style={tw("flex flex-row gap-6")}>
-              <ContainerComparativo
-                comp={1}
-                header={"FORMA DE PAGAMENTO DO IMPOSTO"}
-                container={
-                  "w-[210px] flex flex-col items-center bg-white border-[1px] border-gray-700 rounded-lg p-6"
-                }
-                content={[
-                  <div
-                    style={
-                      (!data.terminoMenorQueAtual &&
-                        tw("flex flex-row items-start gap-6")) ||
-                      tw("absolute")
-                    }
-                  >
-                    {!data.terminoMenorQueAtual && (
+              {(!data.terminoMenorOuIgualQueAtual && (
+                <ContainerComparativo
+                  comp={1}
+                  header={"FORMA DE PAGAMENTO DOS IMPOSTOS"}
+                  container={
+                    "w-[210px] flex flex-col items-center bg-white border-[1px] border-gray-700 rounded-lg p-6"
+                  }
+                  content={[
+                    <div style={tw("flex flex-row items-start gap-6")}>
                       <>
                         <Svg
                           viewBox="0 0 5.9333191 7.3599852"
@@ -255,7 +246,7 @@ export const PDFComponent = () => {
                           />
                         </Svg>
                         <div style={tw("flex flex-row gap-3 flex-end")}>
-                          <Text style={tw("")}>Entrada:</Text>
+                          <Text style={tw("ml-[-8px]")}>Entrada:</Text>
                           <Text style={tw("text-[#063958ff]")}>
                             {Number(data?.valorMesRetroativo).toLocaleString(
                               "pt-BR",
@@ -264,19 +255,18 @@ export const PDFComponent = () => {
                           </Text>
                         </div>
                       </>
-                    )}
-                  </div>,
+                    </div>,
 
-                  !data.terminoMenorQueAtual && (
                     <div style={tw("flex flex-row items-start gap-6")}>
                       <Image src={plusIcon} style={tw("w-[8px] h-[8px]")} />
                       <div style={tw("flex flex-row gap-2 flex-end")}>
-                        <Text style={tw("")}>
-                          {data.monthDiff > 0
-                            ? data.metragemPorMes - data.monthDiff - 1
-                            : data.metragemPorMes}
+                        <Text style={tw("ml-[-8px]")}>
+                          {!data.terminoMenorOuIgualQueAtual &&
+                            data.mesesALancar}
                         </Text>
-                        <Text style={tw("")}>meses de: </Text>
+                        <Text style={tw("")}>
+                          {data.mesesALancar <= 1 ? "mes de" : "meses de"}:{" "}
+                        </Text>
                         <Text style={tw("text-[#063958ff]")}>
                           {Number(
                             import.meta.env.VITE_DESCONTO_METRAGEM,
@@ -286,76 +276,169 @@ export const PDFComponent = () => {
                           })}
                         </Text>
                       </div>
-                    </div>
-                  ),
+                    </div>,
 
-                  <div style={tw("flex flex-col items-start gap-6")}>
-                    <div style={tw("flex flex-row gap-2")}>
-                      <Image src={plusIcon} style={tw("w-[8px] h-[8px]")} />
-                      <div style={tw("flex flex-row gap-3 flex-end")}>
-                        <Text style={tw("")}>Final da Obra:</Text>
-                        <Text style={tw("text-[#063958ff]")}>
-                          {data.terminoMenorQueAtual
-                            ? Math.round(data.regraAtual).toLocaleString(
-                                "pt-BR",
-                                {
-                                  style: "currency",
-                                  currency: "BRL",
-                                },
-                              )
-                            : Math.round(data?.valorFinalDaObra).toLocaleString(
-                                "pt-BR",
-                                { style: "currency", currency: "BRL" },
-                              )}
-                        </Text>
-                      </div>
-                    </div>
-
-                    <div style={tw("flex flex-col gap-5 items-center pl-1")}>
-                      <Text style={tw("text-[10px]")}>
-                        NO FINAL DA OBRA ESSES {} PODERÁ SER PAGO Á VISTA OU
-                        PARCELADO EM ATÉ
-                      </Text>
-                      <div style={tw("flex flex-row items-center gap-2")}>
-                        <div style={tw("flex flex-row items-center")}>
-                          <Text style={tw("text-[#063958ff] text-[12px]")}>
-                            {data?.valorFinalDaObraParcelamento}
+                    <div style={tw("flex flex-col items-start gap-6")}>
+                      <div style={tw("flex flex-row gap-2")}>
+                        <Image src={plusIcon} style={tw("w-[8px] h-[8px]")} />
+                        <div style={tw("flex flex-row gap-3 flex-end")}>
+                          <Text style={tw("")}>Final da Obra:</Text>
+                          <Text style={tw("text-[#063958ff]")}>
+                            {Math.round(data?.valorFinalDaObra).toLocaleString(
+                              "pt-BR",
+                              {
+                                style: "currency",
+                                currency: "BRL",
+                              },
+                            )}
                           </Text>
-                          <Text style={tw("text-[10px]")}>x</Text>
                         </div>
-                        <Text style={tw("text-[#063958ff] text-[12px]")}>
-                          {Number(
-                            data?.valorDoParcelamentoTotal,
-                          ).toLocaleString("pt-BR", {
+                      </div>
+
+                      <div style={tw("flex flex-col gap-5 items-center pl-1")}>
+                        <Text style={tw("text-[10px]")}>
+                          NO FINAL DA OBRA ESSES
+                          <Text style={tw("text-[#063958ff]")}>
+                            {Math.round(data?.valorFinalDaObra).toLocaleString(
+                              "pt-BR",
+                              {
+                                style: "currency",
+                                currency: "BRL",
+                              },
+                            )}
+                          </Text>{" "}
+                          PODERÁ SER PAGO Á VISTA OU PARCELADO EM ATÉ
+                        </Text>
+                        <div style={tw("flex flex-row items-center gap-2")}>
+                          <div style={tw("flex flex-row items-center")}>
+                            <Text style={tw("text-[#063958ff] text-[12px]")}>
+                              {data?.valorFinalDaObraParcelamento}
+                            </Text>
+                            <Text style={tw("text-[10px]")}>x</Text>
+                          </div>
+                          <Text style={tw("text-[#063958ff] text-[12px]")}>
+                            {Number(
+                              data?.valorDoParcelamentoTotal,
+                            ).toLocaleString("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            })}
+                          </Text>
+                          <Text style={tw("text-[6px]")}>
+                            NO DÉBITO AUTOMÁTICO
+                          </Text>
+                        </div>
+                      </div>
+                    </div>,
+
+                    <div style={tw("flex flex-row items-center gap-10")}>
+                      <Image src={equalIcon} style={tw("w-[8px] h-[8px]")} />
+                      <div style={tw("flex flex-row gap-3 flex-end")}>
+                        <Text style={tw("ml-[-20px]")}>Total a ser pago:</Text>
+                        <Text style={tw("text-[#063958ff]")}>
+                          {Number(data?.regraAtual).toLocaleString("pt-BR", {
                             style: "currency",
                             currency: "BRL",
                           })}
                         </Text>
-                        <Text style={tw("text-[6px]")}>
-                          NO DÉBITO AUTOMÁTICO
+                      </div>
+                    </div>,
+                  ]}
+                />
+              )) || (
+                <ContainerComparativo
+                  comp={1}
+                  header={"FORMA DE PAGAMENTO DOS IMPOSTOS"}
+                  container={
+                    "w-[210px] flex flex-col items-center bg-white border-[1px] border-gray-700 rounded-lg p-6"
+                  }
+                  content={[
+                    <div style={tw("flex flex-col items-start gap-6")}>
+                      <div style={tw("flex flex-row gap-2")}>
+                        <Image src={plusIcon} style={tw("w-[8px] h-[8px]")} />
+                        <div style={tw("flex flex-row gap-3 flex-end")}>
+                          <Text style={tw("")}>Final da Obra:</Text>
+                          <Text style={tw("text-[#063958ff]")}>
+                            {data.terminoMenorOuIgualQueAtual
+                              ? Math.round(data.regraAtual).toLocaleString(
+                                  "pt-BR",
+                                  {
+                                    style: "currency",
+                                    currency: "BRL",
+                                  },
+                                )
+                              : Math.round(
+                                  data?.valorFinalDaObra,
+                                ).toLocaleString("pt-BR", {
+                                  style: "currency",
+                                  currency: "BRL",
+                                })}
+                          </Text>
+                        </div>
+                      </div>
+
+                      <div style={tw("flex flex-col gap-5 items-center pl-1")}>
+                        <Text style={tw("text-[10px]")}>
+                          NO FINAL DA OBRA ESSES
+                          <Text style={tw("text-[#063958ff]")}>
+                            {data.terminoMenorOuIgualQueAtual
+                              ? Math.round(data.regraAtual).toLocaleString(
+                                  "pt-BR",
+                                  {
+                                    style: "currency",
+                                    currency: "BRL",
+                                  },
+                                )
+                              : Math.round(
+                                  data?.valorFinalDaObra,
+                                ).toLocaleString("pt-BR", {
+                                  style: "currency",
+                                  currency: "BRL",
+                                })}
+                          </Text>{" "}
+                          PODERÁ SER PAGO Á VISTA OU PARCELADO EM ATÉ
+                        </Text>
+                        <div style={tw("flex flex-row items-center gap-2")}>
+                          <div style={tw("flex flex-row items-center")}>
+                            <Text style={tw("text-[#063958ff] text-[12px]")}>
+                              {data?.valorFinalDaObraParcelamento}
+                            </Text>
+                            <Text style={tw("text-[10px]")}>x</Text>
+                          </div>
+                          <Text style={tw("text-[#063958ff] text-[12px]")}>
+                            {Number(
+                              data?.valorDoParcelamentoTotal,
+                            ).toLocaleString("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            })}
+                          </Text>
+                          <Text style={tw("text-[6px]")}>
+                            NO DÉBITO AUTOMÁTICO
+                          </Text>
+                        </div>
+                      </div>
+                    </div>,
+
+                    <div style={tw("flex flex-row items-center gap-10")}>
+                      <Image src={equalIcon} style={tw("w-[8px] h-[8px]")} />
+                      <div style={tw("flex flex-row gap-3 flex-end")}>
+                        <Text style={tw("ml-[-20px]")}>Total a ser pago:</Text>
+                        <Text style={tw("text-[#063958ff]")}>
+                          {Number(data?.regraAtual).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
                         </Text>
                       </div>
-                    </div>
-                  </div>,
-
-                  <div style={tw("flex flex-row items-center gap-10")}>
-                    <Image src={equalIcon} style={tw("w-[8px] h-[8px]")} />
-                    <div style={tw("flex flex-row gap-3 flex-end")}>
-                      <Text style={tw("")}>Total a ser pago:</Text>
-                      <Text style={tw("text-[#063958ff]")}>
-                        {Number(data?.regraAtual).toLocaleString("pt-BR", {
-                          style: "currency",
-                          currency: "BRL",
-                        })}
-                      </Text>
-                    </div>
-                  </div>,
-                ]}
-              />
+                    </div>,
+                  ]}
+                />
+              )}
               <div style={tw("flex flex-col justify-between ")}>
                 <ContainerComparativo
                   comp={2}
-                  header={"FORMA DE PAGAMENTO DOS HONOÁRIOS"}
+                  header={"FORMA DE PAGAMENTO DOS HONORÁRIOS"}
                   container={
                     "w-[210px] h-[10rem] flex flex-col items-center bg-white border-[1px] border-gray-700 rounded-lg p-6"
                   }
@@ -370,8 +453,22 @@ export const PDFComponent = () => {
                           fill="#00395e"
                         />
                       </Svg>
-                      <Text>Honorários:</Text>
-                      <Text>{data?.honorarioValor}</Text>
+                      {(data.honorarioValor !== "CONSULTAR" && (
+                        <div style={tw("flex flex-col gap-4 mb-[5px]")}>
+                          <Text>A vista com 20% de Desconto:</Text>
+                          <Text style={tw("text-[#063958ff]")}>
+                            {Number(data?.honorarioValor).toLocaleString(
+                              "pt-BR",
+                              {
+                                style: "currency",
+                                currency: "BRL",
+                              },
+                            )}
+                          </Text>
+                        </div>
+                      )) || (
+                        <Text style={tw("text-[#063958ff]")}>A CONSULTAR</Text>
+                      )}
                     </div>,
 
                     <>
@@ -386,9 +483,11 @@ export const PDFComponent = () => {
                               fill="#00395e"
                             />
                           </Svg>
-                          <Text>À vista ou em</Text>
-                          <Text style={tw("text-[#063958ff]")}>12X</Text>
-                          <Text>de</Text>
+                          <Text>Ou em</Text>
+                          <Text style={tw("ml-[-10px] text-[#063958ff]")}>
+                            12X
+                          </Text>
+                          <Text style={tw("ml-[-10px] mr-[-10px]")}>de</Text>
                           <Text>
                             {(typeof data.honorarioValor === "string" &&
                               data.honorarioValor) ||

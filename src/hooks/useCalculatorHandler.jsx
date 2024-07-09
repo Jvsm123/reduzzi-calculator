@@ -234,19 +234,24 @@ export const useCalculatorHandler = () => {
       mesesALancar = Number(metragemPorMes);
     else mesesALancar = monthDiffTermino;
 
+    console.log("regraAtual", regraAtual);
+
     //data de previsão e termino for menor ou igual que a data de hoje
     //regraAtual + (valor da tabela dos meses * 100) + (1% quando menor ou igual que 350 ou 2% da RMT gerada)
     if (terminoMenorOuIgualQueAtual) {
+      console.log("caiu aqui", regraAtual);
       regraAtual =
         Number(regraAtual) +
         Number(metragemPorMes) * 100 +
         Number(rmtObra) * Number(percentualDoImpostoComReducao);
+      console.log("caiu aqui 1", regraAtual);
 
       regraAtual =
         regraAtual +
         Number(regraAtual) *
           Number(import.meta.env.VITE_JUROS) *
           Number(monthDiffTermino);
+      console.log("caiu aqui 2", regraAtual);
     } else {
       mesesALancarNormal =
         Number(valorMesRetroativo) -
