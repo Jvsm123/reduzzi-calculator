@@ -455,7 +455,7 @@ export const PDFComponent = () => {
                       </Svg>
                       {(data.honorarioValor !== "CONSULTAR" && (
                         <div style={tw("flex flex-col gap-4 mb-[5px]")}>
-                          <Text>A vista com 20% de Desconto:</Text>
+                          <Text>A vista com 16,50% de Desconto:</Text>
                           <Text style={tw("text-[#063958ff]")}>
                             {Number(data?.honorarioValor).toLocaleString(
                               "pt-BR",

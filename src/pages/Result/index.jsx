@@ -361,7 +361,7 @@ const ResultPage = () => {
             <div className="flex items-center justify-center gap-5">
               {typeof honorarioValor !== "string" && (
                 <p className="text-[#063958ff] font-bold text-2xl">
-                  À vista com 20% de Desconto
+                  À vista com 16,50% de Desconto
                 </p>
               )}
               <span className="inline-flex items-center gap-1 bg-[#eef1f6ff] px-4 py-2 rounded-[8rem]">
