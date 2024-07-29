@@ -39,6 +39,7 @@ const ResultPage = () => {
     terminoMenorOuIgualQueAtual,
     previsaoTermino,
     honorarioValor,
+    quantTrabalhadores,
     cpf,
   } = JSON.parse(localStorage.getItem("obraData"));
 
@@ -78,12 +79,7 @@ const ResultPage = () => {
               })}`}
             />
             <DivResultData label="Tabela VAU" value={`${valorVau}`} />
-            <DivResultData
-              label="Trabalhadores"
-              value={`${
-                m2Construcao <= 100 ? 1 : Math.round(regraAtual / 100 / 2 / 10)
-              }`}
-            />
+            <DivResultData label="Trabalhadores" value={quantTrabalhadores} />
             {/*<DivResultData label="CPF" value={`${valorVau}`} />*/}
             <DivResultData label="UF" value={`${ufObra.value}`} />
             <DivResultData label="Nome do Cliente" value={`${proprietario}`} />

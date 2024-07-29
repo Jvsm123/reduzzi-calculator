@@ -53,6 +53,7 @@ export const useCalculatorHandler = () => {
     let valorFinalDaObraParcelamento;
     let valorFinalDaEntradaParcelamento;
     let valorDaEntradaParcelamentoTotal;
+    let quantTrabalhadores;
 
     try {
       async function getValorVau() {
@@ -312,6 +313,64 @@ export const useCalculatorHandler = () => {
       }
     }
 
+    quantTrabalhadores =
+      m2Construcao <= 100 ? 1 : Math.round(regraAtual / 100 / 2 / 10);
+
+    const result = await fetch(`${import.meta.env.VITE_BACKEND_API}/contatos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        honorarioValor,
+        porcentagemDoParcelamentoTotal,
+        // monthDiff,
+        metroTotal,
+        mesesALancar,
+        metragemPorMes,
+        m2Construcao,
+        m2PiscinaQuadra,
+        rmtObra,
+        terminoMenorOuIgualQueAtual,
+        totalImpostoSemReducao,
+        quantTrabalhadores,
+        regraAtual,
+        valorVau,
+        valorFinalDaObra,
+        valorMesRetroativo,
+        valorDoParcelamentoTotal,
+        valorFinalDaObraParcelamento,
+        valorFinalDaEntradaParcelamento,
+        valorDaEntradaParcelamentoTotal,
+
+        //campos da home
+        proprietario: data.proprietario,
+        celular: data.celular,
+        tipoProprietario: data.tipoProprietario.value,
+        destinacaoObra: data.destinacaoObra.value,
+        obraFinanciamento: data.obraFinanciamento.value,
+        tipoConstrucao: data.tipoConstrucao.value,
+        faseObra: data.faseObra.value,
+        ufObra: data.ufObra.value,
+        cidadeObra: data.cidadeObra.value,
+        previsaoTermino: data.previsaoTermino,
+        inicioConstrucao: data.inicioConstrucao,
+        cpf: data.cpf,
+      }),
+    });
+
+    const response = await result.json();
+
+    if (response.error) {
+      console.error(response.error);
+
+      return;
+    }
+
+    console.log("resssaaa", response);
+
+    return;
+
     //Insert on localstorage
     localStorage.setItem(
       "obraData",
@@ -325,6 +384,7 @@ export const useCalculatorHandler = () => {
         metragemPorMes,
         m2Construcao,
         m2PiscinaQuadra,
+        quantTrabalhadores,
         rmtObra,
         terminoMenorOuIgualQueAtual,
         totalImpostoSemReducao,
