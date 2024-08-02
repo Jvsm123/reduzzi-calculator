@@ -236,6 +236,7 @@ export const useCalculatorHandler = () => {
                 break;
             case metroTotal <= 1000:
               honorarioValor = constants.honorarioAteDeMil
+              break;
             default:
                 honorarioValor = constants.honorarioAcimaDeMil;
                 break;
