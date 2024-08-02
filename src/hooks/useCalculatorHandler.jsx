@@ -215,8 +215,20 @@ export const useCalculatorHandler = () => {
       case metroTotal <= 500:
         honorarioValor = constants.honorarioAteDeQuinhentos;
         break;
+      case metroTotal <=600:
+        honorarioValor = constants.honorarioAteDeSeiscentos;
+        break;
+      case metroTotal <=700:
+        honorarioValor = constants.honorarioAteDeSetecentos;
+        break;
+      case metroTotal <=800:
+        honorarioValor = constants.honorarioAteDeOitocentos;
+        break;
+      case metroTotal <= 900:
+        honorarioValor = constants.honorarioAteDeNovecentos;
+        break;
       default:
-        honorarioValor = constants.honorarioAcimaDeQuinhentos;
+        honorarioValor = constants.honorarioAcimaDeMil;
         break;
     }
 
