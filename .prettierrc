@@ -1,0 +1,15 @@
+# @format
+
+{
+    'semi': true,
+    'singleQuote': true,
+    'quoteProps': 'as-needed',
+    'trailingComma': 'all',
+    'spaces': 4,
+    'bracketSpacing': true,
+    'arrowParens': 'always',
+    'requirePragma': false,
+    'insertPragma': true,
+    'endOfLine': 'lf',
+    'tabWidth': 4,
+}
