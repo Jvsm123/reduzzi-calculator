@@ -90,6 +90,7 @@ export const constants = {
   honorarioAteDeSetecentos: 9500,
   honorarioAteDeOitocentos: 11500,
   honorarioAteDeNovecentos: 13500,
+  honorarioAteDeMil: 15500,
   honorarioAcimaDeMil: "A CONSULTAR",
 
   usoDeConcretoUsinadoDesconto: 0.6,
