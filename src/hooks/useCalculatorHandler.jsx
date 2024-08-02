@@ -235,8 +235,8 @@ export const useCalculatorHandler = () => {
                 honorarioValor = constants.honorarioAteDeNovecentos;
                 break;
             case metroTotal <= 1000:
-              honorarioValor = constants.honorarioAteDeMil
-              break;
+                honorarioValor = constants.honorarioAteDeMil;
+                break;
             default:
                 honorarioValor = constants.honorarioAcimaDeMil;
                 break;
@@ -436,23 +436,23 @@ export const useCalculatorHandler = () => {
             }),
         );
 
-        // if (user)
-        //     saveData(
-        //         {
-        //             totalImpostoSemReducao,
-        //             regraAtual,
-        //             valorDoParcelamentoTotal,
-        //             porcentagemDoParcelamentoTotal,
-        //             metroTotal,
-        //             m2PiscinaQuadra,
-        //             rmtObra,
-        //             valorVau,
-        //             valorMesRetroativo,
-        //             metragemPorMes,
-        //             honorarioValor,
-        //         },
-        //         user,
-        //     );
+        if (user)
+            saveData(
+                {
+                    totalImpostoSemReducao,
+                    regraAtual,
+                    valorDoParcelamentoTotal,
+                    porcentagemDoParcelamentoTotal,
+                    metroTotal,
+                    m2PiscinaQuadra,
+                    rmtObra,
+                    valorVau,
+                    valorMesRetroativo,
+                    metragemPorMes,
+                    honorarioValor,
+                },
+                user,
+            );
 
         // navigate to /res with react router
         window.location.href = '/res';
